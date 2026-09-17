@@ -1,15 +1,114 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>EuroBeauty Market</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Authentic German skincare, haircare and face masks delivered to the USA.">
+  <title>EuroBeauty Market | German Beauty, Delivered</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet">
+  <style>
+    :root { --ink:#171717; --muted:#5f5a58; --rose:#c86469; --rose-dark:#a94850; --blush:#f5e6e2; --paper:#fffdfb; --line:#e8dfdc; }
+    * { box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+    body { margin:0; background:var(--paper); color:var(--ink); font-family:'DM Sans', sans-serif; }
+    a { color:inherit; text-decoration:none; }
+    button { border:0; cursor:pointer; font:inherit; }
+    .topbar { display:flex; justify-content:space-between; align-items:center; padding:8px 5%; background:#f2d7d4; font-size:11px; }
+    .topbar span { display:flex; align-items:center; gap:8px; }
+    .topbar .center { margin-left:12%; }
+    .nav { display:flex; align-items:center; justify-content:space-between; gap:30px; padding:17px 5%; background:#fff; }
+    .logo { font:600 29px/24px 'Playfair Display', serif; letter-spacing:-1.5px; }
+    .logo small { display:block; font:700 9px/15px 'DM Sans', sans-serif; letter-spacing:4px; text-align:center; }
+    .navlinks { display:flex; gap:27px; margin-left:auto; font-size:12px; }
+    .navlinks a:first-child { border-bottom:1px solid var(--ink); padding-bottom:5px; }
+    .actions { display:flex; align-items:center; gap:17px; font-size:21px; }
+    .cart { position:relative; }
+    .cart-count { position:absolute; top:-8px; right:-9px; display:grid; place-items:center; width:16px; height:16px; border-radius:50%; background:var(--ink); color:#fff; font-size:9px; }
+    .hero { min-height:365px; display:flex; align-items:center; padding:46px 5%; background:linear-gradient(90deg, rgba(248,232,223,.97) 0%, rgba(248,232,223,.89) 39%, rgba(248,232,223,.08) 76%), url('https://images.unsplash.com/photo-1556228578-8c89e6adf883?auto=format&fit=crop&w=1800&q=85') center/cover; }
+    .hero-content { max-width:510px; }
+    .eyebrow { font-size:11px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(--rose-dark); }
+    h1, h2, h3 { font-family:'Playfair Display', serif; font-weight:500; }
+    h1 { max-width:490px; margin:13px 0 12px; font-size:clamp(42px,5vw,62px); line-height:.98; letter-spacing:-2px; }
+    .hero p { max-width:390px; margin:0 0 23px; color:#403b39; font-size:16px; }
+    .button { display:inline-flex; align-items:center; gap:10px; padding:12px 23px; border-radius:22px; background:var(--rose); color:white; font-size:13px; font-weight:600; transition:.2s ease; }
+    .button:hover, .add:hover { background:var(--rose-dark); transform:translateY(-2px); }
+    .benefits { display:flex; gap:24px; margin-top:28px; font-size:11px; }
+    .benefits span { display:flex; align-items:center; gap:8px; max-width:115px; }
+    .benefits b { font-size:21px; font-weight:400; }
+    .section { padding:25px 5% 0; }
+    .tile-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; }
+    .tile { min-height:151px; display:flex; align-items:center; padding:20px; background:var(--blush); border-radius:7px; overflow:hidden; background-position:center; background-size:cover; }
+    .tile:nth-child(1) { background-image:linear-gradient(90deg,#f8ece8 0%,rgba(248,236,232,.82) 48%,rgba(248,236,232,0) 100%),url('https://images.unsplash.com/photo-1556229010-6c3f2c9c7f44?auto=format&fit=crop&w=900&q=80'); }
+    .tile:nth-child(2) { background-image:linear-gradient(90deg,#f7e8e5 0%,rgba(247,232,229,.65) 47%,rgba(247,232,229,0) 100%),url('https://images.unsplash.com/photo-1535585209827-a15fcdbc4c2d?auto=format&fit=crop&w=900&q=80'); }
+    .tile:nth-child(3) { background-image:linear-gradient(90deg,#f6e5e2 0%,rgba(246,229,226,.57) 44%,rgba(246,229,226,0) 100%),url('https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?auto=format&fit=crop&w=900&q=80'); }
+    .tile-copy { max-width:190px; }
+    .tile h2 { margin:0 0 9px; font-size:21px; }
+    .tile p { margin:0 0 16px; font-size:11px; line-height:1.45; }
+    .text-link { border-bottom:1px solid; padding-bottom:3px; font-size:11px; font-weight:600; }
+    .section-heading { display:flex; align-items:end; justify-content:space-between; margin:17px 0 14px; }
+    .section-heading h2 { margin:0; font-size:27px; }
+    .products { display:grid; grid-template-columns:repeat(6,1fr); gap:12px; }
+    .product-image { aspect-ratio:1/1.08; display:grid; place-items:center; padding:12px; border-radius:7px; background:#f6f5f4; overflow:hidden; }
+    .product-image img { width:100%; height:100%; object-fit:cover; mix-blend-mode:multiply; }
+    .product-name { min-height:34px; margin:8px 0 3px; font-size:11px; line-height:1.35; }
+    .stars { color:#eea900; font-size:13px; letter-spacing:1px; }
+    .review { color:#777; font-size:9px; }
+    .price { margin:4px 0 8px; font-size:13px; font-weight:700; }
+    .add { width:100%; padding:7px 3px; border-radius:4px; background:#c5686b; color:#fff; font-size:11px; transition:.2s ease; }
+    .feature-banner { display:flex; align-items:center; min-height:157px; margin-top:18px; padding:25px 27px; border-radius:8px; background:linear-gradient(90deg,#f5e7dd 0%,#f7e9df 48%,rgba(247,233,223,.4)), url('https://images.unsplash.com/photo-1611930022073-b7a4ba5fcccd?auto=format&fit=crop&w=1500&q=80') center/cover; }
+    .feature-banner h2 { max-width:320px; margin:0 0 5px; font-size:27px; line-height:1.08; }
+    .feature-banner p { margin:0 0 15px; font-size:13px; }
+    .trust { display:grid; grid-template-columns:repeat(4,1fr); margin:18px 0 0; border-bottom:1px solid var(--line); }
+    .trust-item { display:flex; align-items:center; gap:12px; padding:14px 20px 14px 0; border-right:1px solid var(--line); }
+    .trust-item:not(:first-child) { padding-left:20px; }
+    .trust-item:last-child { border:0; }
+    .trust-icon { font-size:28px; }
+    .trust strong { display:block; font-size:11px; }
+    .trust small { display:block; margin-top:2px; font-size:10px; color:var(--muted); }
+    .bottom-tiles { margin-bottom:34px; }
+    footer { padding:22px 5%; background:#211d1c; color:#fff; display:flex; justify-content:space-between; font-size:11px; }
+    #toast { position:fixed; right:22px; bottom:22px; z-index:2; padding:13px 18px; border-radius:5px; background:#211d1c; color:#fff; font-size:12px; opacity:0; pointer-events:none; transform:translateY(8px); transition:.25s; }
+    #toast.show { opacity:1; transform:translateY(0); }
+    @media (max-width:800px) { .navlinks { display:none; } .hero { min-height:530px; align-items:flex-start; padding-top:46px; background-position:66% center; } .hero-content { max-width:330px; } .benefits { gap:10px; } .tile-grid { grid-template-columns:1fr; } .tile { min-height:135px; } .products { grid-template-columns:repeat(3,1fr); } .trust { grid-template-columns:repeat(2,1fr); } .trust-item:nth-child(2) { border-right:0; } .trust-item:nth-child(3) { padding-left:0; border-top:1px solid var(--line); } .trust-item:nth-child(4) { border-top:1px solid var(--line); } }
+    @media (max-width:480px) { .topbar .center { display:none; } .topbar { justify-content:center; } .nav { padding:14px 5%; } .actions { gap:11px; } h1 { font-size:42px; } .hero { min-height:540px; } .benefits span { font-size:9px; } .products { gap:8px; } .product-name { font-size:10px; } .feature-banner { min-height:190px; padding:20px; background-position:68% center; } footer { display:block; line-height:2; } }
+  </style>
 </head>
 <body>
-
-  <h1>EuroBeauty Market</h1>
-
-  <p>
-    Authentic German Beauty Products
-  </p>
-
+  <div class="topbar"><span>▣ &nbsp; Free shipping on orders over $50</span><span class="center">Authentic German Products &nbsp; | &nbsp; Delivered to the USA</span><span>♡ &nbsp; Beauty from Germany, for You</span></div>
+  <header class="nav">
+    <a class="logo" href="#top">EuroBeauty<small>MARKET</small></a>
+    <nav class="navlinks" aria-label="Main navigation"><a href="#top">Home</a><a href="#skincare">Skincare</a><a href="#haircare">Haircare</a><a href="#masks">Masks</a><a href="#bestsellers">Best Sellers</a><a href="#about">About Us</a><a href="#contact">Contact</a></nav>
+    <div class="actions" aria-label="Store actions"><span aria-label="Search">⌕</span><span aria-label="Account">♙</span><span class="cart" aria-label="Shopping cart">🛒<b class="cart-count">0</b></span></div>
+  </header>
+  <main id="top">
+    <section class="hero"><div class="hero-content"><div class="eyebrow">Curated in Germany · Loved everywhere</div><h1>Authentic German<br>Beauty Products</h1><p>Premium Balea, Balea Professional &amp; Schaebens skincare and haircare, now in the USA.</p><a class="button" href="#bestsellers">Shop Now <span>→</span></a><div class="benefits"><span><b>♧</b> Trusted<br>German Brands</span><span><b>♧</b> Fast Shipping<br>to the USA</span><span><b>♢</b> Quality Products<br>you can trust</span></div></div></section>
+    <section class="section" id="categories"><div class="tile-grid"><article class="tile" id="skincare"><div class="tile-copy"><h2>Skincare</h2><p>Face creams, serums<br>and more for glowing skin.</p><a class="text-link" href="#bestsellers">Shop Skincare →</a></div></article><article class="tile" id="haircare"><div class="tile-copy"><h2>Haircare</h2><p>Strong, healthy hair<br>with Balea Professional.</p><a class="text-link" href="#bestsellers">Shop Haircare →</a></div></article><article class="tile" id="masks"><div class="tile-copy"><h2>Face Masks</h2><p>Relax, refresh<br>and glow.</p><a class="text-link" href="#bestsellers">Shop Masks →</a></div></article></div></section>
+    <section class="section" id="bestsellers"><div class="section-heading"><h2>Best Sellers</h2><a class="text-link" href="#bestsellers">View All →</a></div><div class="products">
+      <article class="product"><div class="product-image"><img src="https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?auto=format&fit=crop&w=500&q=80" alt="Balea niacinamide serum"></div><div class="product-name">Balea Niacinamide<br>Serum 30 ml</div><div><span class="stars">★★★★★</span> <span class="review">(124)</span></div><div class="price">$8.99</div><button class="add">Add to Cart</button></article>
+      <article class="product"><div class="product-image"><img src="https://images.unsplash.com/photo-1556229010-6c3f2c9c7f44?auto=format&fit=crop&w=500&q=80" alt="Balea beauty collagen cream"></div><div class="product-name">Balea Beauty Collagen<br>Day Cream SPF 15</div><div><span class="stars">★★★★★</span> <span class="review">(98)</span></div><div class="price">$7.99</div><button class="add">Add to Cart</button></article>
+      <article class="product"><div class="product-image"><img src="https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&w=500&q=80" alt="Balea professional shampoo"></div><div class="product-name">Balea Professional<br>Shampoo Plex 250 ml</div><div><span class="stars">★★★★★</span> <span class="review">(76)</span></div><div class="price">$5.99</div><button class="add">Add to Cart</button></article>
+      <article class="product"><div class="product-image"><img src="https://images.unsplash.com/photo-1596755389378-c31d21fd1273?auto=format&fit=crop&w=500&q=80" alt="Balea glass skin collagen mask"></div><div class="product-name">Balea Glass Skin<br>Collagen Mask</div><div><span class="stars">★★★★★</span> <span class="review">(112)</span></div><div class="price">$5.49</div><button class="add">Add to Cart</button></article>
+      <article class="product"><div class="product-image"><img src="https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?auto=format&fit=crop&w=500&q=80" alt="Schaebens anti-age concentrate"></div><div class="product-name">Schaebens Anti-Age<br>Concentrate</div><div><span class="stars">★★★★★</span> <span class="review">(95)</span></div><div class="price">$3.49</div><button class="add">Add to Cart</button></article>
+      <article class="product"><div class="product-image"><img src="https://images.unsplash.com/photo-1612817288484-6f916006741a?auto=format&fit=crop&w=500&q=80" alt="Balea hair oil plex care"></div><div class="product-name">Balea Professional<br>Hair Oil Plex Care 50 ml</div><div><span class="stars">★★★★★</span> <span class="review">(89)</span></div><div class="price">$5.99</div><button class="add">Add to Cart</button></article>
+    </div></section>
+    <section class="section"><div class="feature-banner"><div><h2>German Quality<br>for Your Natural Beauty</h2><p>Skincare. Haircare. Selfcare.</p><a class="button" href="#categories">Shop Now <span>→</span></a></div></div><div class="trust" id="about"><div class="trust-item"><span class="trust-icon">♧</span><span><strong>Authentic Products</strong><small>Directly from Germany</small></span></div><div class="trust-item"><span class="trust-icon">♧</span><span><strong>Fast &amp; Reliable Shipping</strong><small>to the USA</small></span></div><div class="trust-item"><span class="trust-icon">♢</span><span><strong>Secure Payment</strong><small>Shop with confidence</small></span></div><div class="trust-item"><span class="trust-icon">♡</span><span><strong>Happy Customers</strong><small>Beauty that makes a difference</small></span></div></div></section>
+    <section class="section bottom-tiles"><div class="tile-grid"><article class="tile" style="background-image:linear-gradient(90deg,#f9e8e6 0%,rgba(249,232,230,.55) 50%,rgba(249,232,230,0) 100%),url('https://images.unsplash.com/photo-1611930022073-b7a4ba5fcccd?auto=format&fit=crop&w=900&q=80')"><div class="tile-copy"><h2>Glow Everyday</h2><p>Discover our skincare favorites for radiant skin.</p><a class="text-link" href="#skincare">Shop Skincare →</a></div></article><article class="tile" style="background-image:linear-gradient(90deg,#f6e8e5 0%,rgba(246,232,229,.4) 50%,rgba(246,232,229,0) 100%),url('https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&w=900&q=80')"><div class="tile-copy"><h2>Healthy Hair<br>Happy You</h2><p>Premium haircare for stronger, shinier hair.</p><a class="text-link" href="#haircare">Shop Haircare →</a></div></article><article class="tile" style="background-image:linear-gradient(90deg,#f7e6e4 0%,rgba(247,230,228,.5) 50%,rgba(247,230,228,0) 100%),url('https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?auto=format&fit=crop&w=900&q=80')"><div class="tile-copy"><h2>Pamper Yourself</h2><p>Face masks, eye pads and more for your selfcare routine.</p><a class="text-link" href="#masks">Shop Masks →</a></div></article></div></section>
+  </main>
+  <footer id="contact"><span>© 2026 EuroBeauty Market</span><span>Authentic German beauty, delivered with care.</span></footer>
+  <div id="toast" role="status">Added to your cart</div>
+  <script>
+    const count = document.querySelector('.cart-count');
+    const toast = document.querySelector('#toast');
+    let cartItems = 0;
+    document.querySelectorAll('.add').forEach((button) => button.addEventListener('click', () => {
+      cartItems += 1;
+      count.textContent = cartItems;
+      toast.classList.add('show');
+      window.clearTimeout(window.toastTimer);
+      window.toastTimer = window.setTimeout(() => toast.classList.remove('show'), 1800);
+    }));
+  </script>
 </body>
 </html>
