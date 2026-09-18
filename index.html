@@ -177,14 +177,14 @@
       lightboxImage.alt = galleryAlts[galleryIndex] || '';
     };
 
-    const renderGalleryDescription = (descriptionText) => {
+    const renderGalleryDescription = (descriptionText, productTitle = '') => {
       if (!descriptionText) {
         lightboxDetail.style.display = 'none';
         return;
       }
       lightboxDetail.style.display = 'block';
       const parts = descriptionText.split('|');
-      const title = parts[0] || 'Product Description & Details';
+      const title = productTitle || parts[0] || 'Product Details';
       const intro = parts[1] || '';
       const detail = parts[2] || '';
       const bullets = parts.slice(3);
@@ -215,13 +215,13 @@
       closeButtons.forEach((btn) => btn.addEventListener('click', closeLightbox));
     };
 
-    const openGallery = (images, alts, descriptionText = '', startIndex = 0) => {
+    const openGallery = (images, alts, descriptionText = '', startIndex = 0, productTitle = '') => {
       galleryImages = images;
       galleryAlts = alts;
       galleryDescription = descriptionText;
       galleryIndex = Math.max(0, Math.min(startIndex, images.length - 1));
       renderGalleryImage();
-      renderGalleryDescription(descriptionText);
+      renderGalleryDescription(descriptionText, productTitle);
       lightbox.classList.add('open');
     };
 
@@ -231,14 +231,15 @@
       const galleryData = product?.dataset.galleryImages;
       const galleryAltData = product?.dataset.galleryAlts;
       const description = product?.dataset.productDescription || '';
+      const productTitle = product?.querySelector('.product-name')?.textContent.replace(/\s+/g, ' ').trim() || image.alt;
 
       if (galleryData) {
         const images = galleryData.split(',').map((value) => value.trim()).filter(Boolean);
         const alts = galleryAltData ? galleryAltData.split(',').map((value) => value.trim()).filter(Boolean) : [];
         const startIndex = images.indexOf(image.src.replace(window.location.origin + '/', '').replace(/^file:\/\//, ''));
-        openGallery(images, alts.length ? alts : new Array(images.length).fill(image.alt), description, Math.max(0, startIndex));
+        openGallery(images, alts.length ? alts : new Array(images.length).fill(image.alt), description, Math.max(0, startIndex), productTitle);
       } else {
-        openGallery([image.src], [image.alt], description, 0);
+        openGallery([image.src], [image.alt], description, 0, productTitle);
       }
     }));
 
