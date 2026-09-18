@@ -73,6 +73,8 @@
     #lightbox.open { opacity:1; pointer-events:auto; }
     .lightbox-stage { display:grid; place-items:center; }
     #lightbox img { max-width:min(42vw, 420px); max-height:62vh; width:auto; height:auto; object-fit:contain; border-radius:8px; background:#fff; box-shadow:0 16px 50px rgba(0,0,0,.3); }
+    .yuka-check { display:none; margin-top:12px; padding:9px 16px; border:0; border-radius:4px; background:#4b9f55; color:#fff; font-size:12px; font-weight:600; text-decoration:none; }
+    .yuka-check.visible { display:inline-flex; }
     .lightbox-close { position:absolute; top:8px; right:8px; width:40px; height:40px; border-radius:50%; background:#fff; color:#211d1c; font-size:25px; line-height:1; box-shadow:0 2px 10px rgba(0,0,0,.08); z-index:2; }
     .lightbox-nav { position:absolute; top:50%; transform:translateY(-50%); width:42px; height:42px; border-radius:50%; border:0; background:rgba(255,255,255,.9); color:#211d1c; font-size:28px; line-height:1; cursor:pointer; z-index:2; }
     .lightbox-prev { left:-54px; }
@@ -83,6 +85,17 @@
     .lightbox-detail p { margin:0 0 10px; font-size:14px; line-height:1.6; }
     .lightbox-detail ul { margin:0; padding-left:20px; font-size:14px; line-height:1.7; }
     .lightbox-detail li { margin-bottom:2px; }
+    .detail-section { border-top:1px solid var(--line); }
+    .detail-section:last-child { border-bottom:1px solid var(--line); }
+    .detail-section summary { padding:12px 0; color:#211d1c; font-size:14px; font-weight:700; cursor:pointer; list-style:none; }
+    .detail-section summary::-webkit-details-marker { display:none; }
+    .detail-section summary::after { content:'+'; float:right; font-size:18px; font-weight:400; }
+    .detail-section[open] summary::after { content:'−'; }
+    .detail-section-content { padding:0 0 12px; }
+    .detail-section-content p { margin:0 0 10px; }
+    .detail-section-content p:last-child { margin-bottom:0; }
+    .detail-section-content ol { margin:0; padding-left:20px; font-size:14px; line-height:1.7; }
+    .detail-section-content ol li { margin-bottom:2px; }
     @media (max-width:800px) { .navlinks { display:none; } .tile-grid { grid-template-columns:1fr; } .tile { min-height:135px; } .products { grid-template-columns:repeat(3,1fr); } .trust { grid-template-columns:repeat(2,1fr); } .trust-item:nth-child(2) { border-right:0; } .trust-item:nth-child(3) { padding-left:0; border-top:1px solid var(--line); } .trust-item:nth-child(4) { border-top:1px solid var(--line); } }
     @media (max-width:480px) { .topbar .center { display:none; } .topbar { justify-content:center; } .nav { padding:14px 5%; } .actions { gap:11px; } .products { gap:8px; } .product-name { font-size:10px; } .feature-banner { min-height:190px; padding:20px; background-position:68% center; } footer { display:block; line-height:2; } }
   </style>
@@ -101,8 +114,8 @@
       <article class="product" data-product-description="Product Description|The Balea Rice Water Bio-Cellulose Face Mask provides a fresh, radiant glow while intensely moisturizing the skin. Its formula, enriched with an active complex of hyaluronic acid and rice water, helps promote a smoother and fresher-looking complexion. While rice water is known for its nourishing properties, hyaluronic acid helps retain moisture in the skin.|The bio-cellulose sheet adheres perfectly to the contours of the face, leaving the skin feeling soft, smooth, and well cared for.|Sheet mask with rice water and hyaluronic acid|Enriched with an active complex of hyaluronic acid and rice water|For a fresh glow and a soft, smooth skin feel|Provides intensive hydration|Bio-cellulose sheet made from fermented coconut water"><div class="product-image"><img src="images/51d68b48-6573-48c5-baee-010cea76a49d.png" alt="Balea Rice Water Bio-Cellulose Face Mask"></div><div class="product-name">Balea<br>Rice Water Bio-Cellulose Face Mask, 1 pc</div><button class="add">Add to Cart</button></article>
       <article class="product" data-product-description="Product Description|The Balea Selfcare Moments Sheet Mask is a refreshing skincare treatment, perfect for a relaxing self-care break. Enriched with hyaluronic acid and silk tree blossom extract, it provides intensive moisture and helps promote a radiant complexion.|The soft sheet material gently conforms to the contours of the face, supporting the absorption of the active ingredients. The skin feels refreshed, smooth, and revitalized after use. This sheet mask is ideal for a relaxing skincare ritual and leaves the skin feeling silky soft and well cared for.|Moisturizing sheet mask|Enriched with hyaluronic acid and silk tree blossom extract|For a fresh and radiant complexion|Provides intensive hydration|Gently adapts to the contours of the skin"><div class="product-image"><img src="images/95793850-aff9-4dd2-9ba0-f04181e42a2a.png" alt="Balea Selfcare Moments Sheet Mask"></div><div class="product-name">Balea<br>Selfcare Moments Sheet Mask, 1 pc</div><button class="add">Add to Cart</button></article>
       <article class="product" data-product-description="Product Description|The Balea Glass Skin Collagen Mask helps improve skin elasticity and leaves the complexion looking visibly smoother and more revitalized. Its carefully selected active ingredient complex, featuring dual hyaluronic acid, collagen, niacinamide, and vitamin C, provides deep hydration and promotes a more even-looking skin tone.|Vitamin C and niacinamide can also help refine the appearance of the skin and enhance a youthful, radiant glow. The formula boosts skin elasticity, leaving it looking smoother, healthier, and more vibrant.|Face mask for a glass-skin effect|Moisturizing formula|With hyaluronic acid, collagen, vitamin C, and niacinamide|For visibly smoother-looking skin"><div class="product-image"><img src="images/67c0c240-a717-471a-8e8b-76e5b670ac72.png" alt="Balea Glass Skin Collagen Mask"></div><div class="product-name">Balea<br>Glass Skin Collagen Mask, 1 pc</div><button class="add">Add to Cart</button></article>
-      <article class="product"><div class="product-image"><img src="images/5dc1c882-ecb1-4a95-9db2-07ddfaef3521.jpeg" alt="Balea Hydrogel Eye Pads Holo"></div><div class="product-name">Balea<br>Hydrogel Eye Pads Holo (1 Pair), 2 pcs</div><button class="add">Add to Cart</button></article>
-      <article class="product"><div class="product-image"><img src="images/dca60fcc-d6e1-4f8d-ac7c-c936a8ab93e0.png" alt="Balea Hydrogel Eye Pads Glitter"></div><div class="product-name">Balea<br>Hydrogel Eye Pads Glitter (1 Pair), 2 pcs</div><button class="add">Add to Cart</button></article>
+      <article class="product" data-yuka-url="https://yuka.io/en/app" data-gallery-images="images/5dc1c882-ecb1-4a95-9db2-07ddfaef3521.jpeg,images/Screenshot 2026-09-18 122837.png" data-gallery-alts="Balea Hydrogel Holo Eye Pads front,Balea Hydrogel Holo Eye Pads back with barcode" data-product-description="Product Description|The Balea Hydrogel Holo Eye Pads with hyaluronic acid, dragon fruit extract, and vitamin C provide intensive care for the delicate under-eye area. Their moisturizing formula helps visibly plump fine lines and dryness-related wrinkles, leaving the skin looking smoother, fresher, and more awake. The holographic hydrogel pads gently adhere to the skin, creating a relaxing self-care experience while delivering nourishing ingredients. For a refreshed, radiant, and well-cared-for eye area.|Ingredients: AQUA, GLYCERIN, PROPYLENE GLYCOL, XANTHAN GUM, HYLOCEREUS UNDATUS FRUIT EXTRACT, CAFFEINE, SODIUM HYALURONATE, 3-O-ETHYL ASCORBIC ACID, CARRAGEENAN, 1,2-HEXANEDIOL, HYDROXYACETOPHENONE, POLYGLYCERYL-10 CAPRYLATE/CAPRATE, CAPRYLYL GLYCOL, DIPROPYLENE GLYCOL, CYCLODEXTRIN, CALCIUM ALUMINUM BOROSILICATE, ETHYLHEXYLGLYCERIN, TIN OXIDE, PARFUM, BENZYL BENZOATE, BENZYL ALCOHOL, CI 77891.|Cooling hydrogel eye pads|Enriched with hyaluronic acid, dragon fruit extract, and vitamin C|May visibly plump fine lines|Provides intensive hydration|Helps refresh and revitalize the eye area|Directions for Use: 1. Remove the eye pads from the packaging. 2. Place the pads directly onto clean skin under the eyes. 3. Leave on for 15–20 minutes. 4. Remove the pads and gently massage any remaining serum into the skin."><div class="product-image"><img src="images/5dc1c882-ecb1-4a95-9db2-07ddfaef3521.jpeg" alt="Balea Hydrogel Holo Eye Pads front"></div><div class="product-name">Balea<br>Hydrogel Holo Eye Pads (1 Pair), 2 pcs</div><button class="add">Add to Cart</button></article>
+      <article class="product"><div class="product-image"><img src="images/d6d4a3a6-ed91-483b-a077-9073837e7cf3.png" alt="Balea Hydrogel Eye Pads Glitter"></div><div class="product-name">Balea<br>Hydrogel Eye Pads Glitter (1 Pair), 2 pcs</div><button class="add">Add to Cart</button></article>
       <article class="product" data-gallery-images="images/362ed293-7dfd-4c5d-a5eb-242301530ba2.png,images/0309a26d-ef72-4db3-89a4-1228688eb92f.png" data-gallery-alts="Schaebens Anti-Age Concentrate 7 pcs front,Schaebens Anti-Age Concentrate 7 pcs back" data-product-description="Product Description &amp; Details|This effective concentrate stimulates the skin’s natural renewal process and improves the structure of mature skin.|Its oil-based formula, enriched with the valuable active ingredients Q10 and ginseng, intensely nourishes the skin, helps restore firmness, and improves elasticity.|Immediate effect|Reduces wrinkles and increases skin hydration|Q10, ginseng extract, and vitamin E care complex|Vegan"><div class="product-image"><img src="images/362ed293-7dfd-4c5d-a5eb-242301530ba2.png" alt="Schaebens Anti-Age Concentrate 7 pcs front"></div><div class="product-name">Schaebens<br>Anti-Age Concentrate, 7 pcs</div><button class="add">Add to Cart</button></article>
       <article class="product" data-gallery-images="images/8214613b-2a6b-4e94-9a8d-e8c096f63af6.png,images/56f16e3c-6e35-47e8-a4f8-5e974f4516ed.png" data-gallery-alts="Balea Vitamin C Concentrate front,Balea Vitamin C Concentrate back"><div class="product-image"><img src="images/8214613b-2a6b-4e94-9a8d-e8c096f63af6.png" alt="Balea Vitamin C Concentrate 7 pcs front"></div><div class="product-name">Balea<br>Vitamin C Concentrate, 7 pcs</div><button class="add">Add to Cart</button></article>
       <article class="product"><div class="product-image"><img src="images/194ac52e-30d5-45a8-93a1-4ce7867a60f0.png" alt="Balea Niacinamide Serum 30 ml"></div><div class="product-name">Balea<br>Niacinamide Serum, 30 ml</div><button class="add">Add to Cart</button></article>
@@ -131,7 +144,7 @@
   <div id="lightbox" role="dialog" aria-modal="true" aria-label="Enlarged product image">
     <div class="lightbox-panel">
       <button class="lightbox-nav lightbox-prev" type="button" aria-label="Previous image">‹</button>
-      <div class="lightbox-stage"><img alt=""></div>
+      <div class="lightbox-stage"><img alt=""><a class="yuka-check" href="https://yuka.io/en/app" target="_blank" rel="noopener">Check in Yuka</a></div>
       <button class="lightbox-nav lightbox-next" type="button" aria-label="Next image">›</button>
       <div class="lightbox-detail" aria-live="polite">
         <h3>Product Description &amp; Details</h3>
@@ -151,6 +164,7 @@
     const toast = document.querySelector('#toast');
     const lightbox = document.querySelector('#lightbox');
     const lightboxImage = lightbox.querySelector('img');
+    const yukaButton = lightbox.querySelector('.yuka-check');
     const lightboxDetail = lightbox.querySelector('.lightbox-detail');
     const prevBtn = lightbox.querySelector('.lightbox-prev');
     const nextBtn = lightbox.querySelector('.lightbox-next');
@@ -177,23 +191,37 @@
       const intro = parts[1] || '';
       const detail = parts[2] || '';
       const bullets = parts.slice(3);
+      const sections = [];
+      const featureIndex = bullets.findIndex((item) => item.startsWith('Product Features:'));
+      const directionsIndex = bullets.findIndex((item) => item.startsWith('Directions for Use:'));
+      const benefitEnd = [featureIndex, directionsIndex].filter((index) => index >= 0).sort((a, b) => a - b)[0] ?? bullets.length;
+      const benefits = bullets.slice(0, benefitEnd);
+
+      sections.push({ title: 'Product Description', content: `${intro ? `<p>${intro}</p>` : ''}${detail && !detail.startsWith('Ingredients:') ? `<p>${detail}</p>` : ''}${benefits.length ? `<ul>${benefits.map((item) => `<li>${item}</li>`).join('')}</ul>` : ''}` });
+      if (detail.startsWith('Ingredients:')) {
+        sections.push({ title: 'Ingredients', content: `<p>${detail.slice('Ingredients:'.length).trim()}</p>` });
+      }
+      if (directionsIndex >= 0) {
+        const directions = bullets[directionsIndex].replace('Directions for Use: ', '').split(/\s(?=\d+\.\s)/).filter(Boolean);
+        sections.push({ title: 'Directions for Use', content: `<ol>${directions.map((item) => `<li>${item.replace(/^\d+\.\s*/, '')}</li>`).join('')}</ol>` });
+      }
 
       lightboxDetail.innerHTML = `
         <button class="lightbox-close" type="button" aria-label="Close enlarged image">×</button>
         <h3>${title}</h3>
-        ${intro ? `<p>${intro}</p>` : ''}
-        ${detail ? `<p>${detail}</p>` : ''}
-        ${bullets.length ? `<ul>${bullets.map((item) => `<li>${item}</li>`).join('')}</ul>` : ''}
+        ${sections.filter((section) => section.content).map((section, index) => `<details class="detail-section"${index === 0 ? ' open' : ''}><summary>${section.title}</summary><div class="detail-section-content">${section.content}</div></details>`).join('')}
       `;
       const closeButtons = lightbox.querySelectorAll('.lightbox-close');
       closeButtons.forEach((btn) => btn.addEventListener('click', closeLightbox));
     };
 
-    const openGallery = (images, alts, descriptionText = '', startIndex = 0) => {
+    const openGallery = (images, alts, descriptionText = '', startIndex = 0, yukaUrl = '') => {
       galleryImages = images;
       galleryAlts = alts;
       galleryDescription = descriptionText;
       galleryIndex = Math.max(0, Math.min(startIndex, images.length - 1));
+      yukaButton.href = yukaUrl || 'https://yuka.io/en/app';
+      yukaButton.classList.toggle('visible', Boolean(yukaUrl));
       renderGalleryImage();
       renderGalleryDescription(descriptionText);
       lightbox.classList.add('open');
@@ -205,14 +233,15 @@
       const galleryData = product?.dataset.galleryImages;
       const galleryAltData = product?.dataset.galleryAlts;
       const description = product?.dataset.productDescription || '';
+      const yukaUrl = product?.dataset.yukaUrl || '';
 
       if (galleryData) {
         const images = galleryData.split(',').map((value) => value.trim()).filter(Boolean);
         const alts = galleryAltData ? galleryAltData.split(',').map((value) => value.trim()).filter(Boolean) : [];
         const startIndex = images.indexOf(image.src.replace(window.location.origin + '/', '').replace(/^file:\/\//, ''));
-        openGallery(images, alts.length ? alts : new Array(images.length).fill(image.alt), description, Math.max(0, startIndex));
+        openGallery(images, alts.length ? alts : new Array(images.length).fill(image.alt), description, Math.max(0, startIndex), yukaUrl);
       } else {
-        openGallery([image.src], [image.alt], description, 0);
+        openGallery([image.src], [image.alt], description, 0, yukaUrl);
       }
     }));
 
