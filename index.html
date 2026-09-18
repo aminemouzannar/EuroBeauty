@@ -209,7 +209,7 @@
       lightboxDetail.innerHTML = `
         <button class="lightbox-close" type="button" aria-label="Close enlarged image">×</button>
         <h3>${title}</h3>
-        ${sections.filter((section) => section.content).map((section, index) => `<details class="detail-section"${index === 0 || section.title === 'Ingredients' ? ' open' : ''}><summary>${section.title}</summary><div class="detail-section-content">${section.content}</div></details>`).join('')}
+        ${sections.filter((section) => section.content).map((section) => `<details class="detail-section"><summary>${section.title}</summary><div class="detail-section-content">${section.content}</div></details>`).join('')}
       `;
       const closeButtons = lightbox.querySelectorAll('.lightbox-close');
       closeButtons.forEach((btn) => btn.addEventListener('click', closeLightbox));
