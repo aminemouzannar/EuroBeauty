@@ -46,15 +46,15 @@
     .product-category { margin-top:28px; }
     .product-category h3 { margin:0 0 14px; font-size:24px; }
     .products { display:grid; grid-template-columns:repeat(6,1fr); gap:16px; }
-    .product { min-width:0; }
+    .product { display:flex; flex-direction:column; min-width:0; height:100%; }
     .product-image { aspect-ratio:1/1; display:grid; place-items:center; padding:18px; border:1px solid #f0eeee; border-radius:5px; background:#fafafa; overflow:hidden; cursor:zoom-in; }
     .product-image img { width:82%; height:82%; object-fit:contain; mix-blend-mode:multiply; transition:transform .25s ease; }
     .product:hover .product-image img { transform:scale(1.04); }
-    .product-name { min-height:42px; margin:10px 0 8px; font-size:11px; line-height:1.4; }
+    .product-name { flex:1; min-height:42px; margin:10px 0 8px; font-size:11px; line-height:1.4; }
     .stars { color:#eea900; font-size:13px; letter-spacing:1px; }
     .review { color:#777; font-size:9px; }
     .price { margin:4px 0 8px; font-size:13px; font-weight:700; }
-    .add { width:100%; padding:7px 3px; border-radius:4px; background:#c5686b; color:#fff; font-size:11px; transition:.2s ease; }
+    .add { width:100%; margin-top:auto; padding:7px 3px; border-radius:4px; background:#c5686b; color:#fff; font-size:11px; transition:.2s ease; }
     .feature-banner { display:flex; align-items:center; min-height:157px; margin-top:18px; padding:25px 27px; border-radius:8px; background:linear-gradient(90deg,#f5e7dd 0%,#f7e9df 48%,rgba(247,233,223,.4)), url('https://images.unsplash.com/photo-1611930022073-b7a4ba5fcccd?auto=format&fit=crop&w=1500&q=80') center/cover; }
     .feature-banner h2 { max-width:320px; margin:0 0 5px; font-size:27px; line-height:1.08; }
     .feature-banner p { margin:0 0 15px; font-size:13px; }
@@ -71,8 +71,18 @@
     #toast.show { opacity:1; transform:translateY(0); }
     #lightbox { position:fixed; inset:0; z-index:5; display:grid; place-items:center; padding:30px; background:rgba(22,18,17,.78); opacity:0; pointer-events:none; transition:opacity .2s ease; }
     #lightbox.open { opacity:1; pointer-events:auto; }
-    #lightbox img { max-width:min(88vw,640px); max-height:82vh; width:auto; height:auto; object-fit:contain; border-radius:8px; background:#fff; box-shadow:0 16px 50px rgba(0,0,0,.3); }
-    .lightbox-close { position:absolute; top:20px; right:25px; width:40px; height:40px; border-radius:50%; background:#fff; color:#211d1c; font-size:25px; line-height:1; }
+    .lightbox-stage { display:grid; place-items:center; }
+    #lightbox img { max-width:min(42vw, 420px); max-height:62vh; width:auto; height:auto; object-fit:contain; border-radius:8px; background:#fff; box-shadow:0 16px 50px rgba(0,0,0,.3); }
+    .lightbox-close { position:absolute; top:8px; right:8px; width:40px; height:40px; border-radius:50%; background:#fff; color:#211d1c; font-size:25px; line-height:1; box-shadow:0 2px 10px rgba(0,0,0,.08); z-index:2; }
+    .lightbox-nav { position:absolute; top:50%; transform:translateY(-50%); width:42px; height:42px; border-radius:50%; border:0; background:rgba(255,255,255,.9); color:#211d1c; font-size:28px; line-height:1; cursor:pointer; z-index:2; }
+    .lightbox-prev { left:-54px; }
+    .lightbox-next { right:-54px; }
+    .lightbox-panel { position:relative; display:flex; align-items:flex-start; gap:24px; width:min(90vw, 900px); padding:20px 22px 18px; border-radius:12px; background:rgba(255,255,255,.96); box-shadow:0 12px 28px rgba(0,0,0,.12); }
+    .lightbox-detail { position:relative; flex:1; min-width:0; padding:6px 0; color:#171717; }
+    .lightbox-detail h3 { margin:0 0 10px; font-size:22px; }
+    .lightbox-detail p { margin:0 0 10px; font-size:14px; line-height:1.6; }
+    .lightbox-detail ul { margin:0; padding-left:20px; font-size:14px; line-height:1.7; }
+    .lightbox-detail li { margin-bottom:2px; }
     @media (max-width:800px) { .navlinks { display:none; } .tile-grid { grid-template-columns:1fr; } .tile { min-height:135px; } .products { grid-template-columns:repeat(3,1fr); } .trust { grid-template-columns:repeat(2,1fr); } .trust-item:nth-child(2) { border-right:0; } .trust-item:nth-child(3) { padding-left:0; border-top:1px solid var(--line); } .trust-item:nth-child(4) { border-top:1px solid var(--line); } }
     @media (max-width:480px) { .topbar .center { display:none; } .topbar { justify-content:center; } .nav { padding:14px 5%; } .actions { gap:11px; } .products { gap:8px; } .product-name { font-size:10px; } .feature-banner { min-height:190px; padding:20px; background-position:68% center; } footer { display:block; line-height:2; } }
   </style>
@@ -88,29 +98,29 @@
     <section class="hero-image" aria-label="German beauty products"><img src="images/5afa0e5d-0048-4709-b54c-5ff2aadc339f.png" alt="Authentic German beauty products delivered across the USA"></section>
     <section class="section" id="bestsellers"><div class="section-heading"><h2>Our Products</h2></div>
       <div class="product-category" id="skincare"><h3>Skincare</h3><div class="products">
-      <article class="product"><div class="product-image"><img src="images/balea-melkfett-ringelblume.jpeg" alt="Balea Melkfett Ringelblume 250 ml"></div><div class="product-name">Balea<br>Melkfett Ringelblume, 250 ml</div><button class="add">Add to Cart</button></article>
-      <article class="product"><div class="product-image"><img src="images/schaebens-konzentrat-anti-age.jpeg" alt="Schaebens Konzentrat Anti-Age 7 St"></div><div class="product-name">Schaebens<br>Konzentrat Anti-Age, 7 St</div><button class="add">Add to Cart</button></article>
-      <article class="product"><div class="product-image"><img src="images/36e35b49-bfd9-4965-81e0-c2c9faa7147f.png" alt="Selfie Project Anti Pickel Patches Pimple Sterne"></div><div class="product-name">Selfie Project<br>Anti Pickel Patches Pimple Sterne, 20 St</div><button class="add">Add to Cart</button></article>
-      <article class="product"><div class="product-image"><img src="images/balea-gesichtsmaske-reiswasser-biozellulose.jpeg" alt="Balea Gesichtsmaske Reiswasser Biozellulose"></div><div class="product-name">Balea<br>Gesichtsmaske Reiswasser Biozellulose, 1 St</div><button class="add">Add to Cart</button></article>
-      <article class="product"><div class="product-image"><img src="images/balea-augenpads-hydrogel-holo-1-paar.jpeg" alt="Balea Augenpads Hydrogel Holo"></div><div class="product-name">Balea<br>Augenpads Hydrogel Holo (1 Paar), 2 St</div><button class="add">Add to Cart</button></article>
-      <article class="product"><div class="product-image"><img src="images/balea-augenpads-hydrogel-glitzer-1-paar.jpeg" alt="Balea Augenpads Hydrogel Glitzer"></div><div class="product-name">Balea<br>Augenpads Hydrogel Glitzer (1 Paar), 2 St</div><button class="add">Add to Cart</button></article>
-      <article class="product"><div class="product-image"><img src="images/balea-gesichtscreme-beauty-collagen-lsf-15.jpeg" alt="Balea Gesichtscreme Beauty Collagen LSF 15"></div><div class="product-name">Balea<br>Gesichtscreme Beauty Collagen LSF 15, 50 ml</div><button class="add">Add to Cart</button></article>
-      <article class="product"><div class="product-image"><img src="images/balea-nachtcreme-beauty-collagen.jpeg" alt="Balea Nachtcreme Beauty Collagen"></div><div class="product-name">Balea<br>Nachtcreme Beauty Collagen, 50 ml</div><button class="add">Add to Cart</button></article>
-      <article class="product"><div class="product-image"><img src="images/95793850-aff9-4dd2-9ba0-f04181e42a2a.png" alt="Balea Tuchmaske Selfcare Moments"></div><div class="product-name">Balea<br>Tuchmaske Selfcare Moments, 1 St</div><button class="add">Add to Cart</button></article>
-      <article class="product"><div class="product-image"><img src="images/balea-serum-niacinamide.jpeg" alt="Balea Serum Niacinamide 30 ml"></div><div class="product-name">Balea<br>Serum Niacinamide, 30 ml</div><button class="add">Add to Cart</button></article>
-      <article class="product"><div class="product-image"><img src="images/balea-glass-skin-collagen-maske.jpeg" alt="Balea Glass Skin Collagen Maske"></div><div class="product-name">Balea<br>Glass Skin Collagen Maske, 1 St</div><button class="add">Add to Cart</button></article>
-      <article class="product"><div class="product-image"><img src="https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?auto=format&fit=crop&w=500&q=80" alt="Balea Gesichtsserum Collagen Retinol"></div><div class="product-name">Balea<br>Gesichtsserum Collagen Retinol, 30 ml</div><button class="add">Add to Cart</button></article>
+      <article class="product" data-product-description="Product Description|The Balea Rice Water Bio-Cellulose Face Mask provides a fresh, radiant glow while intensely moisturizing the skin. Its formula, enriched with an active complex of hyaluronic acid and rice water, helps promote a smoother and fresher-looking complexion. While rice water is known for its nourishing properties, hyaluronic acid helps retain moisture in the skin.|The bio-cellulose sheet adheres perfectly to the contours of the face, leaving the skin feeling soft, smooth, and well cared for.|Sheet mask with rice water and hyaluronic acid|Enriched with an active complex of hyaluronic acid and rice water|For a fresh glow and a soft, smooth skin feel|Provides intensive hydration|Bio-cellulose sheet made from fermented coconut water"><div class="product-image"><img src="images/51d68b48-6573-48c5-baee-010cea76a49d.png" alt="Balea Rice Water Bio-Cellulose Face Mask"></div><div class="product-name">Balea<br>Rice Water Bio-Cellulose Face Mask, 1 pc</div><button class="add">Add to Cart</button></article>
+      <article class="product" data-product-description="Product Description|The Balea Selfcare Moments Sheet Mask is a refreshing skincare treatment, perfect for a relaxing self-care break. Enriched with hyaluronic acid and silk tree blossom extract, it provides intensive moisture and helps promote a radiant complexion.|The soft sheet material gently conforms to the contours of the face, supporting the absorption of the active ingredients. The skin feels refreshed, smooth, and revitalized after use. This sheet mask is ideal for a relaxing skincare ritual and leaves the skin feeling silky soft and well cared for.|Moisturizing sheet mask|Enriched with hyaluronic acid and silk tree blossom extract|For a fresh and radiant complexion|Provides intensive hydration|Gently adapts to the contours of the skin"><div class="product-image"><img src="images/95793850-aff9-4dd2-9ba0-f04181e42a2a.png" alt="Balea Selfcare Moments Sheet Mask"></div><div class="product-name">Balea<br>Selfcare Moments Sheet Mask, 1 pc</div><button class="add">Add to Cart</button></article>
+      <article class="product" data-product-description="Product Description|The Balea Glass Skin Collagen Mask helps improve skin elasticity and leaves the complexion looking visibly smoother and more revitalized. Its carefully selected active ingredient complex, featuring dual hyaluronic acid, collagen, niacinamide, and vitamin C, provides deep hydration and promotes a more even-looking skin tone.|Vitamin C and niacinamide can also help refine the appearance of the skin and enhance a youthful, radiant glow. The formula boosts skin elasticity, leaving it looking smoother, healthier, and more vibrant.|Face mask for a glass-skin effect|Moisturizing formula|With hyaluronic acid, collagen, vitamin C, and niacinamide|For visibly smoother-looking skin"><div class="product-image"><img src="images/67c0c240-a717-471a-8e8b-76e5b670ac72.png" alt="Balea Glass Skin Collagen Mask"></div><div class="product-name">Balea<br>Glass Skin Collagen Mask, 1 pc</div><button class="add">Add to Cart</button></article>
+      <article class="product"><div class="product-image"><img src="images/5dc1c882-ecb1-4a95-9db2-07ddfaef3521.jpeg" alt="Balea Hydrogel Eye Pads Holo"></div><div class="product-name">Balea<br>Hydrogel Eye Pads Holo (1 Pair), 2 pcs</div><button class="add">Add to Cart</button></article>
+      <article class="product"><div class="product-image"><img src="images/dca60fcc-d6e1-4f8d-ac7c-c936a8ab93e0.png" alt="Balea Hydrogel Eye Pads Glitter"></div><div class="product-name">Balea<br>Hydrogel Eye Pads Glitter (1 Pair), 2 pcs</div><button class="add">Add to Cart</button></article>
+      <article class="product" data-gallery-images="images/362ed293-7dfd-4c5d-a5eb-242301530ba2.png,images/0309a26d-ef72-4db3-89a4-1228688eb92f.png" data-gallery-alts="Schaebens Anti-Age Concentrate 7 pcs front,Schaebens Anti-Age Concentrate 7 pcs back" data-product-description="Product Description &amp; Details|This effective concentrate stimulates the skin’s natural renewal process and improves the structure of mature skin.|Its oil-based formula, enriched with the valuable active ingredients Q10 and ginseng, intensely nourishes the skin, helps restore firmness, and improves elasticity.|Immediate effect|Reduces wrinkles and increases skin hydration|Q10, ginseng extract, and vitamin E care complex|Vegan"><div class="product-image"><img src="images/362ed293-7dfd-4c5d-a5eb-242301530ba2.png" alt="Schaebens Anti-Age Concentrate 7 pcs front"></div><div class="product-name">Schaebens<br>Anti-Age Concentrate, 7 pcs</div><button class="add">Add to Cart</button></article>
+      <article class="product" data-gallery-images="images/8214613b-2a6b-4e94-9a8d-e8c096f63af6.png,images/56f16e3c-6e35-47e8-a4f8-5e974f4516ed.png" data-gallery-alts="Balea Vitamin C Concentrate front,Balea Vitamin C Concentrate back"><div class="product-image"><img src="images/8214613b-2a6b-4e94-9a8d-e8c096f63af6.png" alt="Balea Vitamin C Concentrate 7 pcs front"></div><div class="product-name">Balea<br>Vitamin C Concentrate, 7 pcs</div><button class="add">Add to Cart</button></article>
+      <article class="product"><div class="product-image"><img src="images/194ac52e-30d5-45a8-93a1-4ce7867a60f0.png" alt="Balea Niacinamide Serum 30 ml"></div><div class="product-name">Balea<br>Niacinamide Serum, 30 ml</div><button class="add">Add to Cart</button></article>
+      <article class="product"><div class="product-image"><img src="images/a2d70156-f675-4057-8301-4a5b809b1435.png" alt="Balea Beauty Collagen Day Cream SPF 15"></div><div class="product-name">Balea<br>Beauty Collagen Day Cream SPF 15, 50 ml</div><button class="add">Add to Cart</button></article>
+      <article class="product"><div class="product-image"><img src="images/5582e35d-136c-4c5a-a1ae-a58c9e159e83.png" alt="Balea Beauty Collagen Night Cream"></div><div class="product-name">Balea<br>Beauty Collagen Night Cream, 50 ml</div><button class="add">Add to Cart</button></article>
+      <article class="product"><div class="product-image"><img src="images/2d28a096-5451-4c47-a43f-72eecae6a95f.png" alt="Balea Milk Fat Camomile 250 ml"></div><div class="product-name">Balea<br>Milk Fat Camomile, 250 ml</div><button class="add">Add to Cart</button></article>
+      <article class="product"><div class="product-image"><img src="images/36e35b49-bfd9-4965-81e0-c2c9faa7147f.png" alt="Selfie Project Anti-Pimple Stars"></div><div class="product-name">Selfie Project<br>Anti-Pimple Stars, 20 pcs</div><button class="add">Add to Cart</button></article>
       </div></div>
       <div class="product-category" id="haircare"><h3>Haircare</h3><div class="products">
-      <article class="product"><div class="product-image"><img src="images/8f9c26f8-4ddc-4a1b-bb1e-49d185c26db4.png" alt="Balea Professional Shampoo Plex Care 250 ml"></div><div class="product-name">Balea PROFESSIONAL<br>Shampoo Plex Care, 250 ml</div><button class="add">Add to Cart</button></article>
-      <article class="product"><div class="product-image"><img src="images/balea-haarparfuem-pink-blossom.jpeg" alt="Balea Haarparfum Pink Blossom 100 ml"></div><div class="product-name">Balea<br>Haarparfüm Pink Blossom, 100 ml</div><button class="add">Add to Cart</button></article>
-      <article class="product"><div class="product-image"><img src="images/balea-professional-leave-in-serum-plex-care.jpeg" alt="Balea Professional Leave-In Serum Plex Care"></div><div class="product-name">Balea PROFESSIONAL<br>Leave-In Serum Plex Care, 50 ml</div><button class="add">Add to Cart</button></article>
-      <article class="product"><div class="product-image"><img src="images/ad23a958-3751-4741-a97a-7bb85a07a8aa.png" alt="Balea Professional Haarmaske 2in1 Plex Care"></div><div class="product-name">Balea PROFESSIONAL<br>Haarmaske 2in1 Plex Care, 250 ml</div><button class="add">Add to Cart</button></article>
-      <article class="product"><div class="product-image"><img src="images/balea-med-shampoo-anti-schuppen-ultra-sensitive.jpeg" alt="Balea med Shampoo Anti-Schuppen Ultra Sensitive"></div><div class="product-name">Balea med<br>Shampoo Anti-Schuppen Ultra Sensitive, 250 ml</div><button class="add">Add to Cart</button></article>
-      <article class="product"><div class="product-image"><img src="https://images.unsplash.com/photo-1612817288484-6f916006741a?auto=format&fit=crop&w=500&q=80" alt="Balea Professional Haaröl Plex Care"></div><div class="product-name">Balea PROFESSIONAL<br>Haaröl Plex Care, 50 ml</div><button class="add">Add to Cart</button></article>
+      <article class="product"><div class="product-image"><img src="images/8f9c26f8-4ddc-4a1b-bb1e-49d185c26db4.png" alt="Balea Professional Plex Care Shampoo 250 ml"></div><div class="product-name">Balea PROFESSIONAL<br>Plex Care Shampoo, 250 ml</div><button class="add">Add to Cart</button></article>
+      <article class="product"><div class="product-image"><img src="images/4be69f8b-1576-488a-8013-b9f4292b6a59.png" alt="Balea Pink Blossom Hair Perfume 100 ml"></div><div class="product-name">Balea<br>Pink Blossom Hair Perfume, 100 ml</div><button class="add">Add to Cart</button></article>
+      <article class="product"><div class="product-image"><img src="images/1830e85d-ea35-4372-9292-e625d85376b9.png" alt="Balea Professional Leave-In Serum Plex Care"></div><div class="product-name">Balea PROFESSIONAL<br>Leave-In Serum Plex Care, 50 ml</div><button class="add">Add to Cart</button></article>
+      <article class="product"><div class="product-image"><img src="images/ad23a958-3751-4741-a97a-7bb85a07a8aa.png" alt="Balea Professional 2-in-1 Plex Care Hair Mask"></div><div class="product-name">Balea PROFESSIONAL<br>2-in-1 Plex Care Hair Mask, 250 ml</div><button class="add">Add to Cart</button></article>
+      <article class="product"><div class="product-image"><img src="images/balea-med-shampoo-anti-schuppen-ultra-sensitive.jpeg" alt="Balea med Ultra Sensitive Anti-Dandruff Shampoo"></div><div class="product-name">Balea med<br>Ultra Sensitive Anti-Dandruff Shampoo, 250 ml</div><button class="add">Add to Cart</button></article>
+      <article class="product"><div class="product-image"><img src="images/48c759de-a3f8-433d-89d0-7db33b51127e.png" alt="Balea Professional Plex Care Hair Oil"></div><div class="product-name">Balea PROFESSIONAL<br>Plex Care Hair Oil, 50 ml</div><button class="add">Add to Cart</button></article>
       </div></div>
       <div class="product-category" id="footcare"><h3>Footcare</h3><div class="products">
-      <article class="product"><div class="product-image"><img src="images/balea-fussmaske-socken-hornhaut-entferner-1-paar.jpeg" alt="Balea Fußmaske Socken Hornhaut Entferner"></div><div class="product-name">Balea<br>Fußmaske Socken Hornhaut Entferner (1 Paar), 2 St</div><button class="add">Add to Cart</button></article>
+      <article class="product"><div class="product-image"><img src="images/e55593a1-7573-495a-820e-a1fd149e03c7.png" alt="Balea Foot Mask Socks for Dead Skin Removal"></div><div class="product-name">Balea<br>Foot Mask Socks for Dead Skin Removal (1 Pair), 2 pcs</div><button class="add">Add to Cart</button></article>
       </div></div>
     </section>
     <section class="section"><div class="feature-banner"><div><h2>German Quality<br>for Your Natural Beauty</h2><p>Skincare. Haircare. Selfcare.</p><a class="button" href="#skincare">Shop Now <span>→</span></a></div></div><div class="trust" id="about"><div class="trust-item"><span class="trust-icon">♧</span><span><strong>Authentic Products</strong><small>Directly from Germany</small></span></div><div class="trust-item"><span class="trust-icon">♧</span><span><strong>Fast &amp; Reliable Shipping</strong><small>to the USA</small></span></div><div class="trust-item"><span class="trust-icon">♢</span><span><strong>Secure Payment</strong><small>Shop with confidence</small></span></div><div class="trust-item"><span class="trust-icon">♡</span><span><strong>Happy Customers</strong><small>Beauty that makes a difference</small></span></div></div></section>
@@ -118,23 +128,120 @@
   </main>
   <footer id="contact"><span>© 2026 EuroBeauty Market</span><span>Authentic German beauty, delivered with care.</span></footer>
   <div id="toast" role="status">Added to your cart</div>
-  <div id="lightbox" role="dialog" aria-modal="true" aria-label="Enlarged product image"><button class="lightbox-close" type="button" aria-label="Close enlarged image">×</button><img alt=""></div>
+  <div id="lightbox" role="dialog" aria-modal="true" aria-label="Enlarged product image">
+    <div class="lightbox-panel">
+      <button class="lightbox-nav lightbox-prev" type="button" aria-label="Previous image">‹</button>
+      <div class="lightbox-stage"><img alt=""></div>
+      <button class="lightbox-nav lightbox-next" type="button" aria-label="Next image">›</button>
+      <div class="lightbox-detail" aria-live="polite">
+        <h3>Product Description &amp; Details</h3>
+        <p>This effective concentrate stimulates the skin’s natural renewal process and improves the structure of mature skin.</p>
+        <p>Its oil-based formula, enriched with the valuable active ingredients Q10 and ginseng, intensely nourishes the skin, helps restore firmness, and improves elasticity.</p>
+        <ul>
+          <li>Immediate effect</li>
+          <li>Reduces wrinkles and increases skin hydration</li>
+          <li>Q10, ginseng extract, and vitamin E care complex</li>
+          <li>Vegan</li>
+        </ul>
+      </div>
+    </div>
+  </div>
   <script>
     const count = document.querySelector('.cart-count');
     const toast = document.querySelector('#toast');
     const lightbox = document.querySelector('#lightbox');
     const lightboxImage = lightbox.querySelector('img');
+    const lightboxDetail = lightbox.querySelector('.lightbox-detail');
+    const prevBtn = lightbox.querySelector('.lightbox-prev');
+    const nextBtn = lightbox.querySelector('.lightbox-next');
     let cartItems = 0;
-    document.querySelectorAll('.product-image').forEach((imageFrame) => imageFrame.addEventListener('click', () => {
-      const image = imageFrame.querySelector('img');
-      lightboxImage.src = image.src;
-      lightboxImage.alt = image.alt;
+    let galleryImages = [];
+    let galleryAlts = [];
+    let galleryIndex = 0;
+    let galleryDescription = '';
+
+    const renderGalleryImage = () => {
+      if (!galleryImages.length) return;
+      lightboxImage.src = galleryImages[galleryIndex];
+      lightboxImage.alt = galleryAlts[galleryIndex] || '';
+    };
+
+    const renderGalleryDescription = (descriptionText) => {
+      if (!descriptionText) {
+        lightboxDetail.style.display = 'none';
+        return;
+      }
+      lightboxDetail.style.display = 'block';
+      const parts = descriptionText.split('|');
+      const title = parts[0] || 'Product Description & Details';
+      const intro = parts[1] || '';
+      const detail = parts[2] || '';
+      const bullets = parts.slice(3);
+
+      lightboxDetail.innerHTML = `
+        <button class="lightbox-close" type="button" aria-label="Close enlarged image">×</button>
+        <h3>${title}</h3>
+        ${intro ? `<p>${intro}</p>` : ''}
+        ${detail ? `<p>${detail}</p>` : ''}
+        ${bullets.length ? `<ul>${bullets.map((item) => `<li>${item}</li>`).join('')}</ul>` : ''}
+      `;
+      const closeButtons = lightbox.querySelectorAll('.lightbox-close');
+      closeButtons.forEach((btn) => btn.addEventListener('click', closeLightbox));
+    };
+
+    const openGallery = (images, alts, descriptionText = '', startIndex = 0) => {
+      galleryImages = images;
+      galleryAlts = alts;
+      galleryDescription = descriptionText;
+      galleryIndex = Math.max(0, Math.min(startIndex, images.length - 1));
+      renderGalleryImage();
+      renderGalleryDescription(descriptionText);
       lightbox.classList.add('open');
+    };
+
+    document.querySelectorAll('.product-image').forEach((imageFrame) => imageFrame.addEventListener('click', () => {
+      const product = imageFrame.closest('.product');
+      const image = imageFrame.querySelector('img');
+      const galleryData = product?.dataset.galleryImages;
+      const galleryAltData = product?.dataset.galleryAlts;
+      const description = product?.dataset.productDescription || '';
+
+      if (galleryData) {
+        const images = galleryData.split(',').map((value) => value.trim()).filter(Boolean);
+        const alts = galleryAltData ? galleryAltData.split(',').map((value) => value.trim()).filter(Boolean) : [];
+        const startIndex = images.indexOf(image.src.replace(window.location.origin + '/', '').replace(/^file:\/\//, ''));
+        openGallery(images, alts.length ? alts : new Array(images.length).fill(image.alt), description, Math.max(0, startIndex));
+      } else {
+        openGallery([image.src], [image.alt], description, 0);
+      }
     }));
+
     const closeLightbox = () => lightbox.classList.remove('open');
-    lightbox.querySelector('.lightbox-close').addEventListener('click', closeLightbox);
+    const closeButtons = lightbox.querySelectorAll('.lightbox-close');
+    closeButtons.forEach((btn) => btn.addEventListener('click', closeLightbox));
+    prevBtn.addEventListener('click', () => {
+      if (!galleryImages.length) return;
+      galleryIndex = (galleryIndex - 1 + galleryImages.length) % galleryImages.length;
+      renderGalleryImage();
+    });
+    nextBtn.addEventListener('click', () => {
+      if (!galleryImages.length) return;
+      galleryIndex = (galleryIndex + 1) % galleryImages.length;
+      renderGalleryImage();
+    });
     lightbox.addEventListener('click', (event) => { if (event.target === lightbox) closeLightbox(); });
-    document.addEventListener('keydown', (event) => { if (event.key === 'Escape') closeLightbox(); });
+    document.addEventListener('keydown', (event) => {
+      if (!lightbox.classList.contains('open')) return;
+      if (event.key === 'Escape') closeLightbox();
+      if (event.key === 'ArrowLeft') {
+        galleryIndex = (galleryIndex - 1 + galleryImages.length) % galleryImages.length;
+        renderGalleryImage();
+      }
+      if (event.key === 'ArrowRight') {
+        galleryIndex = (galleryIndex + 1) % galleryImages.length;
+        renderGalleryImage();
+      }
+    });
     document.querySelectorAll('.add').forEach((button) => button.addEventListener('click', () => {
       cartItems += 1;
       count.textContent = cartItems;
