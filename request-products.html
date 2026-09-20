@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Request additional German beauty products from EuroBeauty Market.">
+  <title>Request Products | EuroBeauty Market</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet">
+  <style>
+    :root { --ink:#171717; --muted:#5f5a58; --rose:#c86469; --rose-dark:#a94850; --blush:#f5e6e2; --paper:#fffdfb; --line:#e8dfdc; }
+    * { box-sizing:border-box; }
+    body { margin:0; color:var(--ink); background:var(--paper); font-family:'DM Sans',sans-serif; }
+    a { color:inherit; text-decoration:none; }
+    button,input,textarea { font:inherit; }
+    button { border:0; cursor:pointer; }
+    .topbar { display:flex; justify-content:space-between; align-items:center; padding:8px 5%; background:#f2d7d4; font-size:11px; }
+    .nav { display:flex; align-items:center; justify-content:space-between; gap:30px; padding:17px 5%; background:#fff; }
+    .logo { font:600 29px/24px 'Playfair Display',serif; letter-spacing:-1.5px; }
+    .logo small { display:block; font:700 9px/15px 'DM Sans',sans-serif; letter-spacing:4px; text-align:center; }
+    .continue { margin-left:auto; border-bottom:1px solid; padding-bottom:4px; font-size:12px; font-weight:600; }
+    .actions { display:flex; align-items:center; gap:17px; font-size:21px; }
+    .favorite { position:relative; padding:0; background:transparent; color:var(--ink); font-size:25px; line-height:1; }
+    .cart { position:relative; }
+    .icon-count { position:absolute; top:-8px; right:-9px; display:grid; place-items:center; width:16px; height:16px; border-radius:50%; background:var(--ink); color:#fff; font-size:9px; }
+    main { width:min(1120px,90%); margin:0 auto; padding:52px 0 68px; }
+    h1,h2,h3 { font-family:'Playfair Display',serif; font-weight:500; }
+    h1 { margin:0 0 8px; font-size:42px; }
+    .intro { max-width:650px; margin:0 0 35px; color:var(--muted); font-size:14px; line-height:1.6; }
+    .layout { display:grid; grid-template-columns:minmax(0,1fr) 330px; gap:36px; align-items:start; }
+    .catalogue { min-height:280px; }
+    .catalogue h2,.request-list h2 { margin:0 0 8px; font-size:27px; }
+    .section-copy { margin:0 0 19px; color:var(--muted); font-size:13px; line-height:1.55; }
+    .product-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; }
+    .product-card { overflow:hidden; border:1px solid var(--line); border-radius:7px; background:#fff; }
+    .product-card img { display:block; width:100%; aspect-ratio:1; object-fit:contain; padding:13px; background:#fafafa; }
+    .product-card div { padding:12px; }
+    .product-card h3 { min-height:38px; margin:0 0 10px; font:600 12px/1.4 'DM Sans',sans-serif; }
+    .add { width:100%; padding:8px; border-radius:4px; background:var(--rose); color:#fff; font-size:11px; font-weight:700; }
+    .empty-catalogue { padding:36px 24px; border:1px dashed var(--line); border-radius:8px; background:#fff; color:var(--muted); font-size:13px; line-height:1.6; }
+    .custom-request { margin-top:28px; padding:24px; border-radius:8px; background:var(--blush); }
+    .custom-request h2 { margin:0 0 8px; font-size:25px; }
+    .custom-request p { margin:0 0 16px; color:var(--muted); font-size:13px; line-height:1.5; }
+    .custom-form { display:grid; grid-template-columns:1fr auto; gap:9px; }
+    input { min-width:0; padding:11px 12px; border:1px solid #dbcfc9; border-radius:4px; background:#fff; color:var(--ink); font-size:13px; }
+    .button { padding:11px 16px; border-radius:22px; background:var(--rose); color:#fff; font-size:12px; font-weight:700; }
+    .request-list { padding:25px; border-radius:8px; background:#fff; border:1px solid var(--line); }
+    .request-list > p { margin:0 0 15px; color:var(--muted); font-size:12px; line-height:1.5; }
+    .list-item { display:grid; grid-template-columns:48px minmax(0,1fr); gap:11px; align-items:center; padding:12px 0; border-top:1px solid var(--line); }
+    .list-item img { width:48px; height:48px; border:1px solid #f0eeee; border-radius:4px; object-fit:contain; background:#fafafa; }
+    .list-item strong { display:block; font-size:12px; line-height:1.35; }
+    .list-item small { color:var(--muted); font-size:11px; }
+    .item-actions { display:flex; align-items:center; gap:9px; margin-top:5px; }
+    .item-actions button { padding:0; background:transparent; color:var(--muted); font-size:11px; text-decoration:underline; }
+    .item-actions span { font-size:11px; }
+    .empty-list { margin:0; padding:14px 0 2px; border-top:1px solid var(--line); color:var(--muted); font-size:12px; line-height:1.5; }
+    footer { padding:22px 5%; background:#211d1c; color:#fff; display:flex; justify-content:space-between; font-size:11px; }
+    @media (max-width:720px) { .topbar { justify-content:center; font-size:10px; } .topbar span:last-child { display:none; } .nav { padding:14px 5%; } main { width:min(92%,1120px); padding-top:35px; } h1 { font-size:35px; } .layout { grid-template-columns:1fr; gap:22px; } .request-list { order:-1; } footer { display:block; line-height:2; } }
+    @media (max-width:440px) { .product-grid { grid-template-columns:repeat(2,1fr); } .custom-form { grid-template-columns:1fr; } }
+  </style>
+</head>
+<body>
+  <div class="topbar"><span>▣ &nbsp; Free shipping to the USA</span><span>Authentic German Products &nbsp; | &nbsp; Delivered to the USA</span><span>♡ &nbsp; Beauty from Germany, for You</span></div>
+  <header class="nav"><a class="logo" href="index.html">EuroBeauty<small>MARKET</small></a><a class="continue" href="index.html">← Back to home</a><div class="actions" aria-label="Store actions"><a class="favorite" href="favorites.html" aria-label="Favorites">♡<b class="icon-count favorite-count">0</b></a><a class="cart" href="basket.html" aria-label="Basket">🛒<b class="icon-count basket-count">0</b></a></div></header>
+  <main>
+    <h1>Request More Products</h1>
+    <p class="intro">Looking for a German beauty product that is not featured on our main page? Add it to your request list and we will help source it for you. Requested products are shipped directly from Germany; please allow up to 15 days for delivery.</p>
+    <div class="layout">
+      <div>
+        <section class="catalogue"><h2>More to discover</h2><p class="section-copy">This collection is ready for the additional products you add later.</p><div class="product-grid" id="product-grid"></div></section>
+        <section class="custom-request"><h2>Can't find your product?</h2><p>Add the product name, brand, or a short description to your request list. Once sourced, your order will be shipped directly from Germany, with delivery in up to 15 days.</p><form class="custom-form" id="custom-form"><input id="custom-product" type="text" placeholder="e.g. Balea cleansing oil" required aria-label="Product name"><button class="button" type="submit">Add request</button></form></section>
+      </div>
+      <aside class="request-list"><h2>Your Request List</h2><p id="list-copy">Products you select will appear here.</p><div id="request-items" aria-live="polite"></div></aside>
+    </div>
+  </main>
+  <footer><span>© 2026 EuroBeauty Market</span><span>Authentic German beauty, delivered with care.</span></footer>
+  <script>
+    const storageKey = 'euroBeautyRequest';
+    // Add future products here. Image paths are optional.
+    const availableProducts = [
+      // { name: 'Product name', image: 'images/product-image.png', alt: 'Product name' },
+    ];
+    const grid = document.querySelector('#product-grid');
+    const requestItems = document.querySelector('#request-items');
+    const listCopy = document.querySelector('#list-copy');
+    const favoriteCount = document.querySelector('.favorite-count');
+    const basketCount = document.querySelector('.basket-count');
+    const getList = () => { try { return JSON.parse(localStorage.getItem(storageKey)) || []; } catch { return []; } };
+    const saveList = (list) => localStorage.setItem(storageKey, JSON.stringify(list));
+    const updateHeaderCounts = () => {
+      try { favoriteCount.textContent = (JSON.parse(localStorage.getItem('euroBeautyFavorites')) || []).length; } catch { favoriteCount.textContent = '0'; }
+      try { basketCount.textContent = (JSON.parse(localStorage.getItem('euroBeautyBasket')) || []).reduce((total, item) => total + item.quantity, 0); } catch { basketCount.textContent = '0'; }
+    };
+    const escapeHtml = (value) => String(value).replace(/[&<>'"]/g, (character) => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', "'":'&#39;', '"':'&quot;' })[character]);
+    const addItem = (item) => { const list = getList(); const match = list.find((entry) => entry.name.toLowerCase() === item.name.toLowerCase()); if (match) match.quantity += 1; else list.push({ ...item, quantity: 1 }); saveList(list); renderList(); };
+    const renderCatalogue = () => {
+      if (!availableProducts.length) { grid.innerHTML = '<div class="empty-catalogue">New products will appear here soon. To add one, place its name and image path in the <code>availableProducts</code> list in this page.</div>'; return; }
+      grid.innerHTML = availableProducts.map((product, index) => `<article class="product-card">${product.image ? `<img src="${escapeHtml(product.image)}" alt="${escapeHtml(product.alt || product.name)}">` : ''}<div><h3>${escapeHtml(product.name)}</h3><button class="add" type="button" data-product-index="${index}">Add to request</button></div></article>`).join('');
+    };
+    const renderList = () => {
+      const list = getList(); const quantity = list.reduce((total, item) => total + item.quantity, 0); updateHeaderCounts();
+      listCopy.textContent = quantity ? `${quantity} ${quantity === 1 ? 'product' : 'products'} selected` : 'Products you select will appear here.';
+      if (!list.length) { requestItems.innerHTML = '<p class="empty-list">Your request list is empty.</p>'; return; }
+      requestItems.innerHTML = list.map((item, index) => `<article class="list-item">${item.image ? `<img src="${escapeHtml(item.image)}" alt="">` : '<div></div>'}<div><strong>${escapeHtml(item.name)}</strong>${item.sku ? `<small>SKU: ${escapeHtml(item.sku)}</small>` : ''}<div class="item-actions"><button type="button" data-action="decrease" data-index="${index}" aria-label="Decrease quantity">−</button><span>Qty ${item.quantity}</span><button type="button" data-action="increase" data-index="${index}" aria-label="Increase quantity">+</button><button type="button" data-action="remove" data-index="${index}">Remove</button></div></div></article>`).join('');
+    };
+    grid.addEventListener('click', (event) => { const button = event.target.closest('[data-product-index]'); if (button) addItem(availableProducts[Number(button.dataset.productIndex)]); });
+    requestItems.addEventListener('click', (event) => { const button = event.target.closest('button[data-action]'); if (!button) return; const list = getList(); const index = Number(button.dataset.index); if (button.dataset.action === 'increase') list[index].quantity += 1; if (button.dataset.action === 'decrease') { list[index].quantity -= 1; if (list[index].quantity < 1) list.splice(index, 1); } if (button.dataset.action === 'remove') list.splice(index, 1); saveList(list); renderList(); });
+    document.querySelector('#custom-form').addEventListener('submit', (event) => { event.preventDefault(); const input = document.querySelector('#custom-product'); const name = input.value.trim(); if (!name) return; addItem({ name, alt: name }); input.value = ''; });
+    renderCatalogue(); renderList();
+  </script>
+</body>
+</html>

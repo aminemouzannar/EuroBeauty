@@ -11,6 +11,7 @@
   <style>
     :root { --ink:#171717; --muted:#5f5a58; --rose:#c86469; --rose-dark:#a94850; --blush:#f5e6e2; --paper:#fffdfb; --line:#e8dfdc; }
     * { box-sizing:border-box; }
+    .sr-only { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
     html { scroll-behavior:smooth; }
     body { margin:0; background:var(--paper); color:var(--ink); font-family:'DM Sans', sans-serif; }
     a { color:inherit; text-decoration:none; }
@@ -23,9 +24,14 @@
     .logo small { display:block; font:700 9px/15px 'DM Sans', sans-serif; letter-spacing:4px; text-align:center; }
     .navlinks { display:flex; gap:27px; margin-left:auto; font-size:12px; }
     .navlinks a:first-child { border-bottom:1px solid var(--ink); padding-bottom:5px; }
+    .search-form { position:relative; width:180px; }
+    .search-form input { width:100%; padding:9px 31px 9px 12px; border:1px solid var(--line); border-radius:20px; outline:0; background:#fffdfb; color:var(--ink); font:11px 'DM Sans',sans-serif; }
+    .search-form input:focus { border-color:var(--rose); box-shadow:0 0 0 3px rgba(200,100,105,.12); }
+    .search-icon { position:absolute; top:50%; right:11px; transform:translateY(-52%); color:var(--muted); font-size:16px; pointer-events:none; }
     .actions { display:flex; align-items:center; gap:17px; font-size:21px; }
+    .favorite { position:relative; padding:0; background:transparent; color:var(--ink); font-size:25px; line-height:1; }
     .cart { position:relative; }
-    .cart-count { position:absolute; top:-8px; right:-9px; display:grid; place-items:center; width:16px; height:16px; border-radius:50%; background:var(--ink); color:#fff; font-size:9px; }
+    .icon-count { position:absolute; top:-8px; right:-9px; display:grid; place-items:center; width:16px; height:16px; border-radius:50%; background:var(--ink); color:#fff; font-size:9px; }
     h1, h2, h3 { font-family:'Playfair Display', serif; font-weight:500; }
     .button { display:inline-flex; align-items:center; gap:10px; padding:12px 23px; border-radius:22px; background:var(--rose); color:white; font-size:13px; font-weight:600; transition:.2s ease; }
     .button:hover, .add:hover { background:var(--rose-dark); transform:translateY(-2px); }
@@ -43,14 +49,23 @@
     .text-link { border-bottom:1px solid; padding-bottom:3px; font-size:11px; font-weight:600; }
     .section-heading { display:flex; align-items:end; justify-content:space-between; margin:17px 0 14px; }
     .section-heading h2 { margin:0; font-size:27px; }
+    .products-intro { display:grid; grid-template-columns:minmax(180px,.8fr) 1.4fr; align-items:center; gap:34px; margin:17px 0 28px; padding:17px 0; border-top:1px solid var(--line); border-bottom:1px solid var(--line); }
+    .products-intro h2 { margin:0; font-size:29px; }
+    .products-intro p { max-width:560px; margin:0; color:var(--muted); font-size:12px; line-height:1.55; }
+    .products-intro strong { color:var(--ink); }
+    .products-intro a { color:var(--ink); border-bottom:1px solid var(--rose); font-weight:700; }
+    .search-empty { margin:0 0 24px; padding:18px; border-radius:5px; background:var(--blush); color:var(--muted); font-size:13px; text-align:center; }
     .product-category { margin-top:28px; }
     .product-category h3 { margin:0 0 14px; font-size:24px; }
     .products { display:grid; grid-template-columns:repeat(6,1fr); gap:16px; }
     .product { display:flex; flex-direction:column; min-width:0; height:100%; }
-    .product-image { aspect-ratio:1/1; display:grid; place-items:center; padding:18px; border:1px solid #f0eeee; border-radius:5px; background:#fafafa; overflow:hidden; cursor:zoom-in; }
+    .product-image { position:relative; aspect-ratio:1/1; display:grid; place-items:center; padding:18px; border:1px solid #f0eeee; border-radius:5px; background:#fafafa; overflow:hidden; cursor:zoom-in; }
     .product-image img { width:82%; height:82%; object-fit:contain; mix-blend-mode:multiply; transition:transform .25s ease; }
+    .product-favorite { position:absolute; top:8px; right:8px; z-index:1; display:grid; place-items:center; width:29px; height:29px; border-radius:50%; background:#fff; color:var(--ink); font-size:20px; line-height:1; box-shadow:0 2px 8px rgba(0,0,0,.08); }
+    .product-favorite.is-favorite { color:var(--rose); }
     .product:hover .product-image img { transform:scale(1.04); }
     .product-name { flex:1; min-height:42px; margin:10px 0 8px; font-size:11px; line-height:1.4; }
+    .sku { display:block; margin:-3px 0 8px; color:var(--muted); font-size:9px; font-weight:600; letter-spacing:.4px; }
     .stars { color:#eea900; font-size:13px; letter-spacing:1px; }
     .review { color:#777; font-size:9px; }
     .price { margin:4px 0 8px; font-size:13px; font-weight:700; }
@@ -99,10 +114,14 @@
       .topbar .center { display:none; }
       .topbar { justify-content:center; padding:7px 4%; font-size:10px; }
       .nav { gap:12px; padding:14px 4%; }
+      .nav { flex-wrap:wrap; }
+      .search-form { order:3; width:100%; }
       .logo { font-size:24px; line-height:21px; }
       .logo small { font-size:8px; letter-spacing:3px; }
       .actions { gap:11px; font-size:19px; }
       .section { padding-right:4%; padding-left:4%; }
+      .products-intro { grid-template-columns:1fr; gap:6px; margin-bottom:24px; padding:15px 0; }
+      .products-intro h2 { font-size:25px; }
       .products { grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px 8px; }
       .product-image { padding:12px; }
       .product-name { min-height:48px; margin:8px 0 7px; font-size:10px; }
@@ -126,12 +145,13 @@
   <div class="topbar"><span>▣ &nbsp; Free shipping to the USA</span><span class="center">Authentic German Products &nbsp; | &nbsp; Delivered to the USA</span><span>♡ &nbsp; Beauty from Germany, for You</span></div>
   <header class="nav">
     <a class="logo" href="#top">EuroBeauty<small>MARKET</small></a>
-    <nav class="navlinks" aria-label="Main navigation"><a href="#top">Home</a><a href="#skincare">Skincare</a><a href="#haircare">Haircare</a><a href="#footcare">Footcare</a><a href="#bestsellers">All Products</a><a href="#about">About Us</a><a href="#contact">Contact</a></nav>
-    <div class="actions" aria-label="Store actions"><span aria-label="Search">⌕</span><span aria-label="Account">♙</span><span class="cart" aria-label="Shopping cart">🛒<b class="cart-count">0</b></span></div>
+    <nav class="navlinks" aria-label="Main navigation"><a href="#top">Home</a><a href="#skincare">Skincare</a><a href="#haircare">Haircare</a><a href="#footcare">Footcare</a><a href="#bestsellers">All Products</a><a href="request-products.html">Request Products</a><a href="#contact">Contact</a></nav>
+    <form class="search-form" role="search"><label for="product-search" class="sr-only">Search products</label><input id="product-search" type="search" placeholder="Search products" autocomplete="off"><span class="search-icon">⌕</span></form>
+    <div class="actions" aria-label="Store actions"><a class="favorite" href="favorites.html" aria-label="Favorites">♡<b class="icon-count favorite-count">0</b></a><a class="cart" href="basket.html" aria-label="Basket">🛒<b class="icon-count basket-count">0</b></a></div>
   </header>
   <main id="top">
     <section class="hero-image" aria-label="German beauty products"><img src="images/5afa0e5d-0048-4709-b54c-5ff2aadc339f.png" alt="Authentic German beauty products delivered across the USA"></section>
-    <section class="section" id="bestsellers"><div class="section-heading"><h2>Our Products</h2></div>
+    <section class="section" id="bestsellers"><div class="products-intro"><h2>Our Products</h2><p><strong>Looking for something else?</strong> <a href="request-products.html">Request your favorite products</a> and we will source them for you. All requested products are shipped directly from Germany; please allow up to 15 days for delivery.</p></div><p class="search-empty" id="search-empty" hidden>No products match your search. Try another product name or <a href="request-products.html">request your favorite products</a>.</p>
       <div class="product-category" id="skincare"><h3>Skincare</h3><div class="products">
       <article class="product" data-gallery-images="images/51d68b48-6573-48c5-baee-010cea76a49d.png,images/Screenshot 2026-09-18 125159.png" data-gallery-alts="Balea Rice Water Bio-Cellulose Face Mask front,Balea Rice Water Bio-Cellulose Face Mask back" data-product-description="Product Description|The Balea Rice Water Bio-Cellulose Face Mask is a refreshing, moisturizing treatment for a fresh and radiant complexion. Enriched with an active complex of hyaluronic acid and rice water, it helps hydrate the skin and leave it feeling soft, smooth, and well cared for. The bio-cellulose sheet made from fermented coconut water gently adapts to the contours of the face and supports the absorption of the active ingredients. Rice water is known for its nourishing properties, while hyaluronic acid helps retain moisture in the skin. Together, they help promote a smoother, fresher-looking complexion and a healthy glow.|Ingredients: Aqua, Glycerin, Propylene Glycol, Sodium Hyaluronate, Oryza Sativa Seed Water, Lactobacillus Ferment, Saccharomyces/Rice Ferment Filtrate, 1,2-Hexanediol, Xanthan Gum, Glyceryl Glucoside, Propanediol, Caprylhydroxamic Acid, Tetrasodium Glutamate Diacetate, Sodium Chloride, Sodium Glycolate, Hydroxyacetophenone, Ethylhexylglycerin, Parfum, Hexyl Cinnamal.|Sheet mask with rice water and hyaluronic acid|Enriched with an active complex of hyaluronic acid and rice water|For a fresh glow and a soft, smooth skin feel|Provides intensive hydration|Bio-cellulose sheet made from fermented coconut water|Suitable for normal, dry, and dehydrated skin|Directions for Use: 1. Cleanse your face thoroughly. 2. Remove the mask from the packaging and unfold it carefully. 3. Apply it evenly to the face and leave it on for 15–20 minutes. 4. Remove the mask and gently massage any remaining serum into the skin. Use regularly for best results."><div class="product-image"><img src="images/51d68b48-6573-48c5-baee-010cea76a49d.png" alt="Balea Rice Water Bio-Cellulose Face Mask front"></div><div class="product-name">Balea<br>Rice Water Bio-Cellulose Face Mask, 1 pc</div><button class="add">Add to Cart</button></article>
       <article class="product" data-gallery-images="images/95793850-aff9-4dd2-9ba0-f04181e42a2a.png,images/Screenshot 2026-09-18 125551.png" data-gallery-alts="Balea Selfcare Moments Sheet Mask front,Balea Selfcare Moments Sheet Mask back" data-product-description="Product Description|The Balea Selfcare Moments Sheet Mask is a moisturizing sheet mask for a refreshing moment of self-care. Enriched with hyaluronic acid and silk tree blossom extract, it provides intensive hydration and helps promote a fresh, radiant complexion. The soft sheet material gently adapts to the contours of the face and supports the absorption of the active ingredients.|After use, the skin can feel refreshed, smooth, and revitalized. The mask is ideal for a relaxing skincare ritual and leaves the skin feeling silky soft and well cared for.|Ingredients: Aqua, Glycerin, Pentylene Glycol, Hydroxyacetophenone, Xanthan Gum, Caprylic/Capric Triglyceride, Sodium Citrate, Citric Acid, Sodium Phytate, Sodium Hyaluronate, Parfum, Albizia Julibrissin Flower Extract.|Moisturizing sheet mask|Enriched with hyaluronic acid and silk tree blossom extract|For a fresh and radiant complexion|Provides intensive hydration|Gently adapts to the contours of the skin|Vegan|Free from nanoparticles|Directions for Use: 1. Remove the sheet mask from the packaging and place it onto cleansed skin. 2. Adjust the mask gently to the contours of the face. 3. Leave on for 15 minutes, then remove. 4. Gently massage any remaining serum into the skin."><div class="product-image"><img src="images/95793850-aff9-4dd2-9ba0-f04181e42a2a.png" alt="Balea Selfcare Moments Sheet Mask front"></div><div class="product-name">Balea<br>Selfcare Moments Sheet Mask, 1 pc</div><button class="add">Add to Cart</button></article>
@@ -167,7 +187,7 @@
     <section class="section bottom-tiles"><div class="tile-grid"><article class="tile" style="background-image:linear-gradient(90deg,#f9e8e6 0%,rgba(249,232,230,.55) 50%,rgba(249,232,230,0) 100%),url('https://images.unsplash.com/photo-1611930022073-b7a4ba5fcccd?auto=format&fit=crop&w=900&q=80')"><div class="tile-copy"><h2>Glow Everyday</h2><p>Discover our skincare favorites for radiant skin.</p><a class="text-link" href="#skincare">Shop Skincare →</a></div></article><article class="tile" style="background-image:linear-gradient(90deg,#f6e8e5 0%,rgba(246,232,229,.4) 50%,rgba(246,232,229,0) 100%),url('https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&w=900&q=80')"><div class="tile-copy"><h2>Healthy Hair<br>Happy You</h2><p>Premium haircare for stronger, shinier hair.</p><a class="text-link" href="#haircare">Shop Haircare →</a></div></article><article class="tile" style="background-image:linear-gradient(90deg,#f7e6e4 0%,rgba(247,230,228,.5) 50%,rgba(247,230,228,0) 100%),url('https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?auto=format&fit=crop&w=900&q=80')"><div class="tile-copy"><h2>Care From Head to Toe</h2><p>Simple essentials for your daily selfcare routine.</p><a class="text-link" href="#footcare">Shop Footcare →</a></div></article></div></section>
   </main>
   <footer id="contact"><span>© 2026 EuroBeauty Market</span><span>Authentic German beauty, delivered with care.</span></footer>
-  <div id="toast" role="status">Added to your cart</div>
+  <div id="toast" role="status">Added to your request list</div>
   <div id="lightbox" role="dialog" aria-modal="true" aria-label="Enlarged product image">
     <div class="lightbox-panel">
       <button class="lightbox-nav lightbox-prev" type="button" aria-label="Previous image">‹</button>
@@ -187,14 +207,54 @@
     </div>
   </div>
   <script>
-    const count = document.querySelector('.cart-count');
     const toast = document.querySelector('#toast');
     const lightbox = document.querySelector('#lightbox');
     const lightboxImage = lightbox.querySelector('img');
     const lightboxDetail = lightbox.querySelector('.lightbox-detail');
     const prevBtn = lightbox.querySelector('.lightbox-prev');
     const nextBtn = lightbox.querySelector('.lightbox-next');
-    let cartItems = 0;
+    const basketStorageKey = 'euroBeautyBasket';
+    const favoriteStorageKey = 'euroBeautyFavorites';
+    const getBasket = () => {
+      try { return JSON.parse(localStorage.getItem(basketStorageKey)) || []; }
+      catch { return []; }
+    };
+    const saveBasket = (basket) => localStorage.setItem(basketStorageKey, JSON.stringify(basket));
+    const getFavorites = () => { try { return JSON.parse(localStorage.getItem(favoriteStorageKey)) || []; } catch { return []; } };
+    const saveFavorites = (favorites) => localStorage.setItem(favoriteStorageKey, JSON.stringify(favorites));
+    const updateCounts = () => {
+      document.querySelector('.basket-count').textContent = getBasket().reduce((total, item) => total + item.quantity, 0);
+      document.querySelector('.favorite-count').textContent = getFavorites().length;
+    };
+    updateCounts();
+    const skuPrefixes = { skincare: 'SK', haircare: 'HC', footcare: 'FC' };
+    document.querySelectorAll('.product-category').forEach((category) => {
+      const prefix = skuPrefixes[category.id] || 'PR';
+      category.querySelectorAll('.product').forEach((product, index) => {
+        const sku = product.dataset.sku || `EBM-${prefix}-${String(index + 1).padStart(3, '0')}`;
+        product.dataset.sku = sku;
+        const skuLabel = document.createElement('span');
+        skuLabel.className = 'sku';
+        skuLabel.textContent = `SKU: ${sku}`;
+        product.querySelector('.product-name').insertAdjacentElement('afterend', skuLabel);
+        const favoriteButton = document.createElement('button');
+        favoriteButton.className = 'product-favorite';
+        favoriteButton.type = 'button';
+        favoriteButton.setAttribute('aria-label', `Add ${sku} to favorites`);
+        product.querySelector('.product-image').append(favoriteButton);
+      });
+    });
+    const refreshFavoriteButtons = () => {
+      const favoriteSkus = new Set(getFavorites().map((item) => item.sku));
+      document.querySelectorAll('.product').forEach((product) => {
+        const button = product.querySelector('.product-favorite');
+        const isFavorite = favoriteSkus.has(product.dataset.sku);
+        button.textContent = isFavorite ? '♥' : '♡';
+        button.classList.toggle('is-favorite', isFavorite);
+        button.setAttribute('aria-pressed', isFavorite);
+      });
+    };
+    refreshFavoriteButtons();
     let galleryImages = [];
     let galleryAlts = [];
     let galleryIndex = 0;
@@ -299,12 +359,52 @@
       }
     });
     document.querySelectorAll('.add').forEach((button) => button.addEventListener('click', () => {
-      cartItems += 1;
-      count.textContent = cartItems;
+      const product = button.closest('.product');
+      const image = product.querySelector('img');
+      const name = product.querySelector('.product-name').textContent.replace(/\s+/g, ' ').trim();
+      const basket = getBasket();
+      const existingItem = basket.find((item) => item.sku === product.dataset.sku);
+      if (existingItem) { existingItem.quantity += 1; existingItem.sku ||= product.dataset.sku; }
+      else basket.push({ name, sku: product.dataset.sku, image: image.getAttribute('src'), alt: image.alt, quantity: 1 });
+      saveBasket(basket);
+      updateCounts();
       toast.classList.add('show');
       window.clearTimeout(window.toastTimer);
       window.toastTimer = window.setTimeout(() => toast.classList.remove('show'), 1800);
     }));
+    document.querySelectorAll('.product-favorite').forEach((button) => button.addEventListener('click', (event) => {
+      event.stopPropagation();
+      const product = button.closest('.product');
+      const image = product.querySelector('img');
+      const favorites = getFavorites();
+      const index = favorites.findIndex((item) => item.sku === product.dataset.sku);
+      if (index >= 0) favorites.splice(index, 1);
+      else favorites.push({ name: product.querySelector('.product-name').textContent.replace(/\s+/g, ' ').trim(), sku: product.dataset.sku, image: image.getAttribute('src'), alt: image.alt });
+      saveFavorites(favorites);
+      updateCounts();
+      refreshFavoriteButtons();
+    }));
+
+    const searchForm = document.querySelector('.search-form');
+    const searchInput = document.querySelector('#product-search');
+    const searchEmpty = document.querySelector('#search-empty');
+    const productCategories = document.querySelectorAll('.product-category');
+    const filterProducts = () => {
+      const query = searchInput.value.trim().toLowerCase();
+      let matches = 0;
+      productCategories.forEach((category) => {
+        let categoryMatches = 0;
+        category.querySelectorAll('.product').forEach((product) => {
+          const isMatch = !query || product.textContent.toLowerCase().includes(query);
+          product.hidden = !isMatch;
+          if (isMatch) { matches += 1; categoryMatches += 1; }
+        });
+        category.hidden = categoryMatches === 0;
+      });
+      searchEmpty.hidden = matches > 0;
+    };
+    searchForm.addEventListener('submit', (event) => event.preventDefault());
+    searchInput.addEventListener('input', filterProducts);
   </script>
 </body>
 </html>
