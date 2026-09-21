@@ -33,10 +33,14 @@
     .catalogue h2,.request-list h2 { margin:0 0 8px; font-size:27px; }
     .section-copy { margin:0 0 19px; color:var(--muted); font-size:13px; line-height:1.55; }
     .product-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; }
-    .product-card { overflow:hidden; border:1px solid var(--line); border-radius:7px; background:#fff; }
-    .product-card img { display:block; width:100%; aspect-ratio:1; object-fit:contain; padding:13px; background:#fafafa; }
-    .product-card div { padding:12px; }
-    .product-card h3 { min-height:38px; margin:0 0 10px; font:600 12px/1.4 'DM Sans',sans-serif; }
+    .product-card { position:relative; display:flex; flex-direction:column; min-width:0; }
+    .product-gallery { position:relative; display:grid; place-items:center; width:100%; aspect-ratio:1; padding:18px; overflow:hidden; border:1px solid #f0eeee; border-radius:5px; background:#fafafa; cursor:zoom-in; }
+    .product-card img { width:68%; height:68%; object-fit:contain; mix-blend-mode:multiply; transition:transform .25s ease; }
+    .product-gallery:hover img { transform:scale(1.04); }
+    .product-favorite { position:absolute; top:8px; right:8px; z-index:1; display:grid; place-items:center; width:29px; height:29px; padding:0; border-radius:50%; background:#fff; color:var(--ink); font-size:20px; line-height:1; box-shadow:0 2px 8px rgba(0,0,0,.08); }
+    .product-favorite.is-favorite { color:var(--rose); }
+    .product-name { flex:1; min-height:55px; margin:10px 0 4px; font-size:11px; line-height:1.4; }
+    .sku { display:block; margin:0 0 8px; color:var(--muted); font-size:9px; font-weight:600; letter-spacing:.4px; }
     .add { width:100%; padding:8px; border-radius:4px; background:var(--rose); color:#fff; font-size:11px; font-weight:700; }
     .empty-catalogue { padding:36px 24px; border:1px dashed var(--line); border-radius:8px; background:#fff; color:var(--muted); font-size:13px; line-height:1.6; }
     .custom-request { margin-top:28px; padding:24px; border-radius:8px; background:var(--blush); }
@@ -55,8 +59,18 @@
     .item-actions button { padding:0; background:transparent; color:var(--muted); font-size:11px; text-decoration:underline; }
     .item-actions span { font-size:11px; }
     .empty-list { margin:0; padding:14px 0 2px; border-top:1px solid var(--line); color:var(--muted); font-size:12px; line-height:1.5; }
+    #product-lightbox { position:fixed; inset:0; z-index:10; display:grid; place-items:center; padding:30px; background:rgba(22,18,17,.78); opacity:0; pointer-events:none; transition:opacity .2s ease; }
+    #product-lightbox.open { opacity:1; pointer-events:auto; }
+    .lightbox-panel { position:relative; display:flex; align-items:flex-start; gap:24px; width:min(90vw,900px); padding:20px 22px 18px; border-radius:12px; background:rgba(255,255,255,.96); box-shadow:0 12px 28px rgba(0,0,0,.12); }
+    .lightbox-stage { display:grid; place-items:center; }
+    #product-lightbox img { max-width:min(42vw,420px); max-height:62vh; width:auto; height:auto; object-fit:contain; border-radius:8px; background:#fff; box-shadow:0 16px 50px rgba(0,0,0,.3); }
+    .lightbox-close { position:absolute; top:8px; right:8px; width:40px; height:40px; border-radius:50%; background:#fff; color:#211d1c; font-size:25px; line-height:1; box-shadow:0 2px 10px rgba(0,0,0,.08); z-index:2; }
+    .lightbox-nav { position:absolute; top:50%; transform:translateY(-50%); width:42px; height:42px; border-radius:50%; background:rgba(255,255,255,.9); color:#211d1c; font-size:28px; line-height:1; z-index:2; }
+    .lightbox-prev { left:-54px; }.lightbox-next { right:-54px; }
+    .lightbox-detail { position:relative; flex:1; min-width:0; padding:6px 0; }.lightbox-detail h3 { margin:0 0 10px; font:700 22px/1.25 'DM Sans',sans-serif; }.lightbox-detail p,.lightbox-detail ul,.lightbox-detail ol { margin:0; font-size:14px; line-height:1.6; }.lightbox-detail ul,.lightbox-detail ol { padding-left:20px; }
+    .detail-section { border-top:1px solid var(--line); }.detail-section:last-child { border-bottom:1px solid var(--line); }.detail-section summary { padding:12px 0; font-size:14px; font-weight:700; cursor:pointer; list-style:none; }.detail-section summary::-webkit-details-marker { display:none; }.detail-section summary::after { content:'+'; float:right; font-size:18px; font-weight:400; }.detail-section[open] summary::after { content:'−'; }.detail-section-content { padding:0 0 12px; }.detail-section-content p { margin-bottom:10px; }
     footer { padding:22px 5%; background:#211d1c; color:#fff; display:flex; justify-content:space-between; font-size:11px; }
-    @media (max-width:720px) { .topbar { justify-content:center; font-size:10px; } .topbar span:last-child { display:none; } .nav { padding:14px 5%; } main { width:min(92%,1120px); padding-top:35px; } h1 { font-size:35px; } .layout { grid-template-columns:1fr; gap:22px; } .request-list { order:-1; } footer { display:block; line-height:2; } }
+    @media (max-width:720px) { .topbar { justify-content:center; font-size:10px; } .topbar span:last-child { display:none; } .nav { padding:14px 5%; } main { width:min(92%,1120px); padding-top:35px; } h1 { font-size:35px; } .layout { grid-template-columns:1fr; gap:22px; } .request-list { order:-1; } footer { display:block; line-height:2; } .lightbox-panel { display:block; max-height:90vh; overflow:auto; }.lightbox-stage { margin-bottom:15px; }#product-lightbox img { max-width:100%; max-height:46vh; }.lightbox-nav { top:28%; }.lightbox-prev { left:-18px; }.lightbox-next { right:-18px; } }
     @media (max-width:440px) { .product-grid { grid-template-columns:repeat(2,1fr); } .custom-form { grid-template-columns:1fr; } }
   </style>
 </head>
@@ -74,12 +88,13 @@
       <aside class="request-list"><h2>Your Request List</h2><p id="list-copy">Products you select will appear here.</p><div id="request-items" aria-live="polite"></div></aside>
     </div>
   </main>
+  <div id="product-lightbox" role="dialog" aria-modal="true" aria-label="Product details"><div class="lightbox-panel"><button class="lightbox-nav lightbox-prev" type="button" aria-label="Previous image">‹</button><div class="lightbox-stage"><img id="lightbox-image" alt=""></div><button class="lightbox-nav lightbox-next" type="button" aria-label="Next image">›</button><div class="lightbox-detail"><button class="lightbox-close" type="button" aria-label="Close product details">×</button><h3 id="lightbox-title"></h3><div id="lightbox-sections"></div></div></div></div>
   <footer><span>© 2026 EuroBeauty Market</span><span>Authentic German beauty, delivered with care.</span></footer>
   <script>
     const storageKey = 'euroBeautyRequest';
     // Add future products here. Image paths are optional.
     const availableProducts = [
-      // { name: 'Product name', image: 'images/product-image.png', alt: 'Product name' },
+      { brand: 'Balea', name: 'BB Cream, Medium Shade Tinted Day Cream, SPF 15, 50 ml', sku: 'EBM-RQ-001', image: 'images/BB-Tagescreme.png', images: ['images/BB-Tagescreme.png', 'images/BB-Tagescreme2.png'], alt: 'Balea BB Cream medium shade tinted day cream', description: 'Balea BB Cream with SPF 15 leaves skin feeling comfortable and gives the complexion a fresh appearance. Its formula with a hydro complex moisturizes the skin, while microfine, light-reflecting pigments adapt to the natural skin tone to help visually conceal unevenness and blemishes. Vitamin E and natural peach kernel oil provide a radiant-looking finish. With SPF 15 and UVA protection, the tinted day cream may also help protect the skin from premature photoaging.', features: ['Softly tinted day cream', 'With vitamin E and SPF 15', 'Provides intensive moisture', 'For medium skin tones', 'Dermatologically tested skin compatibility'], itemNumber: '1606676', gtin: '4066447986389', ingredients: 'Aqua, Glycerin, CI 77891, Ethylhexyl Salicylate, C12-15 Alkyl Benzoate, Butyl Methoxydibenzoylmethane, Cetearyl Alcohol, Dibutyl Adipate, Polyglyceryl-6 Stearate, Cetearyl Isononanoate, Hydrogenated Coco-Glycerides, Myristyl Myristate, Phenylbenzimidazole Sulfonic Acid, Distarch Phosphate, Glyceryl Stearate, Prunus Persica Kernel Oil, Aloe Barbadensis Leaf Juice, Phenoxyethanol, Bis-Ethylhexyloxyphenol Methoxyphenyl Triazine, Ethylhexyl Triazone, Hydroxyacetophenone, Tocopheryl Acetate, Xanthan Gum, Parfum, Sodium Hydroxide, Polyglyceryl-6 Behenate, Trisodium Ethylenediamine Disuccinate, Linalool, Linalyl Acetate, Alpha-Isomethyl Ionone, Amyl Salicylate, Limonene, Citrus Aurantium Peel Oil, Vanillin, CI 77499, CI 77491, CI 77492.', directions: 'After cleansing, apply to the face and distribute evenly. Avoid the eye area.' },
     ];
     const grid = document.querySelector('#product-grid');
     const requestItems = document.querySelector('#request-items');
@@ -87,6 +102,9 @@
     const favoriteCount = document.querySelector('.favorite-count');
     const basketCount = document.querySelector('.basket-count');
     const getList = () => { try { return JSON.parse(localStorage.getItem(storageKey)) || []; } catch { return []; } };
+    const favoriteKey = 'euroBeautyFavorites';
+    const getFavorites = () => { try { return JSON.parse(localStorage.getItem(favoriteKey)) || []; } catch { return []; } };
+    const saveFavorites = (favorites) => localStorage.setItem(favoriteKey, JSON.stringify(favorites));
     const saveList = (list) => localStorage.setItem(storageKey, JSON.stringify(list));
     const updateHeaderCounts = () => {
       try { favoriteCount.textContent = (JSON.parse(localStorage.getItem('euroBeautyFavorites')) || []).length; } catch { favoriteCount.textContent = '0'; }
@@ -94,9 +112,18 @@
     };
     const escapeHtml = (value) => String(value).replace(/[&<>'"]/g, (character) => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', "'":'&#39;', '"':'&quot;' })[character]);
     const addItem = (item) => { const list = getList(); const match = list.find((entry) => entry.name.toLowerCase() === item.name.toLowerCase()); if (match) match.quantity += 1; else list.push({ ...item, quantity: 1 }); saveList(list); renderList(); };
+    const lightbox = document.querySelector('#product-lightbox');
+    const lightboxImage = document.querySelector('#lightbox-image');
+    const lightboxTitle = document.querySelector('#lightbox-title');
+    const lightboxSections = document.querySelector('#lightbox-sections');
+    let galleryImages = [], galleryAlt = '', galleryIndex = 0;
+    const renderGalleryImage = () => { lightboxImage.src = galleryImages[galleryIndex]; lightboxImage.alt = `${galleryAlt} ${galleryIndex === 0 ? 'front' : 'back'}`; };
+    const openLightbox = (product) => { galleryImages = product.images || [product.image]; galleryAlt = product.alt || product.name; galleryIndex = 0; renderGalleryImage(); const title = `${product.brand ? `${product.brand} ` : ''}${product.name}`; lightboxTitle.textContent = title; lightboxSections.innerHTML = `<details class="detail-section"><summary>Product Description</summary><div class="detail-section-content"><p>${escapeHtml(product.description || '')}</p>${product.features?.length ? `<ul>${product.features.map((feature) => `<li>${escapeHtml(feature)}</li>`).join('')}</ul>` : ''}</div></details><details class="detail-section"><summary>Ingredients</summary><div class="detail-section-content"><p>${escapeHtml(product.ingredients || '')}</p></div></details><details class="detail-section"><summary>Directions for Use</summary><div class="detail-section-content"><p>${escapeHtml(product.directions || '')}</p></div></details>`; lightbox.classList.add('open'); document.querySelector('.lightbox-close').focus(); };
+    const closeLightbox = () => lightbox.classList.remove('open');
     const renderCatalogue = () => {
       if (!availableProducts.length) { grid.innerHTML = '<div class="empty-catalogue">New products will appear here soon. To add one, place its name and image path in the <code>availableProducts</code> list in this page.</div>'; return; }
-      grid.innerHTML = availableProducts.map((product, index) => `<article class="product-card">${product.image ? `<img src="${escapeHtml(product.image)}" alt="${escapeHtml(product.alt || product.name)}">` : ''}<div><h3>${escapeHtml(product.name)}</h3><button class="add" type="button" data-product-index="${index}">Add to request</button></div></article>`).join('');
+      const favoriteSkus = new Set(getFavorites().map((item) => item.sku));
+      grid.innerHTML = availableProducts.map((product, index) => { const images = product.images || (product.image ? [product.image] : []); const title = `${product.brand ? `${product.brand} ` : ''}${product.name}`; return `<article class="product-card" data-sku="${escapeHtml(product.sku || '')}">${images.length ? `<button class="product-gallery" type="button" data-gallery-index="${index}" aria-label="View ${escapeHtml(title)} images"><img src="${escapeHtml(images[0])}" alt="${escapeHtml(`${product.alt || title} front`)}"></button>` : ''}<button class="product-favorite${favoriteSkus.has(product.sku) ? ' is-favorite' : ''}" type="button" data-favorite-index="${index}" aria-label="Add ${escapeHtml(title)} to favorites">♡</button><div class="product-name">${product.brand ? `${escapeHtml(product.brand)}<br>` : ''}${escapeHtml(product.name)}</div><span class="sku">SKU: ${escapeHtml(product.sku || '—')}</span><button class="add" type="button" data-product-index="${index}">Add to Request</button></article>`; }).join('');
     };
     const renderList = () => {
       const list = getList(); const quantity = list.reduce((total, item) => total + item.quantity, 0); updateHeaderCounts();
@@ -104,7 +131,12 @@
       if (!list.length) { requestItems.innerHTML = '<p class="empty-list">Your request list is empty.</p>'; return; }
       requestItems.innerHTML = list.map((item, index) => `<article class="list-item">${item.image ? `<img src="${escapeHtml(item.image)}" alt="">` : '<div></div>'}<div><strong>${escapeHtml(item.name)}</strong>${item.sku ? `<small>SKU: ${escapeHtml(item.sku)}</small>` : ''}<div class="item-actions"><button type="button" data-action="decrease" data-index="${index}" aria-label="Decrease quantity">−</button><span>Qty ${item.quantity}</span><button type="button" data-action="increase" data-index="${index}" aria-label="Increase quantity">+</button><button type="button" data-action="remove" data-index="${index}">Remove</button></div></div></article>`).join('');
     };
-    grid.addEventListener('click', (event) => { const button = event.target.closest('[data-product-index]'); if (button) addItem(availableProducts[Number(button.dataset.productIndex)]); });
+    grid.addEventListener('click', (event) => { const favoriteButton = event.target.closest('[data-favorite-index]'); if (favoriteButton) { const product = availableProducts[Number(favoriteButton.dataset.favoriteIndex)]; const favorites = getFavorites(); const favoriteIndex = favorites.findIndex((item) => item.sku === product.sku); if (favoriteIndex >= 0) favorites.splice(favoriteIndex, 1); else favorites.push({ name: `${product.brand ? `${product.brand} ` : ''}${product.name}`, sku: product.sku, image: product.image, alt: product.alt }); saveFavorites(favorites); updateHeaderCounts(); renderCatalogue(); return; } const galleryButton = event.target.closest('[data-gallery-index]'); if (galleryButton) { openLightbox(availableProducts[Number(galleryButton.dataset.galleryIndex)]); return; } const button = event.target.closest('[data-product-index]'); if (button) addItem(availableProducts[Number(button.dataset.productIndex)]); });
+    document.querySelector('.lightbox-close').addEventListener('click', closeLightbox);
+    document.querySelector('.lightbox-prev').addEventListener('click', () => { galleryIndex = (galleryIndex - 1 + galleryImages.length) % galleryImages.length; renderGalleryImage(); });
+    document.querySelector('.lightbox-next').addEventListener('click', () => { galleryIndex = (galleryIndex + 1) % galleryImages.length; renderGalleryImage(); });
+    lightbox.addEventListener('click', (event) => { if (event.target === lightbox) closeLightbox(); });
+    document.addEventListener('keydown', (event) => { if (!lightbox.classList.contains('open')) return; if (event.key === 'Escape') closeLightbox(); if (event.key === 'ArrowLeft') { galleryIndex = (galleryIndex - 1 + galleryImages.length) % galleryImages.length; renderGalleryImage(); } if (event.key === 'ArrowRight') { galleryIndex = (galleryIndex + 1) % galleryImages.length; renderGalleryImage(); } });
     requestItems.addEventListener('click', (event) => { const button = event.target.closest('button[data-action]'); if (!button) return; const list = getList(); const index = Number(button.dataset.index); if (button.dataset.action === 'increase') list[index].quantity += 1; if (button.dataset.action === 'decrease') { list[index].quantity -= 1; if (list[index].quantity < 1) list.splice(index, 1); } if (button.dataset.action === 'remove') list.splice(index, 1); saveList(list); renderList(); });
     document.querySelector('#custom-form').addEventListener('submit', (event) => { event.preventDefault(); const input = document.querySelector('#custom-product'); const name = input.value.trim(); if (!name) return; addItem({ name, alt: name }); input.value = ''; });
     renderCatalogue(); renderList();
