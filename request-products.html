@@ -36,6 +36,7 @@
     .product-card { position:relative; display:flex; flex-direction:column; min-width:0; }
     .product-gallery { position:relative; display:grid; place-items:center; width:100%; aspect-ratio:1; padding:18px; overflow:hidden; border:1px solid #f0eeee; border-radius:5px; background:#fafafa; cursor:zoom-in; }
     .product-card img { width:68%; height:68%; object-fit:contain; mix-blend-mode:multiply; transition:transform .25s ease; }
+    .product-card[data-sku="EBM-RQ-001"] .product-gallery img { width:54%; height:54%; }
     .product-gallery:hover img { transform:scale(1.04); }
     .product-favorite { position:absolute; top:8px; right:8px; z-index:1; display:grid; place-items:center; width:29px; height:29px; padding:0; border-radius:50%; background:#fff; color:var(--ink); font-size:20px; line-height:1; box-shadow:0 2px 8px rgba(0,0,0,.08); }
     .product-favorite.is-favorite { color:var(--rose); }
