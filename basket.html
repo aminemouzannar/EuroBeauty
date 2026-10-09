@@ -27,14 +27,14 @@
       const status=document.querySelector('#form-status'),submitButton=event.currentTarget.querySelector('[type="submit"]'),basket=get(basketKey);
       if(!basket.length){status.textContent='Your basket is empty.';status.className='form-status error';return}
       const formData=new FormData(event.currentTarget);
-      const order={from_name:formData.get('from_name'),from_email:formData.get('from_email'),phone:formData.get('phone')||'',message:formData.get('message')||'',items:basket.map(item=>({name:item.name,sku:item.sku,quantity:item.quantity}))};
+      const order={name:formData.get('from_name'),email:formData.get('from_email'),phone:formData.get('phone')||'Not provided',message:formData.get('message')||'No additional message',item_count:basket.reduce((total,item)=>total+item.quantity,0),order_items:basket.map(item=>`- ${item.name} (SKU: ${item.sku}) x ${item.quantity}`).join('\n'),_subject:'New EuroBeauty order request',_template:'table'};
       submitButton.disabled=true;status.textContent='Sending your order request...';status.className='form-status';
       try{
-        const response=await fetch('send-order.php',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(order)});
+        const response=await fetch('https://formsubmit.co/ajax/aminemouzannar@gmail.com',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify(order)});
         const result=await response.json().catch(()=>({}));
-        if(!response.ok||!result.success)throw new Error(result.message||'We could not send your request. Please try again later or contact us directly.');
-        status.textContent=result.message||'Your order request was sent. We will contact you to confirm availability and shipping.';status.className='form-status success';
-      }catch(error){status.textContent=window.location.protocol==='file:'?'PHP email requires the website to run through a PHP-enabled web server. Open the hosted site instead of this local file.':error.message||'We could not send your request. Please try again later or contact us directly.';status.className='form-status error'}
+        if(!response.ok||result.success===false||result.success==='false')throw new Error(result.message||'We could not send your request. Please try again later or contact us directly.');
+        status.textContent='Your request was accepted. If this is your first submission, check aminemouzannar@gmail.com for a FormSubmit activation email and approve it to enable delivery.';status.className='form-status success';
+      }catch(error){status.textContent=window.location.protocol==='file:'?'Open the website from GitHub Pages to submit this form.':error.message||'We could not send your request. Please try again later or contact us directly.';status.className='form-status error'}
       finally{submitButton.disabled=false}
     });
     render();
