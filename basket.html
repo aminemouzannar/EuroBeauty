@@ -36,7 +36,7 @@
         const response=await fetch('https://formsubmit.co/ajax/aminemouzannar@gmail.com',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify(order)});
         const result=await response.json().catch(()=>({}));
         if(!response.ok||result.success===false||result.success==='false')throw new Error(result.message||'We could not send your request. Please try again later or contact us directly.');
-        status.textContent='Your request was accepted. If this is your first submission, check aminemouzannar@gmail.com for a FormSubmit activation email and approve it to enable delivery.';status.className='form-status success';
+        status.textContent='Your order request has been sent.';status.className='form-status success';
       }catch(error){status.textContent=window.location.protocol==='file:'?'Open the website from GitHub Pages to submit this form.':error.message||'We could not send your request. Please try again later or contact us directly.';status.className='form-status error'}
       finally{submitButton.disabled=false}
     });
