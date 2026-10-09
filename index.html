@@ -208,6 +208,7 @@
       </div>
     </div>
   </div>
+  <script src="product-prices.js"></script>
   <script>
     const toast = document.querySelector('#toast');
     const lightbox = document.querySelector('#lightbox');
@@ -239,6 +240,14 @@
         skuLabel.className = 'sku';
         skuLabel.textContent = `SKU: ${sku}`;
         product.querySelector('.product-name').insertAdjacentElement('afterend', skuLabel);
+        const price = window.EUROBEAUTY_PRODUCT_PRICES[sku];
+        if (price !== undefined) {
+          product.dataset.price = String(price);
+          const priceLabel = document.createElement('span');
+          priceLabel.className = 'price';
+          priceLabel.textContent = window.formatEuroBeautyPrice(price);
+          skuLabel.insertAdjacentElement('afterend', priceLabel);
+        }
         const favoriteButton = document.createElement('button');
         favoriteButton.className = 'product-favorite';
         favoriteButton.type = 'button';
@@ -364,10 +373,11 @@
       const product = button.closest('.product');
       const image = product.querySelector('img');
       const name = product.querySelector('.product-name').textContent.replace(/\s+/g, ' ').trim();
+      const price = window.EUROBEAUTY_PRODUCT_PRICES[product.dataset.sku];
       const basket = getBasket();
       const existingItem = basket.find((item) => item.sku === product.dataset.sku);
-      if (existingItem) { existingItem.quantity += 1; existingItem.sku ||= product.dataset.sku; }
-      else basket.push({ name, sku: product.dataset.sku, image: image.getAttribute('src'), alt: image.alt, quantity: 1 });
+      if (existingItem) { existingItem.quantity += 1; existingItem.sku ||= product.dataset.sku; if (existingItem.price == null && price !== undefined) existingItem.price = price; }
+      else basket.push({ name, sku: product.dataset.sku, image: image.getAttribute('src'), alt: image.alt, ...(price !== undefined ? { price } : {}), quantity: 1 });
       saveBasket(basket);
       updateCounts();
       toast.classList.add('show');
@@ -381,7 +391,7 @@
       const favorites = getFavorites();
       const index = favorites.findIndex((item) => item.sku === product.dataset.sku);
       if (index >= 0) favorites.splice(index, 1);
-      else favorites.push({ name: product.querySelector('.product-name').textContent.replace(/\s+/g, ' ').trim(), sku: product.dataset.sku, image: image.getAttribute('src'), alt: image.alt });
+      else favorites.push({ name: product.querySelector('.product-name').textContent.replace(/\s+/g, ' ').trim(), sku: product.dataset.sku, image: image.getAttribute('src'), alt: image.alt, price: window.EUROBEAUTY_PRODUCT_PRICES[product.dataset.sku] });
       saveFavorites(favorites);
       updateCounts();
       refreshFavoriteButtons();
