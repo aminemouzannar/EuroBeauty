@@ -70,6 +70,9 @@
     .review { color:#777; font-size:9px; }
     .price { margin:0 0 6px; font-size:13px; font-weight:700; }
     .product-cart-controls { display:grid; grid-template-columns:48px minmax(0,1fr); gap:5px; align-items:stretch; }
+    .product-basket-status { grid-column:1 / -1; display:flex; align-items:center; justify-content:space-between; gap:6px; color:var(--rose-dark); font-size:10px; font-weight:600; }
+    .product-basket-status[hidden] { display:none; }
+    .product-basket-remove { padding:1px 0; background:transparent; color:var(--muted); font-size:9px; text-decoration:underline; }
     .product-quantity { width:100%; min-width:0; padding:5px 3px; border:1px solid var(--line); border-radius:4px; background:#fff; color:var(--ink); font:11px 'DM Sans',sans-serif; }
     .add { width:100%; min-width:0; margin:0; padding:7px 3px; border-radius:4px; background:#c5686b; color:#fff; font-size:11px; transition:.2s ease; }
     .feature-banner { display:flex; align-items:center; min-height:157px; margin-top:18px; padding:25px 27px; border-radius:8px; background:linear-gradient(90deg,#f5e7dd 0%,#f7e9df 48%,rgba(247,233,223,.4)), url('https://images.unsplash.com/photo-1611930022073-b7a4ba5fcccd?auto=format&fit=crop&w=1500&q=80') center/cover; }
@@ -230,8 +233,16 @@
     const getFavorites = () => { try { return JSON.parse(localStorage.getItem(favoriteStorageKey)) || []; } catch { return []; } };
     const saveFavorites = (favorites) => localStorage.setItem(favoriteStorageKey, JSON.stringify(favorites));
     const updateCounts = () => {
-      document.querySelector('.basket-count').textContent = getBasket().reduce((total, item) => total + item.quantity, 0);
+      const basket = getBasket();
+      document.querySelector('.basket-count').textContent = basket.reduce((total, item) => total + item.quantity, 0);
       document.querySelector('.favorite-count').textContent = getFavorites().length;
+      document.querySelectorAll('.product').forEach((product) => {
+        const status = product.querySelector('.product-basket-status');
+        if (!status) return;
+        const quantity = basket.find((item) => item.sku === product.dataset.sku)?.quantity || 0;
+        status.hidden = quantity === 0;
+        status.querySelector('.product-basket-quantity').textContent = `In basket: ${quantity}`;
+      });
     };
     updateCounts();
     const skuPrefixes = { skincare: 'SK', haircare: 'HC', footcare: 'FC' };
@@ -269,10 +280,26 @@
           option.textContent = String(quantity);
           quantitySelect.append(option);
         }
+        const basketStatus = document.createElement('div');
+        basketStatus.className = 'product-basket-status';
+        basketStatus.setAttribute('aria-live', 'polite');
+        const basketQuantity = document.createElement('span');
+        basketQuantity.className = 'product-basket-quantity';
+        const removeFromBasket = document.createElement('button');
+        removeFromBasket.className = 'product-basket-remove';
+        removeFromBasket.type = 'button';
+        removeFromBasket.textContent = 'Remove';
+        removeFromBasket.setAttribute('aria-label', 'Remove this product from the basket');
+        removeFromBasket.addEventListener('click', () => {
+          saveBasket(getBasket().filter((item) => item.sku !== product.dataset.sku));
+          updateCounts();
+        });
+        basketStatus.append(basketQuantity, removeFromBasket);
         addButton.replaceWith(cartControls);
-        cartControls.append(quantitySelect, addButton);
+        cartControls.append(quantitySelect, addButton, basketStatus);
       });
     });
+    updateCounts();
     const refreshFavoriteButtons = () => {
       const favoriteSkus = new Set(getFavorites().map((item) => item.sku));
       document.querySelectorAll('.product').forEach((product) => {
@@ -400,6 +427,7 @@
       if (existingItem) { existingItem.quantity += quantity; existingItem.sku ||= product.dataset.sku; if (existingItem.price == null && price !== undefined) existingItem.price = price; }
       else basket.push({ name, sku: product.dataset.sku, image: image.getAttribute('src'), alt: image.alt, ...(price !== undefined ? { price } : {}), quantity });
       saveBasket(basket);
+      product.querySelector('.product-quantity').value = '1';
       updateCounts();
       toast.classList.add('show');
       window.clearTimeout(window.toastTimer);
