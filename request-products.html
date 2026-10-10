@@ -52,6 +52,28 @@
     .button { padding:11px 16px; border-radius:22px; background:var(--rose); color:#fff; font-size:12px; font-weight:700; }
     .request-list { padding:25px; border-radius:8px; background:#fff; border:1px solid var(--line); }
     .request-list > p { margin:0 0 15px; color:var(--muted); font-size:12px; line-height:1.5; }
+    .request-contact { margin-top:22px; padding-top:18px; border-top:1px solid var(--line); }
+    .request-contact h3 { margin:0 0 6px; font-size:21px; }
+    .request-contact > p { margin:0 0 14px; color:var(--muted); font-size:12px; line-height:1.5; }
+    .request-contact label { display:block; margin:0 0 10px; font-size:12px; font-weight:600; }
+    .request-contact input,.request-contact textarea { display:block; width:100%; margin-top:5px; padding:10px 11px; border:1px solid var(--line); border-radius:5px; background:#fff; color:var(--ink); font:13px 'DM Sans',sans-serif; }
+    .request-contact textarea { min-height:80px; resize:vertical; }
+    .request-contact .button { width:100%; justify-content:center; }
+    .request-status { min-height:18px; margin:10px 0 0!important; font-size:12px!important; }
+    .request-status.success { color:#267044; }
+    .request-status.error { color:#a12f36; }
+    .request-status:empty { display:none; }
+    main { width:min(760px,90%); }
+    .intro { max-width:680px; margin:0 auto 28px; color:var(--muted); font-size:14px; line-height:1.65; text-align:center; }
+    main > h1 { margin:0 0 12px; text-align:center; }
+    .request-form { max-width:620px; margin:0 auto; padding:28px; border:1px solid var(--line); border-radius:9px; background:#fff; box-shadow:0 8px 28px rgba(33,29,28,.05); }
+    .request-form label { display:block; margin:0 0 15px; font-size:13px; font-weight:600; }
+    .request-form input,.request-form textarea { display:block; width:100%; margin-top:6px; padding:11px 12px; border:1px solid var(--line); border-radius:5px; background:#fff; color:var(--ink); font:14px 'DM Sans',sans-serif; }
+    .request-form textarea { min-height:120px; resize:vertical; }
+    .request-form .button { width:100%; justify-content:center; }
+    .request-form .request-status { min-height:20px; margin:12px 0 0; color:var(--muted); font-size:13px; text-align:center; }
+    .request-form .request-status.success { color:#267044; }
+    .request-form .request-status.error { color:#a12f36; }
     .list-item { display:grid; grid-template-columns:48px minmax(0,1fr); gap:11px; align-items:center; padding:12px 0; border-top:1px solid var(--line); }
     .list-item img { width:48px; height:48px; border:1px solid #f0eeee; border-radius:4px; object-fit:contain; background:#fafafa; }
     .list-item strong { display:block; font-size:12px; line-height:1.35; }
@@ -71,8 +93,8 @@
     .lightbox-detail { position:relative; flex:1; min-width:0; padding:6px 0; }.lightbox-detail h3 { margin:0 0 10px; font:700 22px/1.25 'DM Sans',sans-serif; }.lightbox-detail p,.lightbox-detail ul,.lightbox-detail ol { margin:0; font-size:14px; line-height:1.6; }.lightbox-detail ul,.lightbox-detail ol { padding-left:20px; }
     .detail-section { border-top:1px solid var(--line); }.detail-section:last-child { border-bottom:1px solid var(--line); }.detail-section summary { padding:12px 0; font-size:14px; font-weight:700; cursor:pointer; list-style:none; }.detail-section summary::-webkit-details-marker { display:none; }.detail-section summary::after { content:'+'; float:right; font-size:18px; font-weight:400; }.detail-section[open] summary::after { content:'−'; }.detail-section-content { padding:0 0 12px; }.detail-section-content p { margin-bottom:10px; }
     footer { padding:22px 5%; background:#211d1c; color:#fff; display:flex; justify-content:space-between; font-size:11px; }
-    @media (max-width:720px) { .topbar { justify-content:center; font-size:10px; } .topbar span:last-child { display:none; } .nav { padding:14px 5%; } main { width:min(92%,1120px); padding-top:35px; } h1 { font-size:35px; } .layout { grid-template-columns:1fr; gap:22px; } .request-list { order:-1; } footer { display:block; line-height:2; } .lightbox-panel { display:block; max-height:90vh; overflow:auto; }.lightbox-stage { margin-bottom:15px; }#product-lightbox img { max-width:100%; max-height:46vh; }.lightbox-nav { top:28%; }.lightbox-prev { left:-18px; }.lightbox-next { right:-18px; } }
-    @media (max-width:440px) { .product-grid { grid-template-columns:repeat(2,1fr); } .custom-form { grid-template-columns:1fr; } }
+    @media (max-width:720px) { .topbar { justify-content:center; font-size:10px; } .topbar span:last-child { display:none; } .nav { padding:14px 5%; } main { width:min(92%,680px); padding-top:35px; } h1 { font-size:35px; } footer { display:block; line-height:2; } }
+    @media (max-width:440px) { .request-form { padding:20px 16px; } }
   </style>
 </head>
 <body>
@@ -80,67 +102,61 @@
   <header class="nav"><a class="logo" href="index.html">EuroBeauty<small>MARKET</small></a><a class="continue" href="index.html">← Back to home</a><div class="actions" aria-label="Store actions"><a class="favorite" href="favorites.html" aria-label="Favorites">♡<b class="icon-count favorite-count">0</b></a><a class="cart" href="basket.html" aria-label="Basket">🛒<b class="icon-count basket-count">0</b></a></div></header>
   <main>
     <h1>Request More Products</h1>
-    <p class="intro">Looking for a German beauty product that is not featured on our main page? Add it to your request list and we will help source it for you. Requested products are shipped directly from Germany; please allow up to 15 days for delivery.</p>
-    <div class="layout">
-      <div>
-        <section class="catalogue"><h2>More to discover</h2><p class="section-copy">This collection is ready for the additional products you add later.</p><div class="product-grid" id="product-grid"></div></section>
-        <section class="custom-request"><h2>Can't find your product?</h2><p>Add the product name, brand, or a short description to your request list. Once sourced, your order will be shipped directly from Germany, with delivery in up to 15 days.</p><form class="custom-form" id="custom-form"><input id="custom-product" type="text" placeholder="e.g. Balea cleansing oil" required aria-label="Product name"><button class="button" type="submit">Add request</button></form></section>
-      </div>
-      <aside class="request-list"><h2>Your Request List</h2><p id="list-copy">Products you select will appear here.</p><div id="request-items" aria-live="polite"></div></aside>
-    </div>
+    <p class="intro">Tell us which products you’re looking for. Share the product names, brands, or any details you have, and we’ll contact you soon.</p>
+    <form class="request-form" id="request-contact-form">
+      <label for="request-products">Products you’re looking for<textarea id="request-products" name="requested_products" placeholder="List the product names, brands, sizes, or links" required></textarea></label>
+      <label for="request-name">Full name<input id="request-name" name="name" autocomplete="name" required></label>
+      <label for="request-email">Email address<input id="request-email" name="email" type="email" autocomplete="email" required></label>
+      <label for="request-phone">Phone number (optional)<input id="request-phone" name="phone" type="tel" autocomplete="tel"></label>
+      <label for="request-message">Additional details (optional)<textarea id="request-message" name="message"></textarea></label>
+      <button class="button" type="submit">Send product request</button>
+      <p class="request-status" id="request-status" role="status" aria-live="polite"></p>
+    </form>
   </main>
-  <div id="product-lightbox" role="dialog" aria-modal="true" aria-label="Product details"><div class="lightbox-panel"><button class="lightbox-nav lightbox-prev" type="button" aria-label="Previous image">‹</button><div class="lightbox-stage"><img id="lightbox-image" alt=""></div><button class="lightbox-nav lightbox-next" type="button" aria-label="Next image">›</button><div class="lightbox-detail"><button class="lightbox-close" type="button" aria-label="Close product details">×</button><h3 id="lightbox-title"></h3><div id="lightbox-sections"></div></div></div></div>
   <footer><span>© 2026 EuroBeauty Market</span><span>Authentic German beauty, delivered with care.</span></footer>
   <script>
-    const storageKey = 'euroBeautyRequest';
-    // Add future products here. Image paths are optional.
-    const availableProducts = [
-      { brand: 'Balea', name: 'BB Cream, Medium Shade Tinted Day Cream, SPF 15, 50 ml', sku: 'EBM-RQ-001', image: 'images/BB-Tagescreme.png', images: ['images/BB-Tagescreme.png', 'images/BB-Tagescreme2.png'], alt: 'Balea BB Cream medium shade tinted day cream', description: 'Balea BB Cream with SPF 15 leaves skin feeling comfortable and gives the complexion a fresh appearance. Its formula with a hydro complex moisturizes the skin, while microfine, light-reflecting pigments adapt to the natural skin tone to help visually conceal unevenness and blemishes. Vitamin E and natural peach kernel oil provide a radiant-looking finish. With SPF 15 and UVA protection, the tinted day cream may also help protect the skin from premature photoaging.', features: ['Softly tinted day cream', 'With vitamin E and SPF 15', 'Provides intensive moisture', 'For medium skin tones', 'Dermatologically tested skin compatibility'], itemNumber: '1606676', gtin: '4066447986389', ingredients: 'Aqua, Glycerin, CI 77891, Ethylhexyl Salicylate, C12-15 Alkyl Benzoate, Butyl Methoxydibenzoylmethane, Cetearyl Alcohol, Dibutyl Adipate, Polyglyceryl-6 Stearate, Cetearyl Isononanoate, Hydrogenated Coco-Glycerides, Myristyl Myristate, Phenylbenzimidazole Sulfonic Acid, Distarch Phosphate, Glyceryl Stearate, Prunus Persica Kernel Oil, Aloe Barbadensis Leaf Juice, Phenoxyethanol, Bis-Ethylhexyloxyphenol Methoxyphenyl Triazine, Ethylhexyl Triazone, Hydroxyacetophenone, Tocopheryl Acetate, Xanthan Gum, Parfum, Sodium Hydroxide, Polyglyceryl-6 Behenate, Trisodium Ethylenediamine Disuccinate, Linalool, Linalyl Acetate, Alpha-Isomethyl Ionone, Amyl Salicylate, Limonene, Citrus Aurantium Peel Oil, Vanillin, CI 77499, CI 77491, CI 77492.', directions: 'After cleansing, apply to the face and distribute evenly. Avoid the eye area.' },
-    ];
-    const grid = document.querySelector('#product-grid');
-    const requestItems = document.querySelector('#request-items');
-    const listCopy = document.querySelector('#list-copy');
-    const favoriteCount = document.querySelector('.favorite-count');
-    const basketCount = document.querySelector('.basket-count');
-    const getList = () => { try { return JSON.parse(localStorage.getItem(storageKey)) || []; } catch { return []; } };
-    const favoriteKey = 'euroBeautyFavorites';
-    const getFavorites = () => { try { return JSON.parse(localStorage.getItem(favoriteKey)) || []; } catch { return []; } };
-    const saveFavorites = (favorites) => localStorage.setItem(favoriteKey, JSON.stringify(favorites));
-    const saveList = (list) => localStorage.setItem(storageKey, JSON.stringify(list));
-    const updateHeaderCounts = () => {
-      try { favoriteCount.textContent = (JSON.parse(localStorage.getItem('euroBeautyFavorites')) || []).length; } catch { favoriteCount.textContent = '0'; }
-      try { basketCount.textContent = (JSON.parse(localStorage.getItem('euroBeautyBasket')) || []).reduce((total, item) => total + item.quantity, 0); } catch { basketCount.textContent = '0'; }
-    };
-    const escapeHtml = (value) => String(value).replace(/[&<>'"]/g, (character) => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', "'":'&#39;', '"':'&quot;' })[character]);
-    const addItem = (item) => { const list = getList(); const match = list.find((entry) => entry.name.toLowerCase() === item.name.toLowerCase()); if (match) match.quantity += 1; else list.push({ ...item, quantity: 1 }); saveList(list); renderList(); };
-    const lightbox = document.querySelector('#product-lightbox');
-    const lightboxImage = document.querySelector('#lightbox-image');
-    const lightboxTitle = document.querySelector('#lightbox-title');
-    const lightboxSections = document.querySelector('#lightbox-sections');
-    let galleryImages = [], galleryAlt = '', galleryIndex = 0;
-    const renderGalleryImage = () => { lightboxImage.src = galleryImages[galleryIndex]; lightboxImage.alt = `${galleryAlt} ${galleryIndex === 0 ? 'front' : 'back'}`; };
-    const openLightbox = (product) => { galleryImages = product.images || [product.image]; galleryAlt = product.alt || product.name; galleryIndex = 0; renderGalleryImage(); const title = `${product.brand ? `${product.brand} ` : ''}${product.name}`; lightboxTitle.textContent = title; lightboxSections.innerHTML = `<details class="detail-section"><summary>Product Description</summary><div class="detail-section-content"><p>${escapeHtml(product.description || '')}</p>${product.features?.length ? `<ul>${product.features.map((feature) => `<li>${escapeHtml(feature)}</li>`).join('')}</ul>` : ''}</div></details><details class="detail-section"><summary>Ingredients</summary><div class="detail-section-content"><p>${escapeHtml(product.ingredients || '')}</p></div></details><details class="detail-section"><summary>Directions for Use</summary><div class="detail-section-content"><p>${escapeHtml(product.directions || '')}</p></div></details>`; lightbox.classList.add('open'); document.querySelector('.lightbox-close').focus(); };
-    const closeLightbox = () => lightbox.classList.remove('open');
-    const renderCatalogue = () => {
-      if (!availableProducts.length) { grid.innerHTML = '<div class="empty-catalogue">New products will appear here soon. To add one, place its name and image path in the <code>availableProducts</code> list in this page.</div>'; return; }
-      const favoriteSkus = new Set(getFavorites().map((item) => item.sku));
-      grid.innerHTML = availableProducts.map((product, index) => { const images = product.images || (product.image ? [product.image] : []); const title = `${product.brand ? `${product.brand} ` : ''}${product.name}`; return `<article class="product-card" data-sku="${escapeHtml(product.sku || '')}">${images.length ? `<button class="product-gallery" type="button" data-gallery-index="${index}" aria-label="View ${escapeHtml(title)} images"><img src="${escapeHtml(images[0])}" alt="${escapeHtml(`${product.alt || title} front`)}"></button>` : ''}<button class="product-favorite${favoriteSkus.has(product.sku) ? ' is-favorite' : ''}" type="button" data-favorite-index="${index}" aria-label="Add ${escapeHtml(title)} to favorites">♡</button><div class="product-name">${product.brand ? `${escapeHtml(product.brand)}<br>` : ''}${escapeHtml(product.name)}</div><span class="sku">SKU: ${escapeHtml(product.sku || '—')}</span><button class="add" type="button" data-product-index="${index}">Add to Request</button></article>`; }).join('');
-    };
-    const renderList = () => {
-      const list = getList(); const quantity = list.reduce((total, item) => total + item.quantity, 0); updateHeaderCounts();
-      listCopy.textContent = quantity ? `${quantity} ${quantity === 1 ? 'product' : 'products'} selected` : 'Products you select will appear here.';
-      if (!list.length) { requestItems.innerHTML = '<p class="empty-list">Your request list is empty.</p>'; return; }
-      requestItems.innerHTML = list.map((item, index) => `<article class="list-item">${item.image ? `<img src="${escapeHtml(item.image)}" alt="">` : '<div></div>'}<div><strong>${escapeHtml(item.name)}</strong>${item.sku ? `<small>SKU: ${escapeHtml(item.sku)}</small>` : ''}<div class="item-actions"><button type="button" data-action="decrease" data-index="${index}" aria-label="Decrease quantity">−</button><span>Qty ${item.quantity}</span><button type="button" data-action="increase" data-index="${index}" aria-label="Increase quantity">+</button><button type="button" data-action="remove" data-index="${index}">Remove</button></div></div></article>`).join('');
-    };
-    grid.addEventListener('click', (event) => { const favoriteButton = event.target.closest('[data-favorite-index]'); if (favoriteButton) { const product = availableProducts[Number(favoriteButton.dataset.favoriteIndex)]; const favorites = getFavorites(); const favoriteIndex = favorites.findIndex((item) => item.sku === product.sku); if (favoriteIndex >= 0) favorites.splice(favoriteIndex, 1); else favorites.push({ name: `${product.brand ? `${product.brand} ` : ''}${product.name}`, sku: product.sku, image: product.image, alt: product.alt }); saveFavorites(favorites); updateHeaderCounts(); renderCatalogue(); return; } const galleryButton = event.target.closest('[data-gallery-index]'); if (galleryButton) { openLightbox(availableProducts[Number(galleryButton.dataset.galleryIndex)]); return; } const button = event.target.closest('[data-product-index]'); if (button) addItem(availableProducts[Number(button.dataset.productIndex)]); });
-    document.querySelector('.lightbox-close').addEventListener('click', closeLightbox);
-    document.querySelector('.lightbox-prev').addEventListener('click', () => { galleryIndex = (galleryIndex - 1 + galleryImages.length) % galleryImages.length; renderGalleryImage(); });
-    document.querySelector('.lightbox-next').addEventListener('click', () => { galleryIndex = (galleryIndex + 1) % galleryImages.length; renderGalleryImage(); });
-    lightbox.addEventListener('click', (event) => { if (event.target === lightbox) closeLightbox(); });
-    document.addEventListener('keydown', (event) => { if (!lightbox.classList.contains('open')) return; if (event.key === 'Escape') closeLightbox(); if (event.key === 'ArrowLeft') { galleryIndex = (galleryIndex - 1 + galleryImages.length) % galleryImages.length; renderGalleryImage(); } if (event.key === 'ArrowRight') { galleryIndex = (galleryIndex + 1) % galleryImages.length; renderGalleryImage(); } });
-    requestItems.addEventListener('click', (event) => { const button = event.target.closest('button[data-action]'); if (!button) return; const list = getList(); const index = Number(button.dataset.index); if (button.dataset.action === 'increase') list[index].quantity += 1; if (button.dataset.action === 'decrease') { list[index].quantity -= 1; if (list[index].quantity < 1) list.splice(index, 1); } if (button.dataset.action === 'remove') list.splice(index, 1); saveList(list); renderList(); });
-    document.querySelector('#custom-form').addEventListener('submit', (event) => { event.preventDefault(); const input = document.querySelector('#custom-product'); const name = input.value.trim(); if (!name) return; addItem({ name, alt: name }); input.value = ''; });
-    renderCatalogue(); renderList();
+    document.querySelector('#request-contact-form').addEventListener('submit', async (event) => {
+      event.preventDefault();
+      const form = event.currentTarget;
+      const submitButton = form.querySelector('[type="submit"]');
+      const status = document.querySelector('#request-status');
+      const formData = new FormData(form);
+      const request = {
+        name: formData.get('name'),
+        email: formData.get('email'),
+        _replyto: formData.get('email'),
+        phone: formData.get('phone') || 'Not provided',
+        requested_products: formData.get('requested_products'),
+        message: formData.get('message') || 'No additional details',
+        _subject: 'New EuroBeauty product request',
+        _template: 'table'
+      };
+      submitButton.disabled = true;
+      status.textContent = 'Sending your product request...';
+      status.className = 'request-status';
+      try {
+        const response = await fetch('https://formsubmit.co/ajax/aminemouzannar@gmail.com', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+          body: JSON.stringify(request)
+        });
+        const result = await response.json().catch(() => ({}));
+        if (!response.ok || result.success === false || result.success === 'false') {
+          throw new Error(result.message || 'We could not send your request. Please try again later.');
+        }
+        status.textContent = "Thank you! Your request has been sent. We'll contact you soon.";
+        status.className = 'request-status success';
+        form.reset();
+      } catch (error) {
+        status.textContent = window.location.protocol === 'file:'
+          ? 'Open the website online to send your request.'
+          : (error.message || 'We could not send your request. Please try again later.');
+        status.className = 'request-status error';
+      } finally {
+        submitButton.disabled = false;
+      }
+    });
   </script>
+  <script src="translations.js?v=20261010-12"></script>
 </body>
 </html>
