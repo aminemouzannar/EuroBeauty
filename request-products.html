@@ -1,0 +1,165 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Request additional German beauty products from EuroBeauty Market.">
+  <title>Request Products | EuroBeauty Market</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet">
+  <style>
+    :root { --ink:#171717; --muted:#5f5a58; --rose:#c86469; --rose-dark:#a94850; --blush:#f5e6e2; --paper:#fffdfb; --line:#e8dfdc; }
+    * { box-sizing:border-box; }
+    body { margin:0; color:var(--ink); background:var(--paper); font-family:'DM Sans',sans-serif; }
+    a { color:inherit; text-decoration:none; }
+    button,input,textarea { font:inherit; }
+    button { border:0; cursor:pointer; }
+    .topbar { display:flex; justify-content:space-between; align-items:center; padding:8px 5%; background:#f2d7d4; font-size:11px; }
+    .nav { display:flex; align-items:center; justify-content:space-between; gap:30px; padding:17px 5%; background:#fff; }
+    .logo { font:600 29px/24px 'Playfair Display',serif; letter-spacing:-1.5px; }
+    .logo small { display:block; font:700 9px/15px 'DM Sans',sans-serif; letter-spacing:4px; text-align:center; }
+    .continue { margin-left:auto; border-bottom:1px solid; padding-bottom:4px; font-size:12px; font-weight:600; }
+    .actions { display:flex; align-items:center; gap:17px; font-size:21px; }
+    .favorite { position:relative; padding:0; background:transparent; color:var(--ink); font-size:25px; line-height:1; }
+    .cart { position:relative; }
+    .icon-count { position:absolute; top:-8px; right:-9px; display:grid; place-items:center; width:16px; height:16px; border-radius:50%; background:var(--ink); color:#fff; font-size:9px; }
+    main { width:min(1120px,90%); margin:0 auto; padding:52px 0 68px; }
+    h1,h2,h3 { font-family:'Playfair Display',serif; font-weight:500; }
+    h1 { margin:0 0 8px; font-size:42px; }
+    .intro { max-width:650px; margin:0 0 35px; color:var(--muted); font-size:14px; line-height:1.6; }
+    .layout { display:grid; grid-template-columns:minmax(0,1fr) 330px; gap:36px; align-items:start; }
+    .catalogue { min-height:280px; }
+    .catalogue h2,.request-list h2 { margin:0 0 8px; font-size:27px; }
+    .section-copy { margin:0 0 19px; color:var(--muted); font-size:13px; line-height:1.55; }
+    .product-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; }
+    .product-card { position:relative; display:flex; flex-direction:column; min-width:0; }
+    .product-gallery { position:relative; display:grid; place-items:center; width:100%; aspect-ratio:1; padding:18px; overflow:hidden; border:1px solid #f0eeee; border-radius:5px; background:#fafafa; cursor:zoom-in; }
+    .product-card img { width:68%; height:68%; object-fit:contain; mix-blend-mode:multiply; transition:transform .25s ease; }
+    .product-card[data-sku="EBM-RQ-001"] .product-gallery img { width:54%; height:54%; }
+    .product-gallery:hover img { transform:scale(1.04); }
+    .product-favorite { position:absolute; top:8px; right:8px; z-index:1; display:grid; place-items:center; width:29px; height:29px; padding:0; border-radius:50%; background:#fff; color:var(--ink); font-size:20px; line-height:1; box-shadow:0 2px 8px rgba(0,0,0,.08); }
+    .product-favorite.is-favorite { color:var(--rose); }
+    .product-name { flex:1; min-height:55px; margin:10px 0 4px; font-size:11px; line-height:1.4; }
+    .sku { display:block; margin:0 0 8px; color:var(--muted); font-size:9px; font-weight:600; letter-spacing:.4px; }
+    .add { width:100%; padding:8px; border-radius:4px; background:var(--rose); color:#fff; font-size:11px; font-weight:700; }
+    .empty-catalogue { padding:36px 24px; border:1px dashed var(--line); border-radius:8px; background:#fff; color:var(--muted); font-size:13px; line-height:1.6; }
+    .custom-request { margin-top:28px; padding:24px; border-radius:8px; background:var(--blush); }
+    .custom-request h2 { margin:0 0 8px; font-size:25px; }
+    .custom-request p { margin:0 0 16px; color:var(--muted); font-size:13px; line-height:1.5; }
+    .custom-form { display:grid; grid-template-columns:1fr auto; gap:9px; }
+    input { min-width:0; padding:11px 12px; border:1px solid #dbcfc9; border-radius:4px; background:#fff; color:var(--ink); font-size:13px; }
+    .button { padding:11px 16px; border-radius:22px; background:var(--rose); color:#fff; font-size:12px; font-weight:700; }
+    .request-list { padding:25px; border-radius:8px; background:#fff; border:1px solid var(--line); }
+    .request-list > p { margin:0 0 15px; color:var(--muted); font-size:12px; line-height:1.5; }
+    .request-contact { margin-top:22px; padding-top:18px; border-top:1px solid var(--line); }
+    .request-contact h3 { margin:0 0 6px; font-size:21px; }
+    .request-contact > p { margin:0 0 14px; color:var(--muted); font-size:12px; line-height:1.5; }
+    .request-contact label { display:block; margin:0 0 10px; font-size:12px; font-weight:600; }
+    .request-contact input,.request-contact textarea { display:block; width:100%; margin-top:5px; padding:10px 11px; border:1px solid var(--line); border-radius:5px; background:#fff; color:var(--ink); font:13px 'DM Sans',sans-serif; }
+    .request-contact textarea { min-height:80px; resize:vertical; }
+    .request-contact .button { width:100%; justify-content:center; }
+    .request-status { min-height:18px; margin:10px 0 0!important; font-size:12px!important; }
+    .request-status.success { color:#267044; }
+    .request-status.error { color:#a12f36; }
+    .request-status:empty { display:none; }
+    main { width:min(760px,90%); }
+    .intro { max-width:680px; margin:0 auto 28px; color:var(--muted); font-size:14px; line-height:1.65; text-align:center; }
+    main > h1 { margin:0 0 12px; text-align:center; }
+    .request-form { max-width:620px; margin:0 auto; padding:28px; border:1px solid var(--line); border-radius:9px; background:#fff; box-shadow:0 8px 28px rgba(33,29,28,.05); }
+    .request-form label { display:block; margin:0 0 15px; font-size:13px; font-weight:600; }
+    .request-form input,.request-form textarea { display:block; width:100%; margin-top:6px; padding:11px 12px; border:1px solid var(--line); border-radius:5px; background:#fff; color:var(--ink); font:14px 'DM Sans',sans-serif; }
+    .request-form textarea { min-height:120px; resize:vertical; }
+    .request-form .button { width:100%; justify-content:center; }
+    .request-form .request-status { min-height:20px; margin:12px 0 0; color:var(--muted); font-size:13px; text-align:center; }
+    .request-form .request-status.success { color:#267044; }
+    .request-form .request-status.error { color:#a12f36; }
+    .list-item { display:grid; grid-template-columns:48px minmax(0,1fr); gap:11px; align-items:center; padding:12px 0; border-top:1px solid var(--line); }
+    .list-item img { width:48px; height:48px; border:1px solid #f0eeee; border-radius:4px; object-fit:contain; background:#fafafa; }
+    .list-item strong { display:block; font-size:12px; line-height:1.35; }
+    .list-item small { color:var(--muted); font-size:11px; }
+    .item-actions { display:flex; align-items:center; gap:9px; margin-top:5px; }
+    .item-actions button { padding:0; background:transparent; color:var(--muted); font-size:11px; text-decoration:underline; }
+    .item-actions span { font-size:11px; }
+    .empty-list { margin:0; padding:14px 0 2px; border-top:1px solid var(--line); color:var(--muted); font-size:12px; line-height:1.5; }
+    #product-lightbox { position:fixed; inset:0; z-index:10; display:grid; place-items:center; padding:30px; background:rgba(22,18,17,.78); opacity:0; pointer-events:none; transition:opacity .2s ease; }
+    #product-lightbox.open { opacity:1; pointer-events:auto; }
+    .lightbox-panel { position:relative; display:flex; align-items:flex-start; gap:24px; width:min(90vw,900px); padding:20px 22px 18px; border-radius:12px; background:rgba(255,255,255,.96); box-shadow:0 12px 28px rgba(0,0,0,.12); }
+    .lightbox-stage { display:grid; place-items:center; }
+    #product-lightbox img { max-width:min(42vw,420px); max-height:62vh; width:auto; height:auto; object-fit:contain; border-radius:8px; background:#fff; box-shadow:0 16px 50px rgba(0,0,0,.3); }
+    .lightbox-close { position:absolute; top:8px; right:8px; width:40px; height:40px; border-radius:50%; background:#fff; color:#211d1c; font-size:25px; line-height:1; box-shadow:0 2px 10px rgba(0,0,0,.08); z-index:2; }
+    .lightbox-nav { position:absolute; top:50%; transform:translateY(-50%); width:42px; height:42px; border-radius:50%; background:rgba(255,255,255,.9); color:#211d1c; font-size:28px; line-height:1; z-index:2; }
+    .lightbox-prev { left:-54px; }.lightbox-next { right:-54px; }
+    .lightbox-detail { position:relative; flex:1; min-width:0; padding:6px 0; }.lightbox-detail h3 { margin:0 0 10px; font:700 22px/1.25 'DM Sans',sans-serif; }.lightbox-detail p,.lightbox-detail ul,.lightbox-detail ol { margin:0; font-size:14px; line-height:1.6; }.lightbox-detail ul,.lightbox-detail ol { padding-left:20px; }
+    .detail-section { border-top:1px solid var(--line); }.detail-section:last-child { border-bottom:1px solid var(--line); }.detail-section summary { padding:12px 0; font-size:14px; font-weight:700; cursor:pointer; list-style:none; }.detail-section summary::-webkit-details-marker { display:none; }.detail-section summary::after { content:'+'; float:right; font-size:18px; font-weight:400; }.detail-section[open] summary::after { content:'−'; }.detail-section-content { padding:0 0 12px; }.detail-section-content p { margin-bottom:10px; }
+    footer { padding:22px 5%; background:#211d1c; color:#fff; display:flex; justify-content:space-between; font-size:11px; }
+    @media (max-width:720px) { .topbar { justify-content:center; font-size:10px; } .topbar span:last-child { display:none; } .nav { padding:14px 5%; } main { width:min(92%,680px); padding-top:35px; } h1 { font-size:35px; } footer { display:block; line-height:2; } }
+    @media (max-width:440px) { .request-form { padding:20px 16px; } }
+  </style>
+</head>
+<body>
+  <div class="topbar"><span>Authentic German Products &nbsp; | &nbsp; Delivered to the USA</span><span>♡ &nbsp; Beauty from Germany, for You</span></div>
+  <header class="nav"><a class="logo" href="index.html">EuroBeauty<small>MARKET</small></a><a class="continue" href="index.html">← Back to home</a><div class="actions" aria-label="Store actions"><a class="favorite" href="favorites.html" aria-label="Favorites">♡<b class="icon-count favorite-count">0</b></a><a class="cart" href="basket.html" aria-label="Basket">🛒<b class="icon-count basket-count">0</b></a></div></header>
+  <main>
+    <h1>Request More Products</h1>
+    <p class="intro">Tell us which products you’re looking for. Share the product names, brands, or any details you have, and we’ll contact you soon.</p>
+    <form class="request-form" id="request-contact-form">
+      <label for="request-products">Products you’re looking for<textarea id="request-products" name="requested_products" placeholder="List the product names, brands, sizes, or links" required></textarea></label>
+      <label for="request-name">Full name<input id="request-name" name="name" autocomplete="name" required></label>
+      <label for="request-email">Email address<input id="request-email" name="email" type="email" autocomplete="email" required></label>
+      <label for="request-phone">Phone number (optional)<input id="request-phone" name="phone" type="tel" autocomplete="tel"></label>
+      <label for="request-message">Additional details (optional)<textarea id="request-message" name="message"></textarea></label>
+      <button class="button" type="submit">Send product request</button>
+      <p class="request-status" id="request-status" role="status" aria-live="polite"></p>
+    </form>
+  </main>
+  <footer><span>© 2026 EuroBeauty Market</span><span>Authentic German beauty, delivered with care.</span></footer>
+  <script>
+    document.querySelector('#request-contact-form').addEventListener('submit', async (event) => {
+      event.preventDefault();
+      const form = event.currentTarget;
+      const submitButton = form.querySelector('[type="submit"]');
+      const status = document.querySelector('#request-status');
+      const formData = new FormData(form);
+      const request = {
+        name: formData.get('name'),
+        email: formData.get('email'),
+        _replyto: formData.get('email'),
+        phone: formData.get('phone') || 'Not provided',
+        requested_products: formData.get('requested_products'),
+        message: formData.get('message') || 'No additional details',
+        _subject: 'New EuroBeauty product request',
+        _template: 'table'
+      };
+      submitButton.disabled = true;
+      status.textContent = 'Sending your product request...';
+      status.className = 'request-status';
+      try {
+        const response = await fetch('https://formsubmit.co/ajax/aminemouzannar@gmail.com', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+          body: JSON.stringify(request)
+        });
+        const result = await response.json().catch(() => ({}));
+        if (!response.ok || result.success === false || result.success === 'false') {
+          throw new Error(result.message || 'We could not send your request. Please try again later.');
+        }
+        status.textContent = "Thank you! Your request has been sent. We'll contact you soon.";
+        status.className = 'request-status success';
+        form.reset();
+      } catch (error) {
+        status.textContent = window.location.protocol === 'file:'
+          ? 'Open the website online to send your request.'
+          : (error.message || 'We could not send your request. Please try again later.');
+        status.className = 'request-status error';
+      } finally {
+        submitButton.disabled = false;
+      }
+    });
+  </script>
+  <script src="translations.js?v=20261012-4"></script>
+</body>
+</html>
+
+
+

@@ -1,0 +1,623 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Authentic German skincare, haircare and face masks delivered to the USA.">
+  <title>EuroBeauty Market | German Beauty, Delivered</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet">
+  <style>
+    :root { --ink:#171717; --muted:#5f5a58; --rose:#c86469; --rose-dark:#a94850; --blush:#f5e6e2; --paper:#fffdfb; --line:#e8dfdc; }
+    * { box-sizing:border-box; }
+    .sr-only { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
+    html { scroll-behavior:smooth; }
+    body { margin:0; background:var(--paper); color:var(--ink); font-family:'DM Sans', sans-serif; }
+    a { color:inherit; text-decoration:none; }
+    button { border:0; cursor:pointer; font:inherit; }
+    .topbar { display:flex; justify-content:space-between; align-items:center; padding:8px 5%; background:#f2d7d4; font-size:11px; }
+    .topbar span { display:flex; align-items:center; gap:8px; }
+    .topbar .center { margin-left:12%; }
+    .nav { display:flex; align-items:center; justify-content:space-between; gap:30px; padding:17px 5%; background:#fff; }
+    .logo { font:600 29px/24px 'Playfair Display', serif; letter-spacing:-1.5px; }
+    .logo small { display:block; font:700 9px/15px 'DM Sans', sans-serif; letter-spacing:4px; text-align:center; }
+    .navlinks { display:flex; gap:27px; margin-left:auto; font-size:12px; }
+    .navlinks a:first-child { border-bottom:1px solid var(--ink); padding-bottom:5px; }
+    .search-form { position:relative; width:180px; }
+    .search-form input { width:100%; padding:9px 31px 9px 12px; border:1px solid var(--line); border-radius:20px; outline:0; background:#fffdfb; color:var(--ink); font:11px 'DM Sans',sans-serif; }
+    .search-form input:focus { border-color:var(--rose); box-shadow:0 0 0 3px rgba(200,100,105,.12); }
+    .search-icon { position:absolute; top:50%; right:11px; transform:translateY(-52%); color:var(--muted); font-size:16px; pointer-events:none; }
+    .actions { display:flex; align-items:center; gap:17px; font-size:21px; }
+    .favorite { position:relative; padding:0; background:transparent; color:var(--ink); font-size:25px; line-height:1; }
+    .cart { position:relative; }
+    .icon-count { position:absolute; top:-8px; right:-9px; display:grid; place-items:center; width:16px; height:16px; border-radius:50%; background:var(--ink); color:#fff; font-size:9px; }
+    h1, h2, h3 { font-family:'Playfair Display', serif; font-weight:500; }
+    .button { display:inline-flex; align-items:center; gap:10px; padding:12px 23px; border-radius:22px; background:var(--rose); color:white; font-size:13px; font-weight:600; transition:.2s ease; }
+    .button:hover, .add:hover { background:var(--rose-dark); transform:translateY(-2px); }
+    .hero-image { line-height:0; overflow:hidden; background:var(--blush); }
+    .hero-image img { display:block; width:70%; height:auto; margin:0 auto; }
+    .section { padding:25px 5% 0; }
+    .tile-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; }
+    .tile { min-height:151px; display:flex; align-items:center; padding:20px; background:var(--blush); border-radius:7px; overflow:hidden; background-position:center; background-size:cover; }
+    .tile:nth-child(1) { background-image:linear-gradient(90deg,#f8ece8 0%,rgba(248,236,232,.82) 48%,rgba(248,236,232,0) 100%),url('https://images.unsplash.com/photo-1556229010-6c3f2c9c7f44?auto=format&fit=crop&w=900&q=80'); }
+    .tile:nth-child(2) { background-image:linear-gradient(90deg,#f7e8e5 0%,rgba(247,232,229,.65) 47%,rgba(247,232,229,0) 100%),url('https://images.unsplash.com/photo-1535585209827-a15fcdbc4c2d?auto=format&fit=crop&w=900&q=80'); }
+    .tile:nth-child(3) { background-image:linear-gradient(90deg,#f6e5e2 0%,rgba(246,229,226,.57) 44%,rgba(246,229,226,0) 100%),url('https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?auto=format&fit=crop&w=900&q=80'); }
+    .tile-copy { max-width:190px; }
+    .tile h2 { margin:0 0 9px; font-size:21px; }
+    .tile p { margin:0 0 16px; font-size:11px; line-height:1.45; }
+    .text-link { border-bottom:1px solid; padding-bottom:3px; font-size:11px; font-weight:600; }
+    .section-heading { display:flex; align-items:end; justify-content:space-between; margin:17px 0 14px; }
+    .section-heading h2 { margin:0; font-size:27px; }
+    .products-intro { display:grid; grid-template-columns:1fr; align-items:center; gap:34px; margin:17px 0 28px; padding:17px 0; border-top:1px solid var(--line); border-bottom:1px solid var(--line); }
+    .products-intro h2 { margin:0; font-size:29px; }
+    .products-intro p { max-width:560px; margin:0; color:var(--muted); font-size:12px; line-height:1.55; }
+    .products-intro strong { color:var(--ink); }
+    .products-intro a { color:var(--ink); border-bottom:1px solid var(--rose); font-weight:700; }
+    .search-empty { margin:0 0 24px; padding:18px; border-radius:5px; background:var(--blush); color:var(--muted); font-size:13px; text-align:center; }
+    .product-category { margin-top:28px; }
+    .product-category h3 { margin:0 0 14px; font-size:24px; }
+    .product-subcategory { margin:18px 0 26px; }
+    .product-subcategory h4 { margin:0 0 12px; padding-bottom:7px; border-bottom:1px solid var(--line); font:600 16px 'DM Sans',sans-serif; }
+    .skin-finder { margin:0 0 24px; padding:18px; border:1px solid var(--line); border-radius:7px; background:var(--blush); }
+    .skin-finder h4 { margin:0 0 5px; font:600 18px 'Playfair Display',serif; }
+    .skin-finder-intro { margin:0 0 13px; color:var(--muted); font-size:11px; line-height:1.5; }
+    .skin-finder-form { display:grid; grid-template-columns:1fr 1fr auto; align-items:end; gap:10px; }
+    .skin-finder-form label { display:grid; gap:5px; font-size:10px; font-weight:600; }
+    .skin-finder-form select { width:100%; min-width:0; padding:9px; border:1px solid var(--line); border-radius:4px; background:#fff; font:11px 'DM Sans',sans-serif; }
+    .skin-finder-form button,.skin-recommendation button { min-height:36px; padding:8px 13px; border-radius:20px; background:var(--rose); color:#fff; font-size:11px; font-weight:700; }
+    .skin-results { margin-top:15px; }
+    .skin-results h5 { margin:0 0 9px; font-size:12px; }
+    .skin-recommendations { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:8px; }
+    .skin-recommendation { display:grid; grid-template-columns:48px minmax(0,1fr); align-items:center; gap:3px 9px; padding:8px; border:1px solid var(--line); border-radius:5px; background:var(--paper); }
+    .skin-recommendation img { grid-row:1 / 3; display:block; width:48px; height:48px; border-radius:4px; background:#fafafa; object-fit:contain; }
+    .skin-recommendation strong { display:block; margin:0; font-size:10px; line-height:1.3; }
+    .skin-recommendation button { justify-self:start; min-height:26px; padding:4px 9px; font-size:9px; }
+    .products { display:grid; grid-template-columns:repeat(6,1fr); gap:16px; }
+    .product { display:flex; flex-direction:column; align-self:stretch; min-width:0; }
+    .product-image { position:relative; aspect-ratio:1/1; display:grid; place-items:center; padding:18px; border:1px solid #f0eeee; border-radius:5px; background:#fafafa; overflow:hidden; cursor:zoom-in; }
+    .product-image img { width:82%; height:82%; object-fit:contain; mix-blend-mode:multiply; transition:transform .25s ease; }
+    .product-favorite { position:absolute; top:8px; right:8px; z-index:1; display:grid; place-items:center; width:29px; height:29px; border-radius:50%; background:#fff; color:var(--ink); font-size:20px; line-height:1; box-shadow:0 2px 8px rgba(0,0,0,.08); }
+    .product-favorite.is-favorite { color:var(--rose); }
+    .product:hover .product-image img { transform:scale(1.04); }
+    .product-name { flex:0 0 auto; min-height:0; margin:6px 0 3px; font-size:11px; line-height:1.35; }
+    .sku { display:block; margin:0 0 3px; color:var(--muted); font-size:9px; font-weight:600; letter-spacing:.4px; }
+    .stars { color:#eea900; font-size:13px; letter-spacing:1px; }
+    .review { color:#777; font-size:9px; }
+    .price { margin:0 0 6px; font-size:13px; font-weight:700; }
+    .product-cart-controls { display:grid; grid-template-columns:48px minmax(0,1fr); gap:5px; align-items:stretch; margin-top:auto; }
+    .product-basket-status { grid-column:1 / -1; display:flex; align-items:center; justify-content:space-between; gap:6px; min-height:15px; color:var(--rose-dark); font-size:10px; font-weight:600; }
+    .product-basket-status[hidden] { visibility:hidden; }
+    .product-basket-remove { padding:1px 0; background:transparent; color:var(--muted); font-size:9px; text-decoration:underline; }
+    .product-quantity { width:100%; min-width:0; padding:5px 3px; border:1px solid var(--line); border-radius:4px; background:#fff; color:var(--ink); font:11px 'DM Sans',sans-serif; }
+    .add { width:100%; min-width:0; margin:0; padding:7px 3px; border-radius:4px; background:#c5686b; color:#fff; font-size:11px; transition:.2s ease; }
+    .feature-banner { display:flex; align-items:center; min-height:157px; margin-top:18px; padding:25px 27px; border-radius:8px; background:linear-gradient(90deg,#f5e7dd 0%,#f7e9df 48%,rgba(247,233,223,.4)), url('https://images.unsplash.com/photo-1611930022073-b7a4ba5fcccd?auto=format&fit=crop&w=1500&q=80') center/cover; }
+    .feature-banner h2 { max-width:320px; margin:0 0 5px; font-size:27px; line-height:1.08; }
+    .feature-banner p { margin:0 0 15px; font-size:13px; }
+    .trust { display:grid; grid-template-columns:repeat(4,1fr); margin:18px 0 0; border-bottom:1px solid var(--line); }
+    .trust-item { display:flex; align-items:center; gap:12px; padding:14px 20px 14px 0; border-right:1px solid var(--line); }
+    .trust-item:not(:first-child) { padding-left:20px; }
+    .trust-item:last-child { border:0; }
+    .trust-icon { font-size:28px; }
+    .trust strong { display:block; font-size:11px; }
+    .trust small { display:block; margin-top:2px; font-size:10px; color:var(--muted); }
+    .bottom-tiles { margin-bottom:34px; }
+    footer { padding:22px 5%; background:#211d1c; color:#fff; display:flex; justify-content:space-between; font-size:11px; }
+    #toast { position:fixed; right:22px; bottom:22px; z-index:2; padding:13px 18px; border-radius:5px; background:#211d1c; color:#fff; font-size:12px; opacity:0; pointer-events:none; transform:translateY(8px); transition:.25s; }
+    #toast.show { opacity:1; transform:translateY(0); }
+    #lightbox { position:fixed; inset:0; z-index:5; display:grid; place-items:center; padding:30px; background:rgba(22,18,17,.78); opacity:0; pointer-events:none; transition:opacity .2s ease; }
+    #lightbox.open { opacity:1; pointer-events:auto; }
+    .lightbox-stage { display:grid; place-items:center; gap:8px; flex:0 0 min(42vw, 420px); }
+    .lightbox-product-id { margin-top:8px; color:var(--muted); font-size:11px; font-weight:600; }
+    .lightbox-product-id[hidden] { display:none; }
+    .lightbox-product-price { color:var(--ink); font-size:14px; font-weight:700; }
+    .lightbox-product-price[hidden] { display:none; }
+    .lightbox-actions { display:grid; grid-template-columns:60px minmax(0,1fr); gap:6px; width:100%; }
+    .lightbox-actions[hidden] { display:none; }
+    .lightbox-actions button,.lightbox-actions select { min-width:0; min-height:36px; padding:7px 8px; border:1px solid var(--line); border-radius:5px; background:#fff; color:var(--ink); font:600 11px 'DM Sans',sans-serif; }
+    .lightbox-actions .lightbox-add { border-color:var(--rose); background:var(--rose); color:#fff; }
+    .lightbox-actions .lightbox-utility { grid-column:1 / -1; display:grid; grid-template-columns:1fr 1fr; gap:6px; }
+    #lightbox img { max-width:min(42vw, 420px); max-height:62vh; width:auto; height:auto; object-fit:contain; border-radius:8px; background:#fff; box-shadow:0 16px 50px rgba(0,0,0,.3); }
+    .lightbox-close { position:absolute; top:-14px; right:-14px; width:40px; height:40px; border:1px solid var(--line); border-radius:50%; background:#fff; color:#211d1c; font-size:25px; line-height:1; box-shadow:0 2px 10px rgba(0,0,0,.08); z-index:2; }
+    .lightbox-nav { position:absolute; top:50%; transform:translateY(-50%); width:42px; height:42px; border-radius:50%; border:0; background:rgba(255,255,255,.9); color:#211d1c; font-size:28px; line-height:1; cursor:pointer; z-index:2; }
+    .lightbox-prev { left:-54px; }
+    .lightbox-next { right:-54px; }
+    .lightbox-panel { position:relative; display:flex; align-items:flex-start; gap:24px; width:min(90vw, 900px); padding:20px 22px 18px; border-radius:12px; background:rgba(255,255,255,.96); box-shadow:0 12px 28px rgba(0,0,0,.12); }
+    .lightbox-detail { flex:1; min-width:0; padding:6px 0; color:#171717; font-family:'DM Sans', sans-serif; }
+    .lightbox-detail h3 { margin:0 0 10px; padding-right:48px; font-family:'DM Sans', sans-serif; font-size:22px; font-weight:700; line-height:1.25; }
+    .lightbox-detail p { margin:0 0 10px; font-family:'DM Sans', sans-serif; font-size:14px; font-weight:400; line-height:1.6; }
+    .lightbox-detail ul { margin:0; padding-left:20px; font-family:'DM Sans', sans-serif; font-size:14px; font-weight:400; line-height:1.7; }
+    .lightbox-detail li { margin-bottom:2px; }
+    .detail-section { border-top:1px solid var(--line); }
+    .detail-section:last-child { border-bottom:1px solid var(--line); }
+    .detail-section summary { padding:12px 0; color:#211d1c; font-family:'DM Sans', sans-serif; font-size:14px; font-weight:700; line-height:1.4; cursor:pointer; list-style:none; }
+    .detail-section summary::-webkit-details-marker { display:none; }
+    .detail-section summary::after { content:'+'; float:right; font-size:18px; font-weight:400; }
+    .detail-section[open] summary::after { content:'−'; }
+    .detail-section-content { padding:0 0 12px; }
+    .detail-section-content p { margin:0 0 10px; }
+    .detail-section-content p:last-child { margin-bottom:0; }
+    .detail-section-content ol { margin:0; padding-left:0; font-family:'DM Sans', sans-serif; font-size:14px; font-weight:400; line-height:1.7; list-style:none; }
+    .detail-section-content ol li { margin-bottom:2px; }
+    @media (max-width:800px) { .navlinks { display:none; } .tile-grid { grid-template-columns:1fr; } .tile { min-height:135px; } .products { grid-template-columns:repeat(3,1fr); } .trust { grid-template-columns:repeat(2,1fr); } .trust-item:nth-child(2) { border-right:0; } .trust-item:nth-child(3) { padding-left:0; border-top:1px solid var(--line); } .trust-item:nth-child(4) { border-top:1px solid var(--line); } .skin-finder-form { grid-template-columns:1fr 1fr; } .skin-finder-form button { grid-column:1 / -1; } }
+    @media (max-width:480px) {
+      .topbar .center { display:none; }
+      .topbar { justify-content:center; padding:7px 4%; font-size:10px; }
+      .nav { gap:12px; padding:14px 4%; }
+      .nav { flex-wrap:wrap; }
+      .search-form { order:3; width:100%; }
+      .logo { font-size:24px; line-height:21px; }
+      .logo small { font-size:8px; letter-spacing:3px; }
+      .actions { gap:11px; font-size:19px; }
+      .section { padding-right:4%; padding-left:4%; }
+      .products-intro { grid-template-columns:1fr; gap:6px; margin-bottom:24px; padding:15px 0; }
+      .products-intro h2 { font-size:25px; }
+      .products { grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px 8px; }
+      .skin-finder { padding:14px; }
+      .skin-finder-form,.skin-recommendations { grid-template-columns:1fr; }
+      .skin-finder-form button { grid-column:auto; }
+      .product { align-self:stretch; }
+      .product-image { padding:12px; }
+      .product-name { min-height:0; margin:5px 0 2px; font-size:10px; }
+      .product-cart-controls { grid-template-columns:43px minmax(0,1fr); gap:4px; }
+      .product-cart-controls { margin-top:auto; }
+      .product-quantity { padding:5px 2px; font-size:10px; }
+      .add { min-height:32px; padding:5px 2px; font-size:10px; }
+      .hero-image img { width:100%; }
+      .lightbox-panel { display:grid; grid-template-columns:1fr; gap:14px; width:calc(100vw - 24px); max-height:calc(100dvh - 24px); overflow-y:auto; padding:18px 14px 16px; }
+      .lightbox-close { top:8px; right:8px; }
+      .lightbox-stage { width:100%; min-height:190px; padding:0 34px; }
+      #lightbox img { max-width:65vw; max-height:34vh; }
+      .lightbox-prev { left:8px; }
+      .lightbox-next { right:8px; }
+      .lightbox-detail { padding:0; }
+      .lightbox-detail h3 { padding-right:48px; font-size:19px; }
+      .lightbox-detail p, .lightbox-detail ul, .detail-section-content ol { font-size:13px; line-height:1.55; }
+      .detail-section summary { padding:11px 0; font-size:13px; }
+      .feature-banner { min-height:190px; padding:20px; background-position:68% center; }
+      footer { display:block; line-height:2; }
+    }
+  </style>
+</head>
+<body>
+  <div class="topbar"><span class="center">Authentic German Products &nbsp; | &nbsp; Delivered to the USA</span><span>♡ &nbsp; Beauty from Germany, for You</span></div>
+  <header class="nav">
+    <a class="logo" href="#top">EuroBeauty<small>MARKET</small></a>
+    <nav class="navlinks" aria-label="Main navigation"><a href="#top">Home</a><a href="#skincare">Skincare</a><a href="#haircare">Haircare</a><a href="#footcare">Footcare</a><a href="#bestsellers">All Products</a><a href="request-products.html">Request Products</a><a href="contact.html">Contact Us</a></nav>
+    <form class="search-form" role="search"><label for="product-search" class="sr-only">Search products</label><input id="product-search" type="search" placeholder="Search products" autocomplete="off"><span class="search-icon">⌕</span></form>
+    <div class="actions" aria-label="Store actions"><a class="favorite" href="favorites.html" aria-label="Favorites">♡<b class="icon-count favorite-count">0</b></a><a class="cart" href="basket.html" aria-label="Basket">🛒<b class="icon-count basket-count">0</b></a></div>
+  </header>
+  <main id="top">
+    <section class="hero-image" aria-label="German beauty products"><img src="images/5afa0e5d-0048-4709-b54c-5ff2aadc339f.png" alt="Authentic German beauty products delivered across the USA"></section>
+    <section class="section" id="bestsellers"><div class="products-intro"><h2>Our Products</h2></div><p class="search-empty" id="search-empty" hidden>No products match your search. Try another product name or <a href="request-products.html">request your favorite products</a>.</p>
+      <div class="product-category" id="skincare"><h3>Skincare</h3><section class="skin-finder" aria-labelledby="skin-finder-title"><h4 id="skin-finder-title">Find your skincare match</h4><p class="skin-finder-intro">Answer two quick questions for product suggestions from our skincare range.</p><form class="skin-finder-form" id="skin-finder-form"><label for="skin-type">What is your skin type?<select id="skin-type" required><option value="" selected disabled>Choose skin type</option><option value="dry">Dry</option><option value="oily">Oily</option><option value="combination">Combination</option><option value="sensitive">Sensitive</option><option value="normal">Normal</option></select></label><label for="skin-goal">What would you like help with?<select id="skin-goal" required><option value="" selected disabled>Choose a goal</option><option value="hydration">Hydration</option><option value="pores">Oil or pores</option><option value="blemishes">Blemishes</option><option value="fine-lines">Fine lines</option><option value="glow">A brighter looking glow</option><option value="soothing">Soothing care</option></select></label><button type="submit">Show my matches</button></form><div class="skin-results" id="skin-results" aria-live="polite" hidden></div></section>
+<section class="product-subcategory"><h4>Face Care</h4><div class="products">
+<article class="product" data-sku="EBM-SK-001" data-gallery-images="images/51d68b48-6573-48c5-baee-010cea76a49d.png,images/Screenshot 2026-09-18 125159.png" data-gallery-alts="Balea Rice Water Bio-Cellulose Face Mask front,Balea Rice Water Bio-Cellulose Face Mask back" data-product-description="Product Description|The Balea Rice Water Bio-Cellulose Face Mask is a refreshing, moisturizing treatment for a fresh and radiant complexion. Enriched with an active complex of hyaluronic acid and rice water, it helps hydrate the skin and leave it feeling soft, smooth, and well cared for. The bio-cellulose sheet made from fermented coconut water gently adapts to the contours of the face and supports the absorption of the active ingredients. Rice water is known for its nourishing properties, while hyaluronic acid helps retain moisture in the skin. Together, they help promote a smoother, fresher-looking complexion and a healthy glow.|Ingredients: Aqua, Glycerin, Propylene Glycol, Sodium Hyaluronate, Oryza Sativa Seed Water, Lactobacillus Ferment, Saccharomyces/Rice Ferment Filtrate, 1,2-Hexanediol, Xanthan Gum, Glyceryl Glucoside, Propanediol, Caprylhydroxamic Acid, Tetrasodium Glutamate Diacetate, Sodium Chloride, Sodium Glycolate, Hydroxyacetophenone, Ethylhexylglycerin, Parfum, Hexyl Cinnamal.|Sheet mask with rice water and hyaluronic acid|Enriched with an active complex of hyaluronic acid and rice water|For a fresh glow and a soft, smooth skin feel|Provides intensive hydration|Bio-cellulose sheet made from fermented coconut water|Suitable for normal, dry, and dehydrated skin|Directions for Use: 1. Cleanse your face thoroughly. 2. Remove the mask from the packaging and unfold it carefully. 3. Apply it evenly to the face and leave it on for 15–20 minutes. 4. Remove the mask and gently massage any remaining serum into the skin. Use regularly for best results."><div class="product-image"><img src="images/51d68b48-6573-48c5-baee-010cea76a49d.png" alt="Balea Rice Water Bio-Cellulose Face Mask front"></div><div class="product-name">Rice Water Bio-Cellulose Face Mask, 1 pc</div><button class="add">Add to Cart</button></article>
+<article class="product" data-sku="EBM-SK-002" data-gallery-images="images/95793850-aff9-4dd2-9ba0-f04181e42a2a.png,images/Screenshot 2026-09-18 125551.png" data-gallery-alts="Balea Selfcare Moments Sheet Mask front,Balea Selfcare Moments Sheet Mask back" data-product-description="Product Description|The Balea Selfcare Moments Sheet Mask is a moisturizing sheet mask for a refreshing moment of self-care. Enriched with hyaluronic acid and silk tree blossom extract, it provides intensive hydration and helps promote a fresh, radiant complexion. The soft sheet material gently adapts to the contours of the face and supports the absorption of the active ingredients.|After use, the skin can feel refreshed, smooth, and revitalized. The mask is ideal for a relaxing skincare ritual and leaves the skin feeling silky soft and well cared for.|Ingredients: Aqua, Glycerin, Pentylene Glycol, Hydroxyacetophenone, Xanthan Gum, Caprylic/Capric Triglyceride, Sodium Citrate, Citric Acid, Sodium Phytate, Sodium Hyaluronate, Parfum, Albizia Julibrissin Flower Extract.|Moisturizing sheet mask|Enriched with hyaluronic acid and silk tree blossom extract|For a fresh and radiant complexion|Provides intensive hydration|Gently adapts to the contours of the skin|Vegan|Free from nanoparticles|Directions for Use: 1. Remove the sheet mask from the packaging and place it onto cleansed skin. 2. Adjust the mask gently to the contours of the face. 3. Leave on for 15 minutes, then remove. 4. Gently massage any remaining serum into the skin."><div class="product-image"><img src="images/95793850-aff9-4dd2-9ba0-f04181e42a2a.png" alt="Balea Selfcare Moments Sheet Mask front"></div><div class="product-name">Selfcare Moments Sheet Mask, 1 pc</div><button class="add">Add to Cart</button></article>
+<article class="product" data-sku="EBM-SK-003" data-gallery-images="images/67c0c240-a717-471a-8e8b-76e5b670ac72.png,images/Screenshot 2026-09-18 130206.png" data-gallery-alts="Balea Glass Skin Collagen Mask front,Balea Glass Skin Collagen Mask back" data-product-description="Product Description|The Balea Glass Skin Collagen Mask is a moisturizing face mask designed to create a glass-skin effect. It helps improve skin elasticity and leaves the complexion looking visibly smoother, more even, and revitalized. Its carefully selected active ingredient complex with dual hyaluronic acid, collagen, niacinamide, and vitamin C provides deep hydration and supports a youthful, radiant glow. Vitamin C and niacinamide can help refine the appearance of the skin, while the formula helps leave it looking healthier and more vibrant.|Ingredients: Aqua, Glycerin, Caprylic/Capric Triglyceride, Propylene Glycol, Xanthan Gum, Sodium Hyaluronate, Hydrolyzed Collagen, Hydrolyzed Sodium Hyaluronate, 3-O-Ethyl Ascorbic Acid, Euglena Gracilis Polysaccharide, Niacinamide, Carrageenan, 1,2-Hexanediol, Glyceryl Stearate Citrate, Hydroxyacetophenone, Caprylyl Glycol, Ethylhexylglycerin.|Face mask for a glass-skin effect|Moisturizing formula|With hyaluronic acid, collagen, vitamin C, and niacinamide|For visibly smoother-looking skin|Especially suitable for the face|Anti-aging care|Warnings: The mask is not reusable. Do not use for the care of children. Once the mask becomes transparent, optimal active ingredient absorption is complete.|Directions for Use: 1. Remove the small mask for the lower half of the face, unfold it, and remove the protective layers. 2. Place the mask on cleansed skin and gently smooth it into place with your hands. 3. Repeat these steps with the larger mask for the upper half of the face. Leave on for 1–4 hours or overnight. 4. Remove the masks and wipe away any residue with a damp cosmetic tissue."><div class="product-image"><img src="images/67c0c240-a717-471a-8e8b-76e5b670ac72.png" alt="Balea Glass Skin Collagen Mask front"></div><div class="product-name">Glass Skin Collagen Mask, 1 pc</div><button class="add">Add to Cart</button></article>
+      <article class="product" data-sku="EBM-SK-006" data-gallery-images="images/362ed293-7dfd-4c5d-a5eb-242301530ba2.png,images/0309a26d-ef72-4db3-89a4-1228688eb92f.png" data-gallery-alts="Schaebens Anti-Age Concentrate 7 pcs front,Schaebens Anti-Age Concentrate 7 pcs back" data-product-description="Product Description|The Schaebens Mature Skin Anti-Age Concentrate is an intensive treatment specially formulated for the needs of demanding, mature skin. Its rich formula with Q10, ginseng extract, and a vitamin E care complex helps support skin elasticity and firmness. It can help reduce the appearance of wrinkles while providing intensive hydration for a visibly smoother complexion. The lightweight vegan concentrate absorbs quickly and leaves the skin feeling soft, supple, and well cared for.|The concentrate is suitable for the face and provides nourishing anti-aging care for mature, dry, or demanding skin.|Ingredients: Dimethicone, C12-15 Alkyl Benzoate, Dimethiconol, Squalane, Tocopheryl Acetate, Simmondsia Chinensis Seed Oil, Prunus Amygdalus Dulcis Oil, Panax Ginseng Root Extract, Ubiquinone, Isopropyl Myristate, Parfum, Acetyl Cedrene, Linalyl Acetate, Vanillin.|Concentrated care for mature skin|With Q10 and ginseng extract|Smoothing care formula|Provides intensive hydration|Vegan|Free from paraffins and mineral oils|Warning: Do not swallow. Keep out of reach of children. Avoid contact with the eyes, mouth, and nose.|Storage: Store in a cool, dry place protected from light.|Directions for Use: 1. Twist off the capsule closure. 2. Apply the concentrate evenly to cleansed face, neck, and chest. 3. Gently pat until absorbed. 4. Use daily for best results."><div class="product-image"><img src="images/362ed293-7dfd-4c5d-a5eb-242301530ba2.png" alt="Schaebens Anti-Age Concentrate 7 pcs front"></div><div class="product-name">Anti-Age Concentrate, 7 pcs</div><button class="add">Add to Cart</button></article>
+<article class="product" data-sku="EBM-SK-007" data-gallery-images="images/8214613b-2a6b-4e94-9a8d-e8c096f63af6.png,images/56f16e3c-6e35-47e8-a4f8-5e974f4516ed.png" data-gallery-alts="Balea Vitamin C Concentrate front,Balea Vitamin C Concentrate back" data-product-description="Product Description|The Balea Vitamin C Concentrate is a nourishing special treatment for the face that gives the skin a fresh boost. Its glow formula with vitamins C and E and moisturizing orange oil helps promote a radiant complexion and a more even-looking skin tone. The formula has antioxidant properties, while the active ingredient COLLAGENEER may support the skin's own collagen production with regular use.|Its silky-soft texture and refreshing citrus fragrance make application a pleasant skincare ritual. The concentrate provides pampering care for the face and supports a fresh, healthy-looking glow.|Ingredients: Dimethicone, Dimethicone Crosspolymer, Coconut Alkanes, Helianthus Annuus Seed Oil, Tocopheryl Acetate, Dimethiconol, Tocopherol, Ascorbyl Tetraisopalmitate, Squalane, Lupinus Albus Seed Extract, Citrus Aurantium Peel Oil, Parfum, Alpha-Isomethyl Ionone, Citral, Dimethylphenethyl Acetate, Geraniol, Geranyl Acetate, Limonene, Linalool, Pinene, Terpineol, Tetramethyl Acetyloctahydronaphthalenes.|Vitamin concentrate for the face|With antioxidant properties|For a radiant complexion|May contribute to a more even-looking skin tone|Pampering care with a citrus fragrance|Dermatologically tested skin compatibility|Warning: For external use only. Do not swallow. Keep out of reach of children. Avoid contact with the eyes, mouth, and nose. Use the capsule immediately after opening.|Storage: Store in a cool, dry place protected from light.|Directions for Use: 1. Twist or cut off the capsule closure. 2. After cleansing, apply the concentrate with your fingertips to the face, neck, and chest. 3. Gently massage it into the skin. 4. Regular use in the morning and evening is recommended. The contents of one capsule are intended for one application."><div class="product-image"><img src="images/8214613b-2a6b-4e94-9a8d-e8c096f63af6.png" alt="Balea Vitamin C Concentrate 7 pcs front"></div><div class="product-name">Vitamin C Concentrate, 7 pcs</div><button class="add">Add to Cart</button></article>
+<article class="product" data-sku="EBM-SK-008" data-gallery-images="images/Screenshot 2026-09-18 150741.png,images/Screenshot 2026-09-18 150906.png" data-gallery-alts="Balea Anti-Wrinkle Q10 Concentrate front,Balea Anti-Wrinkle Q10 Concentrate back" data-product-description="Product Description|Balea Anti-Wrinkle Q10 Concentrate is an intensive skincare treatment in capsule form. Enriched with Q10 and ginseng extract, it helps support skin elasticity, reduce the appearance of wrinkles, and promote firmer-looking facial contours. Vitamin E provides antioxidant care, while the included meadowfoam seed oil absorbs quickly and leaves the skin feeling silky soft. The result is a visibly smoother, more youthful-looking complexion.|The formula is suitable for all skin types and provides anti-aging care without alcohol, preservatives, parabens, paraffins, mineral oils, nanoparticles, aluminum salts, or colorants.|Ingredients: Dimethicone, Dicaprylyl Ether, Dicaprylyl Carbonate, Squalane, Dimethicone Crosspolymer, Limnanthes Alba Seed Oil, Tocopheryl Acetate, Panax Ginseng Root Extract, Helianthus Annuus Seed Oil, Ubiquinone, Tocopherol, Parfum, Acetyl Cedrene, Alpha-Isomethyl Ionone, Benzyl Salicylate, Citrus Limon Peel Oil, Limonene, Linalyl Acetate, Tetramethyl Acetyloctahydronaphthalenes.|Skincare concentrate in capsule form|With Q10 and ginseng extract|For a silky-soft skin feel|Supports skin elasticity|Helps reduce the appearance of wrinkles|Anti-aging care|Suitable for all skin types|Free from alcohol, preservatives, parabens, paraffins, mineral oils, nanoparticles, aluminum salts, and colorants|Warning: For external use only. Do not swallow. Keep out of reach of children. Avoid contact with the eyes, mouth, and nose. Discontinue use if skin reactions occur. Daytime skincare with SPF is recommended.|Storage: Store in a cool, dry place protected from light.|Directions for Use: Twist or cut off the capsule closure. After cleansing, apply the concentrate with your fingertips to the face, neck, and chest. Gently massage into the skin. Regular use in the morning and evening is recommended. The contents of one capsule are intended for one application. Dermatologically tested skin compatibility."><div class="product-image"><img src="images/Screenshot 2026-09-18 150741.png" alt="Balea Anti-Wrinkle Q10 Concentrate front"></div><div class="product-name">Anti-Wrinkle Q10 Concentrate, 7 pcs</div><button class="add">Add to Cart</button></article>
+<article class="product" data-sku="EBM-SK-009" data-gallery-images="images/Screenshot 2026-09-18 151044.png,images/Screenshot 2026-09-18 151128.png" data-gallery-alts="Balea Retinol Concentrate front,Balea Retinol Concentrate back" data-product-description="Product Description|Balea Retinol Concentrate is a nourishing skincare treatment in capsule form that helps support a smoother, firmer-looking complexion. Its effective formula combines retinol with the plant-based collagen booster bakuchiol. This combination can support skin regeneration, stimulate the skin's own collagen synthesis, and help counter visible signs of aging.|With regular use, the concentrate can support improved firmness and elasticity and help soften the appearance of fine lines. It is ideal for overnight use and leaves the skin feeling cared for and smooth.|Ingredients: Dimethicone, Dicaprylyl Ether, Squalane, Dimethicone Crosspolymer, Limnanthes Alba Seed Oil, Tocopheryl Acetate, Panax Ginseng Root Extract, Helianthus Annuus Seed Oil, Bakuchiol, Retinyl Palmitate, Hydroxypinacolone Retinoate, Tocopherol, Dimethyl Isosorbide, Parfum, Phenoxyethanol.|Skincare concentrate with retinol|Helps firm and smooth the skin|May support a more youthful-looking complexion|Ideal for overnight use|Suitable for mature skin|Anti-aging care|Suitable for the face|Free from aluminum salts, alcohol, colorants, nanoparticles, parabens, paraffins, and mineral oils|pH-balanced for the skin|Warning: For external use only. Do not swallow. Keep out of reach of children. Avoid contact with the eyes, mouth, and nose. Discontinue use if skin reactions occur. Daytime skincare with SPF is recommended.|Storage: Store in a cool, dry place protected from light.|Directions for Use: Twist or cut off the capsule closure. After cleansing, apply the concentrate with your fingertips to the face, neck, and chest. Avoid the eye and lip areas. Gently massage into the skin. Regular use in the morning and evening is recommended. The contents of one capsule are intended for one application. Dermatologically tested skin compatibility."><div class="product-image"><img src="images/Screenshot 2026-09-18 151044.png" alt="Balea Retinol Concentrate front"></div><div class="product-name">Retinol Concentrate, 7 pcs</div><button class="add">Add to Cart</button></article>
+<article class="product" data-sku="EBM-SK-010" data-gallery-images="images/Screenshot 2026-09-18 151228.png,images/Screenshot 2026-09-18 151303.png" data-gallery-alts="Balea Hyaluron Concentrate front,Balea Hyaluron Concentrate back" data-product-description="Product Description|Balea Hyaluron Concentrate is an intensive moisture booster that refreshes and smooths the skin. Its active complex with hyaluronic acid helps plump the skin from within and can reduce the appearance of fine lines and wrinkles with regular use. The Hyaluron Booster Complex can also support the skin's own hyaluronic acid synthesis and the skin's regeneration process.|After use, the skin feels silky soft and intensely moisturized, creating a visibly plumper-looking complexion.|Ingredients: Dimethicone, Dicaprylyl Ether, Coconut Alkanes, Dimethicone Crosspolymer, Dimethiconol, Passiflora Edulis Seed Oil, Pistacia Vera Seed Oil, Tocopheryl Acetate, Fucus Vesiculosus Extract, Caprylyl Glycol, Sodium Hyaluronate, Tocopherol, Glycine Soja Oil, Parfum, Butylene Glycol, Caprylic/Capric Triglyceride, Hexylene Glycol, Silica Dimethyl Silylate, Phenoxyethanol, Ethylhexyl Palmitate, Dimethyl Phenethyl Acetate, Terpineol, Tetramethyl Acetyloctahydronaphthalenes.|Provides intensive hydration|Helps reduce wrinkles and fine lines|For a silky-soft skin feel|Suitable for all skin types|Suitable for the face|Free from parabens, colorants, paraffins, mineral oils, alcohol, preservatives, nanoparticles, and aluminum salts|Warning: For external use only. Do not swallow. Keep out of reach of children. Avoid contact with the eyes, mouth, and nose. Use the capsule immediately after opening.|Storage: Store in a cool, dry place protected from light.|Directions for Use: Twist or cut off the capsule closure. After cleansing, apply the concentrate with your fingertips to the face, neck, and chest. Gently massage into the skin. Regular use in the morning and evening is recommended. The contents of one capsule are intended for one application. Dermatologically tested skin compatibility."><div class="product-image"><img src="images/Screenshot 2026-09-18 151228.png" alt="Balea Hyaluron Concentrate front"></div><div class="product-name">Hyaluron Concentrate, 7 pcs</div><button class="add">Add to Cart</button></article>
+<article class="product" data-sku="EBM-SK-011" data-gallery-images="images/Screenshot 2026-09-18 151501.png,images/Screenshot 2026-09-18 151553.png" data-gallery-alts="Balea Pore Refining Toner Pads front,Balea Pore Refining Toner Pads back" data-product-description="Product Description|Balea Pore Refining Toner Pads help refine the appearance of the skin and promote a fresh, radiant complexion. Formulated with 2% AHA and 2% rice extract, they gently remove dead skin cells and can leave the skin looking smoother and more even. The fragrance-free formula is especially gentle and leaves the skin feeling comfortable, cared for, and refreshed.|The toner pads are vegan and suitable for the face. They are ideal for Korean-inspired skincare routines focused on gentle exfoliation and a refined-looking complexion.|Ingredients: Aqua, Propanediol, Glycerin, Glycolic Acid, Rice Ferment Filtrate, Centella Asiatica Extract, Sodium Hyaluronate, Betaine, Bacillus/Soybean Ferment Extract, Gluconolactone, Allantoin, Panthenol, Acetyl Glucosamine, 1,2-Hexanediol, Folic Acid, Hydroxyacetophenone, Hydroxypropyl Methylcellulose, Butylene Glycol, Caprylyl Glycol, Sodium Hydroxide, Phenoxyethanol.|Skin-refining facial pads|Helps refine the appearance of the skin|With 2% AHA and 2% rice extract|For a smoother and more even-looking complexion|Fragrance-free|Vegan|Suitable for the face|Warning: Avoid contact with the eyes and mucous membranes. If used in the morning, apply sunscreen with at least SPF 30 afterward. Avoid direct sunlight after use. Not suitable during pregnancy or breastfeeding. Store upright. Not suitable for children.|Directions for Use: After cleansing, remove one pad with tweezers and gently swipe it over the face and neck. Avoid the eye and lip areas generously. Start by using once a week and slowly increase to once daily depending on skin sensitivity."><div class="product-image"><img src="images/Screenshot 2026-09-18 151501.png" alt="Balea Pore Refining Toner Pads front"></div><div class="product-name">Pore Refining Toner Pads, Korean Skincare</div><button class="add">Add to Cart</button></article>
+<article class="product" data-sku="EBM-SK-012" data-gallery-images="images/194ac52e-30d5-45a8-93a1-4ce7867a60f0.png,images/Screenshot 2026-09-18 132421.png" data-gallery-alts="Balea Niacinamide Serum front,Balea Niacinamide Serum back" data-product-description="Product Description|The Balea Niacinamide Serum is a multi-talented facial serum with 10% niacinamide and 1% zinc. It helps refine the appearance of the skin and supports a smooth, even-looking complexion. The fragrance-free formula supports the skin barrier, helps refine the appearance of enlarged pores, and is suitable for oily and combination skin. The active ingredient combination with panthenol, allantoin, and aloe vera supports skin regeneration and provides soothing moisture.|The serum has a pH value of 4.5 and is formulated without microplastics or water-soluble, purely synthetic polymers. It is part of the Balea Clean Beauty Guide and is vegan.|Ingredients: Aqua, Niacinamide, Glycerin, Pentylene Glycol, Aloe Barbadensis Leaf Juice, Zinc PCA, Panthenol, Phenoxyethanol, Cellulose Gum, Allantoin, Sodium Benzoate, Citric Acid, Xanthan Gum, Ethylhexylglycerin, Trisodium Ethylenediamine Disuccinate, Sodium Hyaluronate.|With 10% niacinamide and 1% zinc|Refines the appearance of the skin|For a smooth and even-looking complexion|Fragrance-free|Without microplastics or water-soluble, purely synthetic polymers|Suitable for the face|Vegan|Free from parabens, colorants, aluminum salts, nanoparticles, paraffin, and mineral oils|Directions for Use: Apply 2–3 drops of the serum to cleansed face, neck, and chest as needed in the morning and evening. Gently massage into the skin. Avoid contact with the eyes and mucous membranes."><div class="product-image"><img src="images/194ac52e-30d5-45a8-93a1-4ce7867a60f0.png" alt="Balea Niacinamide Serum front"></div><div class="product-name">Niacinamide Serum, 30 ml</div><button class="add">Add to Cart</button></article>
+<article class="product" data-sku="EBM-SK-013" data-gallery-images="images/serum2.png,images/serum22.png" data-gallery-alts="Balea Collagen Retinol Serum front,Balea Collagen Retinol Serum back" data-product-description="Product Description|The Balea Collagen Retinol Serum is a targeted facial serum designed to refine skin texture and support a firmer, more youthful-looking complexion. It combines collagen and retinol to help smooth the appearance of fine lines and support skin elasticity. The formula contains Acacia Collagen, a plant-based collagen alternative, plus retinol and retinyl palmitate to deliver both firming and hydrating care.|This serum helps create a smoother, more even-looking complexion and supports a fresher, more youthful skin appearance. It is designed for facial use and is ideal for daily anti-aging skincare.|Ingredients: Aqua, Glycine Soja Oil, Propanediol, Polyglyceryl-6 Stearate, Glycerin, Prunus Amygdalus Dulcis Oil, Phenoxyethanol, Parfum, Sclerotium Gum, Stearyl Alcohol, Retinyl Palmitate, Helianthus Annuus Seed Oil, Xanthan Gum, Polyglyceryl-6 Behenate, Potassium Cetyl Phosphate, Arginine/Lysine Polypeptide, Ethylhexylglycerin, Retinol, Acacia Seyal Gum Extract, Hydroxypropyl Cyclodextrin, Lecithin, Citric Acid, 3-O-Ethyl Ascorbic Acid, Tocopheryl Acetate, Rosmarinus Officinalis Leaf Extract, Tocopherol, Potassium Sorbate, Sorbic Acid, Benzoic Acid, Dehydroacetic Acid, Benzyl Alcohol, Tetramethyl Acetyloctahydronaphthalenes, Amyl Salicylate.|Face serum with collagen and retinol|Helps improve skin firmness and elasticity|Supports a smoother, more even complexion|Helps reduce the appearance of fine lines and wrinkles|Provides comfortable hydration|Suitable for the face|Anti-aging care|Vegan|Free from colorants, nanoparticles, parabens, paraffins, and mineral oils|Directions for Use: Apply 2 to 3 drops to clean skin on the face, neck, and chest in the morning and evening as needed. Gently massage in. For best results, shake briefly before use. The empty pipette can be dipped into the bottle with the suction cap pressed down, then released to draw up the serum and dose it.|Storage: Store in a cool, dry place protected from light."><div class="product-image"><img src="images/serum2.png" alt="Balea Collagen Retinol Serum front"></div><div class="product-name">Collagen Retinol Serum, 30 ml</div><button class="add">Add to Cart</button></article>
+<article class="product" data-sku="EBM-SK-014" data-gallery-images="images/a2d70156-f675-4057-8301-4a5b809b1435.png,images/Screenshot 2026-09-18 133313.png" data-gallery-alts="Balea Beauty Collagen Day Cream SPF 15 front,Balea Beauty Collagen Day Cream SPF 15 back" data-product-description="Product Description|The Balea Beauty Collagen Day Cream SPF 15 is a daily moisturizer designed to support firmer, stronger-looking skin. Its formula with peptides helps support the skin's natural collagen production and may help reduce the appearance of lines and wrinkles. It also contains Acacia Collagen, a plant-based collagen alternative that helps protect the skin barrier and provide moisture.|A plant-based lifting active helps create a noticeably firmer skin feel, while the formula supports improved skin firmness and elasticity. The result is a smoother, more defined, and revitalized-looking complexion.|Ingredients: Aqua, Ethylhexyl Salicylate, Ethylhexyl Triazone, C12-15 Alkyl Benzoate, Glycerin, Stearyl Alcohol, Pentaerythrityl Distearate, Glyceryl Stearate, Cetyl Phosphate, Propanediol, Tocopheryl Acetate, Parfum, Phenoxyethanol, Acacia Seyal Gum Extract, Arginine, Bis-Ethylhexyloxyphenol Methoxyphenyl Triazine, Butyl Methoxydibenzoylmethane, Xanthan Gum, Arginine/Lysine Polypeptide, Acmella Oleracea Extract, Ethylhexylglycerin, Helianthus Annuus Seed Oil, Trisodium Ethylenediamine Disuccinate, Rosmarinus Officinalis Leaf Extract, Potassium Sorbate, Citric Acid, Sorbic Acid, Tetramethyl Acetyloctahydronaphthalenes, Amyl Salicylate, Methyl Salicylate.|Day cream for firmer-looking skin|With peptides and a plant-based collagen alternative|Helps soften the appearance of lines and wrinkles|May improve skin firmness and elasticity|Provides a noticeably firmer skin feel|SPF 15|Suitable for mature and normal skin|Anti-aging care|Vegan|Free from nanoparticles, parabens, paraffins, mineral oils, and colorants|Directions for Use: Apply the Balea Beauty Collagen Day Cream in the morning after cleansing to the face, neck, and chest. Gently massage it into the skin and avoid the eye area. Ideal as a base for makeup."><div class="product-image"><img src="images/a2d70156-f675-4057-8301-4a5b809b1435.png" alt="Balea Beauty Collagen Day Cream SPF 15 front"></div><div class="product-name">Beauty Collagen Day Cream SPF 15, 50 ml</div><button class="add">Add to Cart</button></article>
+<article class="product" data-sku="EBM-SK-015" data-gallery-images="images/5582e35d-136c-4c5a-a1ae-a58c9e159e83.png,images/Screenshot 2026-09-18 134016.png" data-gallery-alts="Balea Beauty Collagen Night Cream front,Balea Beauty Collagen Night Cream back" data-product-description="Product Description|The Balea Beauty Collagen Night Cream is a rich overnight treatment for more defined contours and stronger-looking skin. Its formula contains Acacia Collagen, a plant-based collagen alternative that helps protect the skin barrier and provide noticeable, long-lasting moisture. A collagen booster can also support the skin's own collagen production.|Evening primrose oil and macadamia oil provide rich care and leave the skin feeling soft, smooth, and supple. The cream supports the skin's overnight regeneration and helps promote a firmer, more elastic, revitalized-looking complexion by morning.|Ingredients: Aqua, Prunus Amygdalus Dulcis Oil, Glycerin, Glyceryl Stearate, Myristyl Myristate, Pentaerythrityl Distearate, Cetyl Phosphate, Cetearyl Alcohol, Macadamia Integrifolia Seed Oil, Stearyl Alcohol, Parfum, Phenoxyethanol, Acacia Seyal Gum Extract, Arginine, Behenyl Alcohol, Oenothera Biennis Oil, Tocopheryl Acetate, Xanthan Gum, Arginine/Lysine Polypeptide, Sclerotium Gum, Ethylhexylglycerin, Trisodium Ethylenediamine Disuccinate, Citric Acid, Potassium Sorbate, Sorbic Acid, Tetramethyl Acetyloctahydronaphthalenes, Amyl Salicylate.|Night care for defined contours|Rich formula with plant-based collagen|Supports the skin's overnight regeneration|For stronger-looking skin by morning|Suitable for the face|Anti-aging care|Vegan|Free from nanoparticles, paraffins, mineral oils, aluminum salts, parabens, and colorants|Directions for Use: Apply the Balea Beauty Collagen Night Cream in the evening after cleansing to the face, neck, and chest. Gently massage it into the skin and avoid the eye area."><div class="product-image"><img src="images/5582e35d-136c-4c5a-a1ae-a58c9e159e83.png" alt="Balea Beauty Collagen Night Cream front"></div><div class="product-name">Beauty Collagen Night Cream, 50 ml</div><button class="add">Add to Cart</button></article>
+<article class="product" data-sku="EBM-SK-017" data-product-description="Product Description|Selfie Project Anti-Pimple Stars are cool and effective hydrocolloid patches for targeted blemish care. The star-shaped patches help visibly reduce the appearance of imperfections and absorb excess sebum and impurities. Enriched with tea tree oil and calendula oil, they help soothe redness and support the skin's natural renewal process. The patches form a protective barrier against external influences without drying out the skin.|Simply apply a patch to a clean, dry blemish and leave it on. The hydrocolloid technology helps create a more even-looking complexion while providing targeted care for oily and blemish-prone skin.|Ingredients: Ethylene/VA Copolymer, Croscarmellose, Xanthan Gum, Polyisobutene, Paraffinum Liquidum, Propylene Glycol, Calendula Officinalis Flower Oil, Melaleuca Alternifolia Leaf Oil, Citronellol, Eugenol, Cinnamyl Alcohol, Linalool, Geraniol, Limonene, Citral.|Star-shaped anti-blemish patches|With tea tree oil and calendula oil|Targeted spot treatment for blemishes|Soothes redness and supports skin renewal|Hydrocolloid technology absorbs sebum|Suitable for oily skin|Suitable for the face|Anti-blemish care|Storage: Store at room temperature.|Directions for Use: Apply the patches to clean, dry skin. Leave on for approximately 6–8 hours, then peel off and dispose of in the waste. The patches can be used during the day or overnight."><div class="product-image"><img src="images/36e35b49-bfd9-4965-81e0-c2c9faa7147f.png" alt="Selfie Project Anti-Pimple Stars"></div><div class="product-name">Selfie Project<br>Anti-Pimple Stars, 20 pcs</div><button class="add">Add to Cart</button></article>
+</div></section>
+<section class="product-subcategory"><h4>Eye Care</h4><div class="products">
+<article class="product" data-sku="EBM-SK-004" data-gallery-images="images/5dc1c882-ecb1-4a95-9db2-07ddfaef3521.jpeg,images/Screenshot 2026-09-18 122837.png" data-gallery-alts="Balea Hydrogel Holo Eye Pads front,Balea Hydrogel Holo Eye Pads back with barcode" data-product-description="Product Description|The Balea Hydrogel Holo Eye Pads with hyaluronic acid, dragon fruit extract, and vitamin C provide intensive care for the delicate under-eye area. Their moisturizing formula helps visibly plump fine lines and dryness-related wrinkles, leaving the skin looking smoother, fresher, and more awake. The holographic hydrogel pads gently adhere to the skin, creating a relaxing self-care experience while delivering nourishing ingredients. For a refreshed, radiant, and well-cared-for eye area.|Ingredients: AQUA, GLYCERIN, PROPYLENE GLYCOL, XANTHAN GUM, HYLOCEREUS UNDATUS FRUIT EXTRACT, CAFFEINE, SODIUM HYALURONATE, 3-O-ETHYL ASCORBIC ACID, CARRAGEENAN, 1,2-HEXANEDIOL, HYDROXYACETOPHENONE, POLYGLYCERYL-10 CAPRYLATE/CAPRATE, CAPRYLYL GLYCOL, DIPROPYLENE GLYCOL, CYCLODEXTRIN, CALCIUM ALUMINUM BOROSILICATE, ETHYLHEXYLGLYCERIN, TIN OXIDE, PARFUM, BENZYL BENZOATE, BENZYL ALCOHOL, CI 77891.|Cooling hydrogel eye pads|Enriched with hyaluronic acid, dragon fruit extract, and vitamin C|May visibly plump fine lines|Provides intensive hydration|Helps refresh and revitalize the eye area|Directions for Use: 1. Remove the eye pads from the packaging. 2. Place the pads directly onto clean skin under the eyes. 3. Leave on for 15–20 minutes. 4. Remove the pads and gently massage any remaining serum into the skin."><div class="product-image"><img src="images/5dc1c882-ecb1-4a95-9db2-07ddfaef3521.jpeg" alt="Balea Hydrogel Holo Eye Pads front"></div><div class="product-name">Hydrogel Holo Eye Pads (1 Pair)</div><button class="add">Add to Cart</button></article>
+<article class="product" data-sku="EBM-SK-005" data-gallery-images="images/d6d4a3a6-ed91-483b-a077-9073837e7cf3.png,images/Screenshot 2026-09-18 130613.png" data-gallery-alts="Balea Hydrogel Eye Pads Glitter front,Balea Hydrogel Eye Pads Glitter back" data-product-description="Product Description|The Balea Hydrogel Glitter Eye Pads pamper the delicate skin around the eyes with an intensive moisturizing formula. Enriched with hyaluronic acid, magnolia extract, and vitamin E, the pads provide hydration and help leave the eye area feeling refreshed, smooth, and cared for. Their special glitter design makes application a small highlight in your everyday routine and supports a fresh, radiant-looking eye area.|Ingredients: Aqua, Glycerin, Propylene Glycol, Xanthan Gum, Carrageenan, Caffeine, Sodium Hyaluronate, Magnolia Sieboldii Extract, Tocopherol, Cyclodextrin, 1,2-Hexanediol, Hydroxyacetophenone, Polyglyceryl-10 Caprylate/Caprate, Caprylyl Glycol, Butylene Glycol, Ethylhexylglycerin, Synthetic Fluorphlogopite, Tin Oxide, Parfum, CI 77891, CI 77491, Benzyl Benzoate, Benzyl Alcohol.|Hydrogel eye pads with a glitter effect|With hyaluronic acid, magnolia extract, and vitamin E|For a cared-for and radiant-looking eye area|Provides intensive hydration|Dermatologically tested skin compatibility|Warning: For single use only. Not suitable for children.|Directions for Use: 1. Remove the eye pads from the sachet. 2. Place the pads directly onto cleansed skin under the eyes. 3. Leave on for 15–20 minutes. 4. Remove the pads and gently massage any remaining serum into the skin."><div class="product-image"><img src="images/d6d4a3a6-ed91-483b-a077-9073837e7cf3.png" alt="Balea Hydrogel Eye Pads Glitter front"></div><div class="product-name">Hydrogel Eye Pads Glitter (1 Pair)</div><button class="add">Add to Cart</button></article>
+</div></section>
+<section class="product-subcategory"><h4>Body Care</h4><div class="products">
+<article class="product" data-sku="EBM-SK-016" data-gallery-images="images/2d28a096-5451-4c47-a43f-72eecae6a95f.png,images/Screenshot 2026-09-18 134859.png" data-gallery-alts="Balea Milk Fat Camomile front,Balea Milk Fat Camomile back" data-product-description="Product Description|Balea Milk Fat Camomile is an intensive moisturizer specially developed for dry skin. Its rich formula helps protect the skin from environmental conditions and can help prevent excessive moisture loss, supporting the skin's natural resilience. The camomile-infused milk fat is also ideal as winter cold protection or for massage, leaving the skin feeling smooth, supple, and well cared for.|This rich body and face cream is suitable for all skin types, including dry, cracked, sensitive, normal, and combination skin. Skin compatibility is dermatologically tested and the formula is vegan.|Ingredients: Petrolatum, Paraffinum Liquidum, Helianthus Annuus Seed Oil, Glycine Soja Oil, Parfum, Calendula Officinalis Flower Extract, Tocopherol, Daucus Carota Sativa Root Extract, Beta-Carotene, Benzyl Alcohol, Tetramethyl Acetyloctahydronaphthalenes, Dimethyl Phenethyl Acetate, Vanillin.|Intensive care for dry skin|Ideal as cold protection and suitable for massage|Supports the skin's natural resilience|Dermatologically tested skin compatibility|Vegan|Suitable for the face and body|Warning: Does not provide protection from UV radiation.|Directions for Use: Apply as needed to stressed or dry skin and massage in evenly."><div class="product-image"><img src="images/2d28a096-5451-4c47-a43f-72eecae6a95f.png" alt="Balea Milk Fat Camomile front"></div><div class="product-name">Melkfett Ringelblume (Calendula) – Rich Moisturizing Skin Care Cream, 250 ml</div><button class="add">Add to Cart</button></article>
+</div></section>
+</div>
+      <div class="product-category" id="haircare"><h3>Haircare</h3><div class="products">
+      <article class="product" data-gallery-images="images/8f9c26f8-4ddc-4a1b-bb1e-49d185c26db4.png,images/Screenshot 2026-09-18 142607.png" data-gallery-alts="Balea Professional Plex Care Shampoo front,Balea Professional Plex Care Shampoo back" data-product-description="Product Description|Balea PROFESSIONAL Plex Care Shampoo was specially developed for the needs of chemically treated and damaged hair. Its powerful formula with Intense Repair Technology, a 3-fold protein complex, and amino acids gently cleanses the hair. It can help fill gaps in the damaged hair structure and strengthen the hair fibers.|The formula can also improve hair elasticity, smooth the hair surface, and provide a natural shine. Hair is left feeling soft, smooth, and well cared for.|Ingredients: Aqua, Sodium Laureth Sulfate, Cocamidopropyl Betaine, Sodium Chloride, Betaine, Hydrolyzed Keratin, Hydrolyzed Pea Protein, Arginine, Serine, Parfum, Glycerin, Glyceryl Oleate, Polyglyceryl-3 Caprate, PCA, Glycine, Histidine, Coco-Glucoside, Guar Hydroxypropyltrimonium Chloride, PEG-4 Rapeseedamide, Glycol Distearate, Silicone Quaternium-22, Dipropylene Glycol, Glyceryl Stearate, Hydrolyzed Vegetable Protein, Sodium PCA, Aspartic Acid, Palmitamidopropyltrimonium Chloride, Propylene Glycol, Alanine, Valine, Hydrolyzed Silk, Isoleucine, Proline, Threonine, Phenylalanine, Sodium Benzoate, Potassium Sorbate, Benzoic Acid, Octadecyl Di-T-Butyl-4 Hydroxyhydrocinnamate, Phenoxyethanol, Tetramethyl Acetyloctahydronaphthalenes, Citric Acid, Sodium Hydroxide, Sodium Lactate, Lactic Acid.|Strengthening shampoo for damaged hair|With Intense Repair Technology|Ideal for chemically treated hair|Helps fill gaps in the hair structure|Supports care, anti-split-end protection, shine, and smoothing|Suitable for damaged, chemically treated, and dull hair|Directions for Use: Massage gently into wet hair and rinse thoroughly with lukewarm water."><div class="product-image"><img src="images/8f9c26f8-4ddc-4a1b-bb1e-49d185c26db4.png" alt="Balea Professional Plex Care Shampoo front"></div><div class="product-name">Plex Care Shampoo, 250 ml</div><button class="add">Add to Cart</button></article>
+      <article class="product" data-gallery-images="images/4be69f8b-1576-488a-8013-b9f4292b6a59.png,images/Screenshot 2026-09-18 142828.png" data-gallery-alts="Balea Pink Blossom Hair Perfume front,Balea Pink Blossom Hair Perfume back" data-product-description="Product Description|Balea Pink Blossom Hair Perfume enchants the senses with a fresh, floral fragrance experience. Its lightweight formula gently settles on the hair and gives it a natural shine without weighing it down. The powdery floral scent leaves the hair pleasantly fragranced and adds a touch of elegance to your daily haircare routine.|The hair perfume is suitable for all hair types and is ideal for completing a well-groomed look. Its vegan formula is free from silicones and ammonia.|Ingredients: Aqua, Alcohol Denat., Propylene Glycol, Glycerin, Parfum, Cetrimonium Chloride, Panthenol, Linalyl Acetate, Linalool, Limonene, Tetramethyl Acetyloctahydronaphthalenes, Pogostemon Cablin Oil, Hexadecanolactone, Alpha-Isomethyl Ionone, Citronellol, Citric Acid.|Sensual hair perfume|Powdery floral fragrance|For naturally shiny hair|Lightweight formula|Silicone-free|Suitable for all hair types|Vegan|Free from ammonia|Directions for Use: Spray the hair perfume evenly onto dry hair from a distance of approximately 20 cm as needed."><div class="product-image"><img src="images/4be69f8b-1576-488a-8013-b9f4292b6a59.png" alt="Balea Pink Blossom Hair Perfume front"></div><div class="product-name">Pink Blossom Hair Perfume, 100 ml</div><button class="add">Add to Cart</button></article>
+      <article class="product" data-gallery-images="images/1830e85d-ea35-4372-9292-e625d85376b9.png,images/Screenshot 2026-09-18 143029.png" data-gallery-alts="Balea Professional Leave-In Serum Plex Care front,Balea Professional Leave-In Serum Plex Care back" data-product-description="Product Description|Balea PROFESSIONAL Leave-In Serum Plex Care is an intensive treatment for chemically treated and damaged hair. Its formula with Intense Repair Technology, a 3-fold protein complex, and amino acids strengthens the hair fibers and can help fill gaps in the damaged hair structure.|The leave-in serum helps create a repaired hair feel and gives the hair a natural shine. It supports improved hair quality and leaves hair feeling smooth and soft from roots to ends.|Ingredients: Aqua, Glycerin, Cetearyl Alcohol, Dodecane, Behentrimonium Chloride, Ricinus Communis Seed Oil, Panthenol, Hydrolyzed Keratin, Hydrolyzed Pea Protein, Arginine, Serine, Parfum, Polyglyceryl-3 Caprate, PCA, Glycine, Histidine, Isopropyl Alcohol, Silicone Quaternium-22, Dipropylene Glycol, Cocamidopropyl Betaine, Hydrolyzed Vegetable Protein, Sodium PCA, Aspartic Acid, Palmitamidopropyltrimonium Chloride, Propylene Glycol, Alanine, Valine, Hydrolyzed Silk, Isoleucine, Proline, Threonine, Phenylalanine, Sodium Benzoate, Potassium Sorbate, Benzyl Alcohol, Phenoxyethanol, Tetramethyl Acetyloctahydronaphthalenes, Amyl Salicylate, Citric Acid, Sodium Lactate, Lactic Acid, Sodium Hydroxide.|Leave-in serum for the hair|Strengthens hair fibers|With a 3-fold protein complex and amino acids|For chemically treated and damaged hair|Smoothing care|Helps protect against split ends|Directions for Use: Massage the serum into towel-dried or dry hair."><div class="product-image"><img src="images/1830e85d-ea35-4372-9292-e625d85376b9.png" alt="Balea Professional Leave-In Serum Plex Care front"></div><div class="product-name">Leave-In Serum Plex Care, 50 ml</div><button class="add">Add to Cart</button></article>
+      <article class="product" data-gallery-images="images/ad23a958-3751-4741-a97a-7bb85a07a8aa.png,images/Screenshot 2026-09-18 143205.png" data-gallery-alts="Balea Professional 2-in-1 Plex Care Hair Mask front,Balea Professional 2-in-1 Plex Care Hair Mask back" data-product-description="Product Description|The Balea PROFESSIONAL Plex Care 2-in-1 Hair Mask provides intensive care for chemically treated and damaged hair. It can be used either as a classic hair mask after washing or as a strengthening pre-wash treatment. Its formula with Intense Repair Technology, a 3-fold protein complex, and amino acids helps fill gaps in the hair structure.|The mask supports stronger hair fibers and leaves hair feeling repaired, smooth, and shiny. It is suitable for damaged and chemically treated hair and helps provide care, shine, and split-end protection.|Ingredients: Aqua, Glycerin, Cetearyl Alcohol, Distearoylethyl Hydroxyethylmonium Methosulfate, Panthenol, Hydrolyzed Pea Protein, Arginine, Serine, Cocos Nucifera Oil, Parfum, Isoamyl Laurate, Polyglyceryl-3 Caprate, PCA, Glycine, Histidine, Behentrimonium Chloride, Silicone Quaternium-22, Cetrimonium Chloride, Isopropyl Alcohol, Dipropylene Glycol, Hydrolyzed Keratin, Cocamidopropyl Betaine, Hydrolyzed Vegetable Protein, Sodium PCA, Palmitamidopropyltrimonium Chloride, Propylene Glycol, Aspartic Acid, Alanine, Hydrolyzed Silk, Valine, Isoleucine, Proline, Threonine, Phenylalanine, Sodium Benzoate, Potassium Sorbate, Phenoxyethanol, Tetramethyl Acetyloctahydronaphthalenes, Citric Acid, Sodium Lactate, Lactic Acid.|2-in-1 hair mask and pre-wash treatment|For chemically treated and damaged hair|Helps fill gaps in the hair structure|With a 3-fold protein complex and amino acids|Provides shine and intensive care|Helps protect against split ends|Directions for Use: As a mask: Apply to wet hair, leave on for approximately 3 minutes, then rinse thoroughly. As a pre-wash treatment: Massage into towel-dried hair and leave on for at least 10 minutes. Then rinse thoroughly and continue with shampoo and conditioner as usual."><div class="product-image"><img src="images/ad23a958-3751-4741-a97a-7bb85a07a8aa.png" alt="Balea Professional 2-in-1 Plex Care Hair Mask front"></div><div class="product-name">2-in-1 Plex Care Hair Mask, 250 ml</div><button class="add">Add to Cart</button></article>
+      <article class="product" data-gallery-images="images/balea-med-shampoo-anti-schuppen-ultra-sensitive.jpeg,images/Screenshot 2026-09-18 143454.png" data-gallery-alts="Balea med Ultra Sensitive Anti-Dandruff Shampoo front,Balea med Ultra Sensitive Anti-Dandruff Shampoo back" data-product-description="Product Description|Balea med Anti-Dandruff Shampoo was specially developed for sensitive and dry scalps. It gently removes dandruff from the scalp and hair and can help reduce itching. The mild formula soothes the scalp and leaves hair feeling cared for, soft, and smooth with a natural-looking shine. Free from fragrance, parabens, and colorants, it provides gentle daily care for a comfortable hair feel and a calm scalp.|The formula is vegan and free from alcohol, fragrance, and silicones. It provides care, moisture, and shine for sensitive scalp and hair.|Ingredients: Aqua, Sodium Laureth Sulfate, Cocamidopropyl Betaine, Coco-Glucoside, Panthenol, Bisabolol, Niacinamide, Guar Hydroxypropyltrimonium Chloride, Glycerin, Piroctone Olamine, Tocopherol, Sodium Chloride, Glyceryl Oleate, Laureth-2, Hydrogenated Palm Glycerides Citrate, Citric Acid, Sodium Benzoate.|Anti-dandruff shampoo|For sensitive and dry scalps|Helps reduce itching and soothe the scalp|Free from fragrance, parabens, and colorants|Vegan|Free from alcohol and silicones|Provides care, moisture, and shine|Directions for Use: Massage into wet hair and scalp, leave on briefly, then rinse thoroughly."><div class="product-image"><img src="images/balea-med-shampoo-anti-schuppen-ultra-sensitive.jpeg" alt="Balea med Ultra Sensitive Anti-Dandruff Shampoo front"></div><div class="product-name">Ultra Sensitive Anti-Dandruff Shampoo, 250 ml</div><button class="add">Add to Cart</button></article>
+      <article class="product" data-gallery-images="images/48c759de-a3f8-433d-89d0-7db33b51127e.png,images/Screenshot 2026-09-18 143327.png" data-gallery-alts="Balea Professional Plex Care Hair Oil front,Balea Professional Plex Care Hair Oil back" data-product-description="Product Description|Balea PROFESSIONAL Plex Care Hair Oil was specially developed for the needs of chemically treated and damaged hair. Its Intense Repair Technology can help strengthen the hair structure and support the hair's resilience. The oil helps smooth the hair surface and leaves it feeling soft and manageable. Its vegan formula includes built-in heat protection, cares for the hair without weighing it down, and can provide a radiant shine.|The lightweight oil is suitable for chemically treated and damaged hair and supports a smooth, healthy-looking finish.|Ingredients: Isododecane, C11-13 Isoalkane, Dimethiconol, Isohexadecane, Helianthus Annuus Hybrid Oil, Dimethicone, Helianthus Annuus Seed Oil, Zea Mays Oil, Parfum, Benzyl Alcohol, Tetramethyl Acetyloctahydronaphthalenes.|Nourishing hair oil|For chemically treated and damaged hair|Helps strengthen the hair structure|With integrated heat protection|Vegan|Free from ammonia|Directions for Use: Work a small amount into the lengths of damp or dry hair."><div class="product-image"><img src="images/48c759de-a3f8-433d-89d0-7db33b51127e.png" alt="Balea Professional Plex Care Hair Oil front"></div><div class="product-name">Plex Care Hair Oil, 50 ml</div><button class="add">Add to Cart</button></article>
+      </div></div>
+      <div class="product-category" id="footcare"><h3>Footcare</h3><div class="products">
+      <article class="product" data-gallery-images="images/e55593a1-7573-495a-820e-a1fd149e03c7.png,images/Screenshot 2026-09-18 135309.png" data-gallery-alts="Balea Foot Mask Socks front,Balea Foot Mask Socks back" data-product-description="Product Description|The Balea Foot Mask Socks provide an effective way to remove calluses and rough skin. Enriched with a fruit acid peel, the socks help gently remove hardened layers of skin. Peppermint oil and green tea extract provide a pleasant refreshing feeling during use. After the peeling process begins a few days later, the feet feel noticeably softer and more cared for. The treatment is dermatologically tested for skin compatibility and is ideal for preparing the feet for warmer weather.|Ingredients: Alcohol Denat., Aqua, Glycolic Acid, Lactic Acid, Butylene Glycol, Aloe Barbadensis Leaf Juice, Sodium Hydroxide, Camellia Sinensis Leaf Extract, Phenoxyethanol, Caprylyl/Capryl Glucoside, Parfum, Hydroxyethylcellulose, Mentha Piperita Oil, Citral, Geraniol, Citric Acid, Potassium Sorbate, Sodium Benzoate, Limonene, Linalool.|Socks for callus removal|With peppermint oil for a refreshing feeling|Removes calluses and helps soften cracked skin|Vegan fruit acid peel with green tea extract|Dermatologically tested skin compatibility|For normal skin|Free from parabens, colorants, paraffins, mineral oils, and nanoparticles|Warning: Use no more than once per month. Avoid other callus-removal products before, during, and for 8 hours after use. The socks are single-use only. Keep out of reach of children. For external use only. Avoid contact with the eyes and mucous membranes. Do not forcibly remove peeling skin. Stop use and contact a doctor if skin irritation occurs. Do not use on sensitive, sore, injured, or irritated skin, tattoos on the feet, or if you have diabetes, athlete's foot, nail fungus, or warts. Avoid direct UV exposure on treated skin until one week after the peeling process is complete, or use sunscreen with SPF 30 or higher. Ask a doctor before use during pregnancy or breastfeeding. Do not use if you are sensitive to any ingredient or fruit acid peels.|Storage: Store at room temperature.|Directions for Use: 1. Remove nail polish, artificial nails, UV or gel polish, and foot jewelry. Wash and dry your feet thoroughly. Protect sensitive areas such as the top of the feet and between the toes with a rich moisturizer. 2. Cut open the foot socks along the marked line with scissors. 3. Put on the socks and close them with the adhesive strip so the gel cannot leak. Wash your hands thoroughly after application. Leave the mask on for 30–60 minutes depending on the level of callus; do not exceed the application time. Sit or lie down with your legs slightly raised while the mask works, as walking may be slippery. 4. Remove the socks, wash your feet thoroughly with mild soap, and dry them. Apply a rich foot cream. Peeling begins after 2–7 days and can continue for up to 14 days. Do not pull off the peeling skin. Moisturize your feet daily."><div class="product-image"><img src="images/e55593a1-7573-495a-820e-a1fd149e03c7.png" alt="Balea Foot Mask Socks front"></div><div class="product-name">Foot Mask Socks for Dead Skin Removal (1 Pair)</div><button class="add">Add to Cart</button></article>
+      <article class="product" data-gallery-images="images/Screenshot 2026-09-18 150447.png,images/Screenshot 2026-09-18 150621.png" data-gallery-alts="Balea Foot Cream with Urea front,Balea Foot Cream with Urea back" data-product-description="Product Description|Balea Foot Cream with 10% Urea is an intensive treatment specially developed for very dry feet. Its Hydro-Plus care complex with urea, panthenol, and glycerin provides intensive moisture and helps protect the skin from drying out. It can reduce feelings of tightness and leaves the feet feeling noticeably softer.|The rich foot cream is suitable for people with diabetes and leaves the skin feeling silky soft and well cared for.|Ingredients: Aqua, Urea, Isopropyl Palmitate, Ethylhexyl Stearate, Glycerin, Cetearyl Alcohol, Glyceryl Stearate, Bis-Diglyceryl Polyacyladipate-2, Parfum, Panthenol, Niacinamide, Sodium Stearoyl Glutamate, Xanthan Gum, Citric Acid, Tetramethyl Acetyloctahydronaphthalenes, Citronellol, Juniperus Virginiana Oil, Anise Alcohol, Caprylyl Glycol, Decylene Glycol, Phenoxyethanol.|Foot care for very dry feet|With 10% urea, panthenol, and glycerin|Helps reduce feelings of tightness|Suitable for people with diabetes|Suitable for dry or dehydrated skin|Free from alcohol, colorants, parabens, paraffins, and mineral oils|Vegan|Directions for Use: Apply regularly in the morning and evening to the feet and legs. Gently massage into the skin."><div class="product-image"><img src="images/Screenshot 2026-09-18 150447.png" alt="Balea Foot Cream with Urea front"></div><div class="product-name">Foot Cream with Urea, 100 ml</div><button class="add">Add to Cart</button></article>
+      </div></div>
+    </section>
+    <section class="section request-products-section"><div class="products-intro"><p><strong>Looking for something else?</strong> <a href="request-products.html">Request your favorite products</a> and we will source them for you. All requested products are shipped directly from Germany; please allow up to 15 days for delivery.</p></div></section>
+    <section class="section"><div class="feature-banner"><div><h2>German Quality<br>for Your Natural Beauty</h2><p>Skincare. Haircare. Selfcare.</p></div></div><div class="trust" id="about"><div class="trust-item"><span class="trust-icon">♧</span><span><strong>Authentic Products</strong><small>Directly from Germany</small></span></div><div class="trust-item"><span class="trust-icon">♧</span><span><strong>Fast &amp; Reliable Shipping</strong><small>to the USA</small></span></div><div class="trust-item"><span class="trust-icon">♢</span><span><strong>Secure Payment</strong><small>Shop with confidence</small></span></div><div class="trust-item"><span class="trust-icon">♡</span><span><strong>Happy Customers</strong><small>Beauty that makes a difference</small></span></div></div></section>
+    <section class="section bottom-tiles"><div class="tile-grid"><article class="tile" style="background-image:linear-gradient(90deg,#f9e8e6 0%,rgba(249,232,230,.55) 50%,rgba(249,232,230,0) 100%),url('https://images.unsplash.com/photo-1611930022073-b7a4ba5fcccd?auto=format&fit=crop&w=900&q=80')"><div class="tile-copy"><h2>Glow Everyday</h2><p>Discover our skincare favorites for radiant skin.</p><a class="text-link" href="#skincare">Shop Skincare →</a></div></article><article class="tile" style="background-image:linear-gradient(90deg,#f6e8e5 0%,rgba(246,232,229,.4) 50%,rgba(246,232,229,0) 100%),url('https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&w=900&q=80')"><div class="tile-copy"><h2>Healthy Hair<br>Happy You</h2><p>Premium haircare for stronger, shinier hair.</p><a class="text-link" href="#haircare">Shop Haircare →</a></div></article><article class="tile" style="background-image:linear-gradient(90deg,#f7e6e4 0%,rgba(247,230,228,.5) 50%,rgba(247,230,228,0) 100%),url('https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?auto=format&fit=crop&w=900&q=80')"><div class="tile-copy"><h2>Care From Head to Toe</h2><p>Simple essentials for your daily selfcare routine.</p><a class="text-link" href="#footcare">Shop Footcare →</a></div></article></div></section>
+
+  </main>
+  <footer id="contact"><span>© 2026 EuroBeauty Market</span><span>Authentic German beauty, delivered with care.</span></footer>
+  <div id="toast" role="status">Added to your cart</div>
+  <div id="lightbox" role="dialog" aria-modal="true" aria-label="Enlarged product image">
+    <div class="lightbox-panel">
+      <button class="lightbox-nav lightbox-prev" type="button" aria-label="Previous image">‹</button>
+      <div class="lightbox-stage"><img alt=""><span class="lightbox-product-id" hidden></span><span class="lightbox-product-price" hidden></span><div class="lightbox-actions" hidden><select class="lightbox-quantity" aria-label="Quantity"></select><button class="lightbox-add" type="button">Add to Cart</button><div class="lightbox-utility"><button class="lightbox-favorite" type="button" aria-pressed="false">♡ Favorite</button><button class="lightbox-share" type="button">Share</button></div></div></div>
+      <button class="lightbox-nav lightbox-next" type="button" aria-label="Next image">›</button>
+      <div class="lightbox-detail" aria-live="polite">
+        <h3>Product Description &amp; Details</h3>
+        <p>This effective concentrate stimulates the skin’s natural renewal process and improves the structure of mature skin.</p>
+        <p>Its oil-based formula, enriched with the valuable active ingredients Q10 and ginseng, intensely nourishes the skin, helps restore firmness, and improves elasticity.</p>
+        <ul>
+          <li>Immediate effect</li>
+          <li>Reduces wrinkles and increases skin hydration</li>
+          <li>Q10, ginseng extract, and vitamin E care complex</li>
+          <li>Vegan</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <script src="product-prices.js"></script>
+  <script>
+    const toast = document.querySelector('#toast');
+    const lightbox = document.querySelector('#lightbox');
+    const lightboxImage = lightbox.querySelector('img');
+    const lightboxProductId = lightbox.querySelector('.lightbox-product-id');
+    const lightboxProductPrice = lightbox.querySelector('.lightbox-product-price');
+    const lightboxActions = lightbox.querySelector('.lightbox-actions');
+    const lightboxQuantity = lightbox.querySelector('.lightbox-quantity');
+    const lightboxAddButton = lightbox.querySelector('.lightbox-add');
+    const lightboxFavoriteButton = lightbox.querySelector('.lightbox-favorite');
+    const lightboxShareButton = lightbox.querySelector('.lightbox-share');
+    const lightboxDetail = lightbox.querySelector('.lightbox-detail');
+    const prevBtn = lightbox.querySelector('.lightbox-prev');
+    const nextBtn = lightbox.querySelector('.lightbox-next');
+    const basketStorageKey = 'euroBeautyBasket';
+    const favoriteStorageKey = 'euroBeautyFavorites';
+    const getBasket = () => {
+      try { return JSON.parse(localStorage.getItem(basketStorageKey)) || []; }
+      catch { return []; }
+    };
+    const saveBasket = (basket) => localStorage.setItem(basketStorageKey, JSON.stringify(basket));
+    const getFavorites = () => { try { return JSON.parse(localStorage.getItem(favoriteStorageKey)) || []; } catch { return []; } };
+    const saveFavorites = (favorites) => localStorage.setItem(favoriteStorageKey, JSON.stringify(favorites));
+    for (let quantity = 1; quantity <= 10; quantity += 1) {
+      const option = document.createElement('option');
+      option.value = String(quantity);
+      option.textContent = String(quantity);
+      lightboxQuantity.append(option);
+    }
+    const updateCounts = () => {
+      const basket = getBasket();
+      document.querySelector('.basket-count').textContent = basket.reduce((total, item) => total + item.quantity, 0);
+      document.querySelector('.favorite-count').textContent = getFavorites().length;
+      document.querySelectorAll('.product').forEach((product) => {
+        const status = product.querySelector('.product-basket-status');
+        if (!status) return;
+        const quantity = basket.find((item) => item.sku === product.dataset.sku)?.quantity || 0;
+        status.hidden = quantity === 0;
+        status.querySelector('.product-basket-quantity').textContent = `In basket: ${quantity}`;
+      });
+    };
+    updateCounts();
+    const displaySku = (sku) => sku.replace(/^EBM-/, '').replace(/-(\d{3})$/, (_, number) => `-${Number(number)}`);
+    const skuPrefixes = { skincare: 'SK', haircare: 'HC', footcare: 'FC' };
+    let activeProduct = null;
+    document.querySelectorAll('.product-category').forEach((category) => {
+      const prefix = skuPrefixes[category.id] || 'PR';
+      category.querySelectorAll('.product').forEach((product, index) => {
+        const sku = product.dataset.sku || `EBM-${prefix}-${String(index + 1).padStart(3, '0')}`;
+        product.dataset.sku = sku;
+        product.id = sku;
+        const price = window.EUROBEAUTY_PRODUCT_PRICES[sku];
+        if (price !== undefined) {
+          product.dataset.price = String(price);
+          const priceLabel = document.createElement('span');
+          priceLabel.className = 'price';
+          priceLabel.textContent = window.formatEuroBeautyPrice(price);
+          product.querySelector('.product-name').insertAdjacentElement('afterend', priceLabel);
+        }
+        const favoriteButton = document.createElement('button');
+        favoriteButton.className = 'product-favorite';
+        favoriteButton.type = 'button';
+        favoriteButton.setAttribute('aria-label', `Add ${sku} to favorites`);
+        product.querySelector('.product-image').append(favoriteButton);
+        const addButton = product.querySelector('.add');
+        const cartControls = document.createElement('div');
+        cartControls.className = 'product-cart-controls';
+        const quantitySelect = document.createElement('select');
+        quantitySelect.className = 'product-quantity';
+        quantitySelect.setAttribute('aria-label', 'Quantity');
+        for (let quantity = 1; quantity <= 10; quantity += 1) {
+          const option = document.createElement('option');
+          option.value = String(quantity);
+          option.textContent = String(quantity);
+          quantitySelect.append(option);
+        }
+        const basketStatus = document.createElement('div');
+        basketStatus.className = 'product-basket-status';
+        basketStatus.setAttribute('aria-live', 'polite');
+        const basketQuantity = document.createElement('span');
+        basketQuantity.className = 'product-basket-quantity';
+        const removeFromBasket = document.createElement('button');
+        removeFromBasket.className = 'product-basket-remove';
+        removeFromBasket.type = 'button';
+        removeFromBasket.textContent = 'Remove';
+        removeFromBasket.setAttribute('aria-label', 'Remove this product from the basket');
+        removeFromBasket.addEventListener('click', () => {
+          saveBasket(getBasket().filter((item) => item.sku !== product.dataset.sku));
+          updateCounts();
+        });
+        basketStatus.append(basketQuantity, removeFromBasket);
+        addButton.replaceWith(cartControls);
+        cartControls.append(quantitySelect, addButton, basketStatus);
+      });
+    });
+    updateCounts();
+    const refreshFavoriteButtons = () => {
+      const favoriteSkus = new Set(getFavorites().map((item) => item.sku));
+      document.querySelectorAll('.product').forEach((product) => {
+        const button = product.querySelector('.product-favorite');
+        const isFavorite = favoriteSkus.has(product.dataset.sku);
+        button.textContent = isFavorite ? '♥' : '♡';
+        button.classList.toggle('is-favorite', isFavorite);
+        button.setAttribute('aria-pressed', isFavorite);
+      });
+      if (activeProduct) {
+        const isFavorite = favoriteSkus.has(activeProduct.dataset.sku);
+        lightboxFavoriteButton.textContent = isFavorite ? '♥ Saved' : '♡ Favorite';
+        lightboxFavoriteButton.setAttribute('aria-pressed', isFavorite);
+      }
+    };
+    refreshFavoriteButtons();
+    let galleryImages = [];
+    let galleryAlts = [];
+    let galleryIndex = 0;
+    let galleryDescription = '';
+    let galleryProductId = '';
+
+    const renderGalleryImage = () => {
+      if (!galleryImages.length) return;
+      lightboxImage.src = galleryImages[galleryIndex];
+      lightboxImage.alt = galleryAlts[galleryIndex] || '';
+      lightboxProductId.textContent = galleryProductId ? `Product ID: ${galleryProductId}` : '';
+      lightboxProductId.hidden = !galleryProductId;
+      const price = activeProduct?.dataset.price;
+      lightboxProductPrice.textContent = price !== undefined ? window.formatEuroBeautyPrice(Number(price)) : '';
+      lightboxProductPrice.hidden = price === undefined;
+    };
+
+    const renderGalleryDescription = (descriptionText, productTitle = '') => {
+      if (!descriptionText) {
+        lightboxDetail.style.display = 'none';
+        return;
+      }
+      lightboxDetail.style.display = 'block';
+      const parts = descriptionText.split('|');
+      const rawTitle = productTitle || parts[0] || 'Product Details';
+      const title = window.EuroBeautyProductTitle?.(rawTitle) || rawTitle;
+      const intro = parts[1] || '';
+      const detail = parts[2] || '';
+      const bullets = parts.slice(3);
+      const sections = [];
+      const featureIndex = bullets.findIndex((item) => item.startsWith('Product Features:'));
+      const ingredientIndex = bullets.findIndex((item) => item.startsWith('Ingredients:'));
+      const directionsIndex = bullets.findIndex((item) => item.startsWith('Directions for Use:'));
+      const benefitEnd = [featureIndex, ingredientIndex, directionsIndex].filter((index) => index >= 0).sort((a, b) => a - b)[0] ?? bullets.length;
+      const benefits = bullets.slice(0, benefitEnd).filter((item) => !item.startsWith('Ingredients:'));
+
+      sections.push({ title: 'Product Description', content: `${intro ? `<p>${intro}</p>` : ''}${detail && !detail.startsWith('Ingredients:') ? `<p>${detail}</p>` : ''}${benefits.length ? `<ul>${benefits.map((item) => `<li>${item}</li>`).join('')}</ul>` : ''}` });
+      if (detail.startsWith('Ingredients:')) {
+        sections.push({ title: 'Ingredients', content: `<p>${detail.slice('Ingredients:'.length).trim()}</p>` });
+      } else if (ingredientIndex >= 0) {
+        sections.push({ title: 'Ingredients', content: `<p>${bullets[ingredientIndex].slice('Ingredients:'.length).trim()}</p>` });
+      }
+      if (directionsIndex >= 0) {
+        const directions = bullets[directionsIndex].replace('Directions for Use: ', '').split(/\s(?=\d+\.\s)/).filter(Boolean);
+        sections.push({ title: 'Directions for Use', content: `<ol>${directions.map((item) => `<li>${item.replace(/^\d+\.\s*/, '')}</li>`).join('')}</ol>` });
+      }
+
+      lightboxDetail.innerHTML = `
+        <button class="lightbox-close" type="button" aria-label="Close enlarged image">×</button>
+        <h3>${title}</h3>
+        ${sections.filter((section) => section.content).map((section) => `<details class="detail-section"><summary>${section.title}</summary><div class="detail-section-content">${section.content}</div></details>`).join('')}
+      `;
+      window.EuroBeautyTranslate?.();
+      const closeButtons = lightbox.querySelectorAll('.lightbox-close');
+      closeButtons.forEach((btn) => btn.addEventListener('click', closeLightbox));
+    };
+
+    const openGallery = (images, alts, descriptionText = '', startIndex = 0, productTitle = '', productId = '') => {
+      galleryImages = images;
+      galleryAlts = alts;
+      galleryDescription = descriptionText;
+      galleryProductId = productId;
+      galleryIndex = Math.max(0, Math.min(startIndex, images.length - 1));
+      renderGalleryImage();
+      renderGalleryDescription(descriptionText, productTitle);
+      lightboxActions.hidden = false;
+      lightboxQuantity.value = '1';
+      refreshFavoriteButtons();
+      lightbox.classList.add('open');
+    };
+
+    document.querySelectorAll('.product-image').forEach((imageFrame) => imageFrame.addEventListener('click', () => {
+      const product = imageFrame.closest('.product');
+      activeProduct = product;
+      const image = imageFrame.querySelector('img');
+      const galleryData = product?.dataset.galleryImages;
+      const galleryAltData = product?.dataset.galleryAlts;
+      const description = product?.dataset.productDescription || '';
+      const productTitle = product?.querySelector('.product-name')?.innerHTML.replace(/<br\s*\/?>/gi, ' ').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim() || image.alt;
+
+      if (galleryData) {
+        const images = galleryData.split(',').map((value) => value.trim()).filter(Boolean);
+        const alts = galleryAltData ? galleryAltData.split(',').map((value) => value.trim()).filter(Boolean) : [];
+        const startIndex = images.indexOf(image.src.replace(window.location.origin + '/', '').replace(/^file:\/\//, ''));
+        openGallery(images, alts.length ? alts : new Array(images.length).fill(image.alt), description, Math.max(0, startIndex), productTitle, displaySku(product.dataset.sku));
+      } else {
+        openGallery([image.src], [image.alt], description, 0, productTitle, displaySku(product.dataset.sku));
+      }
+    }));
+
+    const closeLightbox = () => { lightbox.classList.remove('open'); activeProduct = null; };
+    const closeButtons = lightbox.querySelectorAll('.lightbox-close');
+    closeButtons.forEach((btn) => btn.addEventListener('click', closeLightbox));
+    prevBtn.addEventListener('click', () => {
+      if (!galleryImages.length) return;
+      galleryIndex = (galleryIndex - 1 + galleryImages.length) % galleryImages.length;
+      renderGalleryImage();
+    });
+    nextBtn.addEventListener('click', () => {
+      if (!galleryImages.length) return;
+      galleryIndex = (galleryIndex + 1) % galleryImages.length;
+      renderGalleryImage();
+    });
+    lightbox.addEventListener('click', (event) => { if (event.target === lightbox) closeLightbox(); });
+    document.addEventListener('keydown', (event) => {
+      if (!lightbox.classList.contains('open')) return;
+      if (event.key === 'Escape') closeLightbox();
+      if (event.key === 'ArrowLeft') {
+        galleryIndex = (galleryIndex - 1 + galleryImages.length) % galleryImages.length;
+        renderGalleryImage();
+      }
+      if (event.key === 'ArrowRight') {
+        galleryIndex = (galleryIndex + 1) % galleryImages.length;
+        renderGalleryImage();
+      }
+    });
+    document.querySelectorAll('.add').forEach((button) => button.addEventListener('click', () => {
+      const product = button.closest('.product');
+      const image = product.querySelector('img');
+      const name = product.querySelector('.product-name').textContent.replace(/\s+/g, ' ').trim();
+      const price = window.EUROBEAUTY_PRODUCT_PRICES[product.dataset.sku];
+      const basket = getBasket();
+      const existingItem = basket.find((item) => item.sku === product.dataset.sku);
+      const quantity = Number(product.querySelector('.product-quantity').value) || 1;
+      if (existingItem) { existingItem.quantity += quantity; existingItem.sku ||= product.dataset.sku; if (existingItem.price == null && price !== undefined) existingItem.price = price; }
+      else basket.push({ name, sku: product.dataset.sku, image: image.getAttribute('src'), alt: image.alt, ...(price !== undefined ? { price } : {}), quantity });
+      saveBasket(basket);
+      product.querySelector('.product-quantity').value = '1';
+      updateCounts();
+      toast.classList.add('show');
+      window.clearTimeout(window.toastTimer);
+      window.toastTimer = window.setTimeout(() => toast.classList.remove('show'), 1800);
+    }));
+    document.querySelectorAll('.product-favorite').forEach((button) => button.addEventListener('click', (event) => {
+      event.stopPropagation();
+      const product = button.closest('.product');
+      const image = product.querySelector('img');
+      const favorites = getFavorites();
+      const index = favorites.findIndex((item) => item.sku === product.dataset.sku);
+      if (index >= 0) favorites.splice(index, 1);
+      else favorites.push({ name: product.querySelector('.product-name').textContent.replace(/\s+/g, ' ').trim(), sku: product.dataset.sku, image: image.getAttribute('src'), alt: image.alt, price: window.EUROBEAUTY_PRODUCT_PRICES[product.dataset.sku] });
+      saveFavorites(favorites);
+      updateCounts();
+      refreshFavoriteButtons();
+    }));
+    lightboxAddButton.addEventListener('click', () => {
+      if (!activeProduct) return;
+      activeProduct.querySelector('.product-quantity').value = lightboxQuantity.value;
+      activeProduct.querySelector('.add').click();
+      lightboxQuantity.value = '1';
+    });
+    lightboxFavoriteButton.addEventListener('click', () => {
+      activeProduct?.querySelector('.product-favorite').click();
+    });
+    lightboxShareButton.addEventListener('click', async () => {
+      if (!activeProduct) return;
+      const productName = activeProduct.querySelector('.product-name').textContent.replace(/\s+/g, ' ').trim();
+      const shareUrl = new URL(window.location.href);
+      shareUrl.hash = activeProduct.id;
+      try {
+        if (navigator.share) await navigator.share({ title: productName, text: `Check out ${productName}`, url: shareUrl.href });
+        else {
+          await navigator.clipboard.writeText(shareUrl.href);
+          toast.textContent = 'Product link copied';
+          toast.classList.add('show');
+          window.clearTimeout(window.toastTimer);
+          window.toastTimer = window.setTimeout(() => toast.classList.remove('show'), 1800);
+        }
+      } catch (error) {
+        if (error.name !== 'AbortError' && navigator.clipboard) {
+          await navigator.clipboard.writeText(shareUrl.href).catch(() => {});
+        }
+      }
+    });
+
+    const skinFinderForm = document.querySelector('#skin-finder-form');
+    const skinResults = document.querySelector('#skin-results');
+    const skinTypeMatches = {
+      dry: ['EBM-SK-001', 'EBM-SK-010', 'EBM-SK-015', 'EBM-SK-016'],
+      oily: ['EBM-SK-011', 'EBM-SK-012', 'EBM-SK-017', 'EBM-SK-010'],
+      combination: ['EBM-SK-011', 'EBM-SK-012', 'EBM-SK-010', 'EBM-SK-007'],
+      sensitive: ['EBM-SK-001', 'EBM-SK-010', 'EBM-SK-016'],
+      normal: ['EBM-SK-002', 'EBM-SK-007', 'EBM-SK-014', 'EBM-SK-010']
+    };
+    const skinGoalMatches = {
+      hydration: ['EBM-SK-001', 'EBM-SK-010', 'EBM-SK-015', 'EBM-SK-016'],
+      pores: ['EBM-SK-011', 'EBM-SK-012'],
+      blemishes: ['EBM-SK-017', 'EBM-SK-012', 'EBM-SK-011'],
+      'fine-lines': ['EBM-SK-006', 'EBM-SK-008', 'EBM-SK-009', 'EBM-SK-014', 'EBM-SK-015'],
+      glow: ['EBM-SK-002', 'EBM-SK-003', 'EBM-SK-007', 'EBM-SK-012'],
+      soothing: ['EBM-SK-001', 'EBM-SK-016', 'EBM-SK-002']
+    };
+    skinFinderForm.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const scores = new Map();
+      skinTypeMatches[document.querySelector('#skin-type').value].forEach((sku) => scores.set(sku, (scores.get(sku) || 0) + 1));
+      skinGoalMatches[document.querySelector('#skin-goal').value].forEach((sku) => scores.set(sku, (scores.get(sku) || 0) + 2));
+      const matches = [...scores.entries()].sort((first, second) => second[1] - first[1]);
+      skinResults.innerHTML = '<h5>Suggested for your selections</h5><div class="skin-recommendations"></div>';
+      const recommendationList = skinResults.querySelector('.skin-recommendations');
+      matches.forEach(([sku]) => {
+        const product = [...document.querySelectorAll('#skincare .product')].find((item) => item.dataset.sku === sku);
+        if (!product) return;
+        const card = document.createElement('div');
+        card.className = 'skin-recommendation';
+        const image = document.createElement('img');
+        image.src = product.querySelector('.product-image img').getAttribute('src');
+        image.alt = product.querySelector('.product-image img').alt;
+        const name = document.createElement('strong');
+        name.textContent = product.querySelector('.product-name').textContent.replace(/\s+/g, ' ').trim();
+        const viewButton = document.createElement('button');
+        viewButton.type = 'button';
+        viewButton.textContent = 'View product';
+        viewButton.addEventListener('click', () => {
+          searchInput.value = '';
+          filterProducts();
+          product.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          product.querySelector('.product-image').click();
+        });
+        card.append(image, name, viewButton);
+        recommendationList.append(card);
+      });
+      skinResults.hidden = false;
+    });
+
+    const searchForm = document.querySelector('.search-form');
+    const searchInput = document.querySelector('#product-search');
+    const searchEmpty = document.querySelector('#search-empty');
+    const productCategories = document.querySelectorAll('.product-category');
+    const filterProducts = () => {
+      const query = searchInput.value.trim().toLowerCase();
+      let matches = 0;
+      productCategories.forEach((category) => {
+        let categoryMatches = 0;
+        category.querySelectorAll('.product').forEach((product) => {
+          const isMatch = !query || product.textContent.toLowerCase().includes(query);
+          product.hidden = !isMatch;
+          if (isMatch) { matches += 1; categoryMatches += 1; }
+        });
+        category.querySelectorAll('.product-subcategory').forEach((subcategory) => {
+          subcategory.hidden = [...subcategory.querySelectorAll('.product')].every((product) => product.hidden);
+        });
+        category.hidden = categoryMatches === 0;
+      });
+      searchEmpty.hidden = matches > 0;
+    };
+    searchForm.addEventListener('submit', (event) => event.preventDefault());
+    searchInput.addEventListener('input', filterProducts);
+  </script>
+  <script src="translations.js?v=20261012-4"></script>
+</body>
+</html>
+
+
+

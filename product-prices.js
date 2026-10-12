@@ -1,0 +1,33 @@
+window.EUROBEAUTY_PRODUCT_PRICES = Object.freeze({
+  'EBM-SK-001': 7,
+  'EBM-SK-002': 4,
+  'EBM-SK-003': 7,
+  'EBM-SK-004': 3,
+  'EBM-SK-005': 3,
+  'EBM-SK-006': 6,
+  'EBM-SK-007': 3,
+  'EBM-SK-008': 3,
+  'EBM-SK-009': 3,
+  'EBM-SK-010': 3,
+  'EBM-SK-011': 17,
+  'EBM-SK-012': 17,
+  'EBM-SK-013': 17,
+  'EBM-SK-014': 17,
+  'EBM-SK-015': 17,
+  'EBM-SK-016': 9,
+  'EBM-SK-017': 7,
+  'EBM-HC-001': 7,
+  'EBM-HC-002': 7,
+  'EBM-HC-003': 10,
+  'EBM-HC-004': 10,
+  'EBM-HC-005': 9,
+  'EBM-HC-006': 10,
+  'EBM-FC-001': 10,
+  'EBM-FC-002': 4,
+});
+
+window.formatEuroBeautyPrice = (price) => new Intl.NumberFormat('en-US', {
+  style: 'currency',
+  currency: 'USD',
+  maximumFractionDigits: 0,
+}).format(price);
